@@ -1,0 +1,4 @@
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@cornerstonejs/codec-libjpeg-turbo-8bit"]
+  # included_files = ["node_modules/.pnpm/@cornerstonejs+codec-libjpeg-turbo-8bit@1.2.2/dist/libjpegturbo.js.mem"]
