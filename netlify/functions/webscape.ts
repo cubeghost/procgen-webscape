@@ -1,11 +1,18 @@
 import { Buffer } from "buffer";
-import { CanvasRenderingContext2D, Image } from "canvas";
+import { createCanvas, Image } from "canvas";
+import type { CanvasRenderingContext2D } from "canvas";
 
-import { generatorFactory } from "../../lib/generate.mts";
-import { context2d } from "../../lib/context2d.node.mjs";
+import { generatorFactory } from "../../src/lib/webscape/generate.mts";
 import type { LibJpegTurbo } from "@cornerstonejs/codec-libjpeg-turbo-8bit";
 
-const SEED = 927517863;
+const SEED = 883089543;
+
+// TODO generate largest size, crop and cache for many sizes, and then return appropriate size
+
+const dimensions = {
+  landscape: [512, 384],
+  portrait: [256, 512],
+} as const;
 
 export default async function (request: Request) {
   const { default: libjpegturbojs } = await import(
@@ -14,13 +21,19 @@ export default async function (request: Request) {
   );
   const toJpegTurbo = toJpegFactory(await libjpegturbojs());
 
-  const generate = generatorFactory<CanvasRenderingContext2D>(
+  const params = new URL(request.url).searchParams;
+  const orientation =
+    (params.get("orientation") as keyof typeof dimensions) ?? "landscape";
+  const size = dimensions[orientation] ?? dimensions.landscape;
+
+  // @ts-expect-error need to fix generator types
+  const generator = generatorFactory<CanvasRenderingContext2D>(
     context2d,
     toJpegTurbo,
   );
-  const generator = generate(SEED, 256, 256, 16);
+  const generate = generator(SEED, size[0], size[1], 16);
   while (true) {
-    const { done, value: canvas } = await generator.next();
+    const { done, value: canvas } = await generate.next();
     if (done) {
       const image = canvas.toBuffer("image/png");
 
@@ -32,6 +45,16 @@ export default async function (request: Request) {
       });
     }
   }
+}
+
+export function context2d(
+  width: number,
+  height: number,
+  _dpi = 1,
+): CanvasRenderingContext2D {
+  const canvas = createCanvas(width, height);
+  const context = canvas.getContext("2d")!;
+  return context;
 }
 
 function toJpegFactory(libjpegturbo: LibJpegTurbo) {

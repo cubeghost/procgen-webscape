@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+import { randomLcg, randomUniform, randomInt } from "d3-random";
+import { shuffler, rank, min } from "d3-array";
 import CanvasDither from "canvas-dither";
 
 import { noiseImageData } from "./noise.mts";
@@ -7,8 +8,8 @@ import { drawLoopedSquare } from "./looped-square.mts";
 import { sparkles, cumulativeSparkleWeights } from "./sparkles.mts";
 
 export type Context2DFunc<
-  T extends CanvasRenderingContext2D = CanvasRenderingContext2D,
-> = (width: number, height: number, dpi: number) => T;
+  C extends CanvasRenderingContext2D = CanvasRenderingContext2D,
+> = (width: number, height: number, dpi: number) => C;
 
 type Direction =
   | "north"
@@ -46,19 +47,19 @@ export function generatorFactory<
     const yChunks = canvasHeight / cs;
 
     // randomization (need to be initialized here )
-    const random = d3.randomUniform.source(d3.randomLcg(seed))();
-    const randomLoopedSquareSize = d3.randomInt.source(d3.randomLcg(seed))(
+    const random = randomUniform.source(randomLcg(seed))();
+    const randomLoopedSquareSize = randomInt.source(randomLcg(seed))(
       Math.max(cs - 6, 10),
       cs - 2,
     );
-    const randomLoopedSquareRatio = d3.randomUniform.source(d3.randomLcg(seed))(
+    const randomLoopedSquareRatio = randomUniform.source(randomLcg(seed))(
       0.22,
       0.55,
     );
-    const shuffleQuadrant = d3.shuffler(d3.randomLcg(seed));
+    const shuffleQuadrant = shuffler(randomLcg(seed));
     const maxCumulativeWeight =
       cumulativeSparkleWeights[cumulativeSparkleWeights.length - 1];
-    const randomSparkleWeight = d3.randomUniform.source(d3.randomLcg(seed))(
+    const randomSparkleWeight = randomUniform.source(randomLcg(seed))(
       0,
       maxCumulativeWeight,
     );
@@ -138,8 +139,8 @@ export function generatorFactory<
     context.globalCompositeOperation = "source-over";
 
     // render each chunk
-    const minValue = d3.min(chunks)!;
-    const ranks = d3.rank(chunks);
+    const minValue = min(chunks)!;
+    const ranks = rank(chunks);
     for (let chunkY = 0, i = 0; chunkY < yChunks; ++chunkY) {
       for (let chunkX = 0; chunkX < xChunks; ++chunkX, i++) {
         const x = chunkX * cs;

@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import { randomLcg, randomUniform } from "d3-random";
 import type { Image } from "canvas";
 import { Context2DFunc } from "./generate.mts";
 
@@ -32,7 +32,7 @@ export function deepFryFactory<
       height + jitterY * 2,
       1,
     );
-    const random = d3.randomUniform.source(d3.randomLcg(seed))(0, 1);
+    const random = randomUniform.source(randomLcg(seed))(0, 1);
 
     for (let i = 0; i < iterations; i++) {
       const x = (random() * jitterX) | 0;

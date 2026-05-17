@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>{{ title }}</title>
+		<link rel="stylesheet" href="/styles/home.css">
+	</head>
+	<body>
+		<div>
+			<h1>⟡*·_</h1>
+			<div>
+				{{ content }}
+			</div>
+		</div>
+
+		<div class="webscape"></div>
+		<div class="webscape-controls">
+			<button id="replay">replay webscape</button>
+		</div>
+		<script type="text/javascript">
+			const replayButton = document.getElementById("replay");
+
+			replayButton.addEventListener("click", (event) => {
+				initialize();
+			});
+
+			function context2d(width, height, dpi = 1) {
+				const canvas = document.createElement("canvas");
+				canvas.width = width * dpi;
+				canvas.height = height * dpi;
+				canvas.style.setProperty("image-rendering", "pixelated");
+				const context = canvas.getContext("2d", { willReadFrequently: true });
+				context.scale(dpi, dpi);
+				return context;
+			}
+
+			async function toJpegCanvas(context, quality) {
+				return new Promise((resolve, reject) => {
+					context.canvas.toBlob(blob => {
+						const image = new Image;
+						image.onload = () => resolve(image);
+						image.onerror = reject;
+						image.src = URL.createObjectURL(blob);
+					}, "image/jpeg", quality);
+				});
+			}
+
+			async function initialize() {
+				const { generatorFactory } = await import("/webscape.js")
+				const generator = generatorFactory(context2d, toJpegCanvas);
+				const SEED = 883089543;
+
+				const generate = generator(SEED, 256, 256, 16);
+				const container = document.createElement("div");
+				document.querySelector(".webscape").appendChild(container);
+
+				while (true) {
+					const { done, value: canvas } = await generate.next();
+					container.replaceChildren(canvas);
+					if (done) {
+						break;
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

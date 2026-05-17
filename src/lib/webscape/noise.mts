@@ -1,9 +1,9 @@
-import { Context2D } from "./context2d.browser.mts";
-
 const NOISE_RADIUS = 64;
 const NOISE_OCTAVES = 12;
 
-export function noiseImageData(context: Context2D, z: number, dpi = 1) {
+export function noiseImageData<
+  C extends CanvasRenderingContext2D = CanvasRenderingContext2D,
+>(context: C, z: number, dpi = 1) {
   const { width, height } = context.canvas;
   const radius = NOISE_RADIUS * dpi;
   const image = context.createImageData(width, height);
@@ -24,7 +24,7 @@ const P = Uint8Array.of(151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,1
 const p = new Uint8Array(512);
 for (let i = 0; i < 256; ++i) p[i] = p[i + 256] = P[i];
 
-export function perlin3(x, y, z) {
+export function perlin3(x: number, y: number, z: number): number {
   const xi = Math.floor(x),
     yi = Math.floor(y),
     zi = Math.floor(z);
@@ -59,8 +59,11 @@ export function perlin3(x, y, z) {
   );
 }
 
-export function octave(noise, octaves) {
-  return function (x, y, z) {
+export function octave(
+  noise: (x: number, y: number, z: number) => number,
+  octaves: number,
+) {
+  return function (x: number, y: number, z: number) {
     let total = 0;
     let frequency = 1;
     let amplitude = 1;
@@ -75,17 +78,17 @@ export function octave(noise, octaves) {
   };
 }
 
-function grad3(i, x, y, z) {
+function grad3(i: number, x: number, y: number, z: number): number {
   const h = i & 15;
   const u = h < 8 ? x : y;
   const v = h < 4 ? y : h === 12 || h === 14 ? x : z;
   return (h & 1 ? -u : u) + (h & 2 ? -v : v);
 }
 
-function fade(t) {
+function fade(t: number): number {
   return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
-function lerp(t, a, b) {
+function lerp(t: number, a: number, b: number): number {
   return a + t * (b - a);
 }
