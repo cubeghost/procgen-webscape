@@ -1,3 +1,4 @@
+shamefullyHoist: true
 allowBuilds:
   canvas: true
   esbuild: false

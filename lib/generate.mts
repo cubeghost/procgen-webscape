@@ -6,8 +6,6 @@ import { deepFryFactory, type ToJpegFunc } from "./deep-fry.mts";
 import { drawLoopedSquare } from "./looped-square.mts";
 import { sparkles, cumulativeSparkleWeights } from "./sparkles.mts";
 
-const DITHER_ENABLED = false;
-
 export type Context2DFunc<
   T extends CanvasRenderingContext2D = CanvasRenderingContext2D,
 > = (width: number, height: number, dpi: number) => T;
@@ -36,17 +34,18 @@ export function generatorFactory<
     seed: number,
     width: number,
     height: number,
-    cs: number,
+    chunkSize: number,
   ): AsyncGenerator<C["canvas"], C["canvas"], void> {
     const animate = false;
 
     const context = context2d(width, height, 1);
 
     const { width: canvasWidth, height: canvasHeight } = context.canvas;
+    const cs = chunkSize;
     const xChunks = canvasWidth / cs;
     const yChunks = canvasHeight / cs;
 
-    // randomization utils
+    // randomization (need to be initialized here )
     const random = d3.randomUniform.source(d3.randomLcg(seed))();
     const randomLoopedSquareSize = d3.randomInt.source(d3.randomLcg(seed))(
       Math.max(cs - 6, 10),
@@ -83,8 +82,6 @@ export function generatorFactory<
     }
 
     // EFFECTS
-    const maybeDither = (image: ImageData): ImageData =>
-      DITHER_ENABLED ? maybeDither(image) : image;
 
     // fade white from top
     const gradient = context.createLinearGradient(
@@ -112,7 +109,7 @@ export function generatorFactory<
     context.putImageData(baseImage, 0, 0);
     context.globalCompositeOperation = "source-over";
     await deepFry(context, seed, 0.05, 100, 2, 10);
-    const friedImage = maybeDither(
+    const friedImage = CanvasDither.atkinson(
       context.getImageData(0, 0, canvasWidth, canvasHeight),
     );
     baseLayer.putImageData(friedImage, 0, 0);
@@ -124,7 +121,7 @@ export function generatorFactory<
     context.fillRect(0, 0, width, height);
     const lighterLayer = context2d(width, height, 1);
     const lighterImage = context.getImageData(0, 0, canvasWidth, canvasHeight);
-    lighterLayer.putImageData(maybeDither(lighterImage), 0, 0);
+    lighterLayer.putImageData(CanvasDither.atkinson(lighterImage), 0, 0);
     if (animate) yield await delay(100, lighterLayer.canvas);
 
     // lightestLayer: lighten more
@@ -133,7 +130,7 @@ export function generatorFactory<
     context.fillRect(0, 0, width, height);
     const lightestImage = context.getImageData(0, 0, canvasWidth, canvasHeight);
     const lightestLayer = context2d(width, height, 1);
-    lightestLayer.putImageData(maybeDither(lightestImage), 0, 0);
+    lightestLayer.putImageData(CanvasDither.atkinson(lightestImage), 0, 0);
     context.drawImage(lightestLayer.canvas, 0, 0);
     if (animate) yield await delay(100, lightestLayer.canvas);
 

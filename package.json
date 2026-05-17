@@ -1,20 +1,14 @@
 {
-	"scripts": {
-		"build": "pnpm deploy"
-	},
 	"dependencies": {
 		"@cornerstonejs/codec-libjpeg-turbo-8bit": "^1.2.2",
-		"@imagemagick/magick-wasm": "^0.0.40",
 		"@netlify/functions": "^5.2.1",
 		"canvas": "^3.2.3",
 		"canvas-dither": "^1.0.1",
-		"d3": "^7.9.0",
-		"sharp": "^0.34.5"
+		"d3": "^7.9.0"
 	},
 	"devDependencies": {
 		"@types/d3": "^7.4.3",
-		"esbuild": "^0.28.0",
-		"esbuild-plugin-wasm": "^1.1.0"
+		"esbuild": "^0.28.0"
 	},
 	"packageManager": "pnpm@10.33.0"
 }
