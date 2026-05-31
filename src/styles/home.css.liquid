@@ -1,0 +1,85 @@
+---
+permalink: styles/home.css
+---
+
+@import "./reset.css";
+@import "./spinner.css";
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+h2 {
+  font-size: 1rem;
+  background-color: white;
+  border: 1px solid black;
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
+{% assign landscape = webscapeDimensions | where: "id", "landscape" | first %}
+{% assign portrait = webscapeDimensions | where: "id", "portrait" | first %}
+
+.webscape {
+  image-rendering: pixelated;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+
+  --orientation: landscape;
+  --width: {{ landscape.width }}px;
+  --height: {{ landscape.height }}px;
+  --scale: 2;
+  background-image: url("/webscape.png?orientation=landscape");
+  background-size: calc(var(--width) * var(--scale)) calc(var(--height) * var(--scale));
+  background-repeat: no-repeat;
+  background-position: bottom left;
+}
+
+.webscape #webscape-canvas {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.webscape #webscape-canvas canvas {
+  width: calc(var(--width) * var(--scale));
+  height: calc(var(--height) * var(--scale));
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@media (orientation: portrait) {
+  .webscape {
+    background-image: url("/webscape.png?orientation=portrait");
+    --orientation: portrait;
+    --width: {{ portrait.width }}px;
+    --height: {{ portrait.height }}px;
+    --scale: 2;
+  }
+}
+
+{% for dimension in webscapeDimensions %}
+  {% for multiplier in (2..4) %}
+    @media (min-width: {{ dimension.width | times: multiplier }}px) and ({{ dimension.mediaQuery }}) {
+      .webscape {
+        --scale: {{ multiplier | plus: 1 }};
+      }
+    }
+  {% endfor %}
+{% endfor %}

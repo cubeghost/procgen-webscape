@@ -7,7 +7,7 @@ declare module "canvas-dither" {
     atkinson(image: ImageData): ImageData;
   }
 
-  export = CanvasDither;
+  export = new CanvasDither();
 }
 
 declare module "@cornerstonejs/codec-libjpeg-turbo-8bit" {

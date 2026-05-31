@@ -1,6 +1,10 @@
 {
 	"type": "module",
+	"scripts": {
+		"start": "eleventy --config=eleventy.config.ts --serve"
+	},
 	"dependencies": {
+		"11ty.ts": "^0.0.7",
 		"@11ty/eleventy": "^3.1.5",
 		"@11ty/eleventy-plugin-webc": "^0.11.2",
 		"@cornerstonejs/codec-libjpeg-turbo-8bit": "^1.2.2",
@@ -11,11 +15,21 @@
 		"d3": "^7.9.0",
 		"d3-array": "^3.2.4",
 		"d3-random": "^3.0.1",
-		"esbuild-plugin-import-map": "^2.1.0"
+		"esbuild-plugin-import-map": "^2.1.0",
+		"gif-encoder": "^0.7.2",
+		"gifuct-js": "^2.1.2"
 	},
 	"devDependencies": {
 		"@types/d3": "^7.4.3",
-		"esbuild": "^0.28.0"
+		"@types/gif-encoder": "^0.7.4",
+		"@types/node": "^25.8.0",
+		"esbuild": "^0.28.0",
+		"tsx": "^4.22.1"
 	},
-	"packageManager": "pnpm@10.33.0"
+	"packageManager": "pnpm@10.33.0",
+	"pnpm": {
+		"overrides": {
+			"canvas": "^3.2.3"
+		}
+	}
 }

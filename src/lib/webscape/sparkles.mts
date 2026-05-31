@@ -1,4 +1,14 @@
-export const sparkles = [
+type SparkleDrawFunc<
+  C extends CanvasRenderingContext2D = CanvasRenderingContext2D,
+> = (context: C, x: number, y: number) => void;
+
+interface SparkleDef {
+  draw: SparkleDrawFunc;
+  size: number;
+  weight?: number;
+}
+
+export const sparkles: SparkleDef[] = [
   {
     draw(context, x = 0, y = 0) {
       context.fillStyle = "white";

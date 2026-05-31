@@ -1,11 +1,14 @@
 import { randomLcg, randomUniform, randomInt } from "d3-random";
-import { shuffler, rank, min } from "d3-array";
+import { shuffler, rank, min, rollup, ascending, InternMap } from "d3-array";
 import CanvasDither from "canvas-dither";
 
 import { noiseImageData } from "./noise.mts";
 import { deepFryFactory, type ToJpegFunc } from "./deep-fry.mts";
 import { drawLoopedSquare } from "./looped-square.mts";
 import { sparkles, cumulativeSparkleWeights } from "./sparkles.mts";
+import { drawHappyMac } from "./happy-mac.mts";
+
+export const DEEP_FRY_ITERATIONS = 100;
 
 export type Context2DFunc<
   C extends CanvasRenderingContext2D = CanvasRenderingContext2D,
@@ -20,10 +23,18 @@ type Direction =
   | "southWest"
   | "west"
   | "northWest";
-type SurroundingChunkInfo = {
+const CARDINAL_DIRECTIONS = ["north", "east", "south", "west"] as const;
+type SurroundingChunkIndicies = {
   [key in Direction]: number | undefined;
-} & {
-  self: number;
+};
+type ChunkMeta = {
+  i: number;
+  x: number;
+  y: number;
+  value: number;
+  rank: number;
+  indicies: SurroundingChunkIndicies;
+  category: 0 | 1 | 2 | 3 | 4 | 5 | 6;
 };
 
 export function generatorFactory<
@@ -36,15 +47,17 @@ export function generatorFactory<
     width: number,
     height: number,
     chunkSize: number,
-  ): AsyncGenerator<C["canvas"], C["canvas"], void> {
-    const animate = false;
-
+    animate = false,
+  ): AsyncGenerator<C, C, void> {
     const context = context2d(width, height, 1);
 
     const { width: canvasWidth, height: canvasHeight } = context.canvas;
     const cs = chunkSize;
     const xChunks = canvasWidth / cs;
     const yChunks = canvasHeight / cs;
+
+    const { chunkLoop, chunkReverseLoop, surroundingChunkIndicies } =
+      chunkHelperFactory(xChunks, yChunks);
 
     // randomization (need to be initialized here )
     const random = randomUniform.source(randomLcg(seed))();
@@ -57,6 +70,7 @@ export function generatorFactory<
       0.55,
     );
     const shuffleQuadrant = shuffler(randomLcg(seed));
+    const shuffleRank = shuffler(randomLcg(seed));
     const maxCumulativeWeight =
       cumulativeSparkleWeights[cumulativeSparkleWeights.length - 1];
     const randomSparkleWeight = randomUniform.source(randomLcg(seed))(
@@ -66,21 +80,20 @@ export function generatorFactory<
 
     context.putImageData(noiseImageData(context, seed, 1), 0, 0);
 
-    if (animate) yield context.canvas;
+    // if (animate) yield context.canvas;
 
     // mean darkness in chunks
-    const chunks = [];
-    for (let y = 0; y < yChunks; ++y) {
-      for (let x = 0; x < xChunks; ++x) {
-        const image = context.getImageData(x * cs, y * cs, cs, cs);
+    const chunkValues = [
+      ...chunkLoop(function* (i, cx, cy) {
+        const image = context.getImageData(cx * cs, cy * cs, cs, cs);
         let black = 0;
         for (let i = 0; i < image.data.length; i += 4) {
           black += image.data[i];
         }
         const mean = Math.floor(black / (image.data.length / 4));
-        chunks.push(mean);
-      }
-    }
+        yield mean;
+      }),
+    ];
 
     // EFFECTS
 
@@ -96,25 +109,41 @@ export function generatorFactory<
     context.fillStyle = gradient;
     context.globalCompositeOperation = "overlay";
     context.fillRect(0, 0, width, height);
-    if (animate) yield await delay(100, context.canvas);
+    // if (animate) yield await delay(100, context);
 
     // contrast-y overlay
     context.globalCompositeOperation = "overlay";
     context.fillStyle = "rgba(255, 255, 255, 0.5)";
     context.fillRect(0, 0, width, height);
-    if (animate) yield await delay(100, context.canvas);
+    // if (animate) yield await delay(100, context);
 
     // baseLayer: artifacts (deep fry)
     const baseLayer = context2d(width, height, 1);
     const baseImage = context.getImageData(0, 0, canvasWidth, canvasHeight);
     context.putImageData(baseImage, 0, 0);
     context.globalCompositeOperation = "source-over";
-    await deepFry(context, seed, 0.05, 100, 2, 10);
+    const deepFrySteps = deepFry(
+      context,
+      seed,
+      0.05,
+      DEEP_FRY_ITERATIONS,
+      2,
+      10,
+    );
+    for await (const frame of deepFrySteps) {
+      if (animate) {
+        const friedFrame = CanvasDither.atkinson(
+          frame.getImageData(0, 0, canvasWidth, canvasHeight),
+        );
+        baseLayer.putImageData(friedFrame, 0, 0);
+        yield await delay(0, baseLayer);
+      }
+    }
     const friedImage = CanvasDither.atkinson(
       context.getImageData(0, 0, canvasWidth, canvasHeight),
     );
     baseLayer.putImageData(friedImage, 0, 0);
-    if (animate) yield await delay(100, baseLayer.canvas);
+    // if (animate) yield await delay(100, baseLayer);
 
     // lighterLayer: lighten
     context.globalCompositeOperation = "source-over";
@@ -123,7 +152,7 @@ export function generatorFactory<
     const lighterLayer = context2d(width, height, 1);
     const lighterImage = context.getImageData(0, 0, canvasWidth, canvasHeight);
     lighterLayer.putImageData(CanvasDither.atkinson(lighterImage), 0, 0);
-    if (animate) yield await delay(100, lighterLayer.canvas);
+    if (animate) yield await delay(100, lighterLayer);
 
     // lightestLayer: lighten more
     context.globalCompositeOperation = "source-over";
@@ -133,89 +162,135 @@ export function generatorFactory<
     const lightestLayer = context2d(width, height, 1);
     lightestLayer.putImageData(CanvasDither.atkinson(lightestImage), 0, 0);
     context.drawImage(lightestLayer.canvas, 0, 0);
-    if (animate) yield await delay(100, lightestLayer.canvas);
+    if (animate) yield await delay(100, lightestLayer);
 
     // reset blending
     context.globalCompositeOperation = "source-over";
 
-    // render each chunk
-    const minValue = min(chunks)!;
-    const ranks = rank(chunks);
-    for (let chunkY = 0, i = 0; chunkY < yChunks; ++chunkY) {
-      for (let chunkX = 0; chunkX < xChunks; ++chunkX, i++) {
-        const x = chunkX * cs;
-        const y = chunkY * cs;
-        const chunkInfo = surroundingChunks(chunks, i);
-        const copyChunk = (fromCtx: C) =>
-          context.drawImage(fromCtx.canvas, x, y, cs, cs, x, y, cs, cs);
+    // categorize each chunk
+    const minValue = min(chunkValues)!;
+    const chunkRanks = rank(chunkValues);
+    const adjacent = compareAdjacentFactory(chunkValues, chunkRanks);
 
-        if (ranks[i] === 0) {
-          copyChunk(lighterLayer);
+    const categorizedChunks = [
+      ...chunkLoop(function* (i, cx, cy): Generator<ChunkMeta, void, void> {
+        const x = cx * cs;
+        const y = cy * cs;
+        const value = chunkValues[i];
+        const rank = chunkRanks[i];
+        const indicies = surroundingChunkIndicies(i);
 
-          fillChunkLoopedSquare(context, x, y, Math.max(cs - 2, 10), 0.25);
+        let category: ChunkMeta["category"];
+        if (rank === 0) {
+          category = 0;
         } else if (
-          chunkInfo.self < 70 &&
-          chunkInfo.north &&
-          (chunkInfo.north >= 70 || chunkInfo.self <= chunkInfo.north) &&
-          chunkInfo.east &&
-          (chunkInfo.east >= 70 || chunkInfo.self <= chunkInfo.east) &&
-          chunkInfo.south &&
-          (chunkInfo.south >= 70 || chunkInfo.self <= chunkInfo.south) &&
-          chunkInfo.west &&
-          (chunkInfo.west >= 70 || chunkInfo.self <= chunkInfo.west)
+          value < 70 &&
+          adjacent.every(indicies, (v) => v >= 70 || value <= v)
         ) {
-          copyChunk(lighterLayer);
+          category = 1;
+        } else if (value < 80 && adjacent.every(indicies, (_v, r) => r !== 0)) {
+          category = 2;
+        } else if (value < 80) {
+          category = 3;
+        } else if (adjacent.some(indicies, (v) => v < 70)) {
+          category = 4;
+        } else if (value < 128) {
+          category = 5;
+        } else {
+          category = 6;
+        }
 
-          if (ranks[i] < 7) {
-            const ratio = ranks[i] < 2 ? 0.25 : randomLoopedSquareRatio();
-            fillChunkLoopedSquare(
-              context,
-              x,
-              y,
-              randomLoopedSquareSize(),
-              ratio,
-            );
+        yield { i, x, y, value, rank, indicies, category };
+      }),
+    ];
+
+    // rank within categories
+    const categoryRanks = rollup(
+      categorizedChunks,
+      (g) => ({
+        indicies: new InternMap(g.map((d, i) => [d.i, i])),
+        ranks: rank(g, (a: ChunkMeta, b: ChunkMeta) => ascending(a.value, b.value) || 1), // prettier-ignore
+      }),
+      (d) => d.category,
+    );
+    const random2Rank = shuffleRank(categoryRanks.get(2)!.ranks)[0];
+
+    // render chunks
+    const layersByCategory = new Map<ChunkMeta["category"], C>([
+      [0, lighterLayer],
+      [1, lighterLayer],
+      [2, baseLayer],
+      [3, baseLayer],
+      [4, lighterLayer],
+      [5, lightestLayer],
+      [6, lighterLayer],
+    ]);
+    yield* chunkReverseLoop(function* (i) {
+      const { x, y, category } = categorizedChunks[i];
+
+      const fromCtx = layersByCategory.get(category)!;
+      context.drawImage(fromCtx.canvas, x, y, cs, cs, x, y, cs, cs);
+
+      if (animate) yield delay(0, context);
+    });
+    yield* chunkReverseLoop(function* (i) {
+      const { x, y, value, rank, category } = categorizedChunks[i];
+      const cr = categoryRanks.get(category)!;
+      const categoryRank = cr.ranks[cr.indicies.get(i)!];
+
+      switch (category) {
+        case 0:
+          fillChunkLoopedSquare(context, x, y, Math.max(cs - 2, 10), 0.25);
+          break;
+        case 1: {
+          if (rank < 7) {
+            const ratio = chunkRanks[i] < 2 ? 0.25 : randomLoopedSquareRatio();
+            fillChunkLoopedSquare(context, x, y, randomLoopedSquareSize(), ratio); // prettier-ignore
           } else {
             fillChunkSparkles(context, x, y, 1);
           }
-        } else if (chunkInfo.self < 80) {
-          copyChunk(baseLayer);
-
-          const count = Math.ceil(
-            ((chunkInfo.self - minValue) / (80 - minValue)) * 2,
-          );
+          break;
+        }
+        case 2: {
+          if (categoryRank === random2Rank) {
+            const offset = Math.ceil((cs - 9) / 2);
+            drawHappyMac(context, x + offset, y + offset);
+          } else {
+            const count = Math.ceil(((value - minValue) / (80 - minValue)) * 2);
+            fillChunkSparkles(context, x, y, count);
+          }
+          break;
+        }
+        case 3: {
+          const count = Math.ceil(((value - minValue) / (80 - minValue)) * 2);
           fillChunkSparkles(context, x, y, count);
-        } else if (
-          (chunkInfo.north && chunkInfo.north < 70) ||
-          (chunkInfo.east && chunkInfo.east < 70) ||
-          (chunkInfo.south && chunkInfo.south < 70) ||
-          (chunkInfo.west && chunkInfo.west < 70)
-        ) {
-          copyChunk(lighterLayer);
-
+          break;
+        }
+        case 4: {
           const scatter = random();
           if (scatter > 0.5) {
             fillChunkSparkles(context, x, y, 1);
           }
-        } else if (chunkInfo.self < 128) {
-          copyChunk(lightestLayer);
-        } else {
-          copyChunk(lighterLayer);
-
+          break;
+        }
+        case 5: // no decorations
+          break;
+        case 6: {
           const scatter = random();
-          if ((chunkInfo.self > 200 && scatter > 0.4) || scatter > 0.95) {
+          if ((value > 200 && scatter > 0.4) || scatter > 0.95) {
             fillChunkSparkles(context, x, y, 1);
           }
+          break;
         }
-
-        if (animate) yield await delay(0, context.canvas);
       }
-    }
 
-    yield context.canvas;
-    return context.canvas;
+      if (animate) yield delay(0, context);
+    });
 
-    // chunk fill helpers
+    yield context;
+    return context;
+
+    // CHUNK DECORATION HELPERS
 
     function fillChunkLoopedSquare(
       context: C,
@@ -258,30 +333,73 @@ export function generatorFactory<
         draw(context, quadX + offsetX, quadY + offsetY);
       });
     }
-
-    function surroundingChunks(
-      chunks: number[],
-      i: number,
-    ): SurroundingChunkInfo {
-      const xChunks = width / cs;
-      const yChunks = height / cs;
-      const hasEast = (i + 1) % xChunks > 0;
-      const hasWest = i % xChunks > 0;
-
-      return {
-        self: chunks[i],
-        north: chunks[i - xChunks],
-        northEast: hasEast ? chunks[i - xChunks + 1] : undefined,
-        east: hasEast ? chunks[i + 1] : undefined,
-        southEast: hasEast ? chunks[i + xChunks + 1] : undefined,
-        south: chunks[i + xChunks],
-        southWest: hasWest ? chunks[i + xChunks - 1] : undefined,
-        west: hasWest ? chunks[i - 1] : undefined,
-        northWest: hasWest ? chunks[i - xChunks - 1] : undefined,
-      };
-    }
   };
 }
 
 const delay = <T,>(ms: number, value: T): Promise<T> =>
   new Promise((resolve) => setTimeout(() => resolve(value), ms));
+
+function chunkHelperFactory(xChunks: number, yChunks: number) {
+  const maxChunk = xChunks * yChunks - 1;
+
+  return {
+    chunkLoop: function* <T>(
+      func: (i: number, cx: number, cy: number) => Generator<T, void, void>,
+    ): Generator<T, void, void> {
+      for (let chunkY = 0, i = 0; chunkY < yChunks; ++chunkY) {
+        for (let chunkX = 0; chunkX < xChunks; ++chunkX, i++) {
+          yield* func(i, chunkX, chunkY);
+        }
+      }
+    },
+    chunkReverseLoop: function* <T>(
+      func: (i: number, cx: number, cy: number) => Generator<T, void, void>,
+    ): Generator<T, void, void> {
+      for (let chunkY = yChunks - 1, i = maxChunk; chunkY >= 0; --chunkY) {
+        for (let chunkX = xChunks - 1; chunkX >= 0; --chunkX, i--) {
+          yield* func(i, chunkX, chunkY);
+        }
+      }
+    },
+    surroundingChunkIndicies: (i: number): SurroundingChunkIndicies => {
+      const hasNorth = i >= xChunks;
+      const hasEast = (i + 1) % xChunks > 0;
+      const hasSouth = i < xChunks * (yChunks - 1);
+      const hasWest = i % xChunks > 0;
+
+      return {
+        north: hasNorth ? i - xChunks : undefined,
+        northEast: hasNorth && hasEast ? i - xChunks + 1 : undefined,
+        east: hasEast ? i + 1 : undefined,
+        southEast: hasSouth && hasEast ? i + xChunks + 1 : undefined,
+        south: hasSouth ? i + xChunks : undefined,
+        southWest: hasSouth && hasWest ? i + xChunks - 1 : undefined,
+        west: hasWest ? i - 1 : undefined,
+        northWest: hasNorth && hasWest ? i - xChunks - 1 : undefined,
+      };
+    },
+  };
+}
+
+function compareAdjacentFactory(
+  chunkValues: number[],
+  chunkRanks: Float64Array,
+) {
+  const fn =
+    (method: "some" | "every") =>
+    (
+      indicies: SurroundingChunkIndicies,
+      compare: (value: number, rank: number | undefined) => boolean,
+    ) =>
+      CARDINAL_DIRECTIONS[method]((dir) => {
+        const index = indicies[dir];
+        return index !== undefined
+          ? compare(chunkValues[index], chunkRanks[index])
+          : compare(255, undefined);
+      });
+
+  return {
+    some: fn("some"),
+    every: fn("every"),
+  };
+}

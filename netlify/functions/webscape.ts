@@ -1,53 +1,117 @@
+import { Config, Context } from "@netlify/functions";
 import { Buffer } from "buffer";
 import { createCanvas, Image } from "canvas";
 import type { CanvasRenderingContext2D } from "canvas";
+import GifEncoder from "gif-encoder";
 
+import dimensions from "../../src/lib/webscape/dimensions.mts";
 import { generatorFactory } from "../../src/lib/webscape/generate.mts";
 import type { LibJpegTurbo } from "@cornerstonejs/codec-libjpeg-turbo-8bit";
+import { getStore } from "@netlify/blobs";
 
 const SEED = 883089543;
 
-// TODO generate largest size, crop and cache for many sizes, and then return appropriate size
+export default async function (request: Request, context: Context) {
+  const store = getStore("webscapes");
+  const { format } = context.params;
+  const animated = format === "gif";
+  const params = new URL(request.url).searchParams;
+  const orientation =
+    (params.get("orientation") as (typeof dimensions)[number]["id"]) ??
+    "landscape";
+  const size = dimensions.find((d) => d.id === orientation) ?? dimensions[0];
+  const chunkSize = 16;
 
-const dimensions = {
-  landscape: [512, 384],
-  portrait: [256, 512],
-} as const;
+  const cached = await store.getWithMetadata(`${orientation}.${format}`, {
+    type: "stream",
+  });
+  if (cached) {
+    return new Response(cached.data, {
+      headers: {
+        "Content-Type": `image/${format}`,
+        "X-Webscape-Chunk-Size": chunkSize.toString(),
+      },
+    });
+  }
 
-export default async function (request: Request) {
   const { default: libjpegturbojs } = await import(
     import.meta
       .resolve("@cornerstonejs/codec-libjpeg-turbo-8bit/dist/libjpegturbowasm.js")
   );
   const toJpegTurbo = toJpegFactory(await libjpegturbojs());
 
-  const params = new URL(request.url).searchParams;
-  const orientation =
-    (params.get("orientation") as keyof typeof dimensions) ?? "landscape";
-  const size = dimensions[orientation] ?? dimensions.landscape;
-
   // @ts-expect-error need to fix generator types
   const generator = generatorFactory<CanvasRenderingContext2D>(
     context2d,
     toJpegTurbo,
   );
-  const generate = generator(SEED, size[0], size[1], 16);
-  while (true) {
-    const { done, value: canvas } = await generate.next();
-    if (done) {
-      const image = canvas.toBuffer("image/png");
+  const generate = generator(SEED, size.width, size.height, 16, animated);
 
-      return new Response(image, {
-        headers: {
-          "Content-Type": "image/png",
-          "Content-Length": image.length,
-        },
-      });
+  if (format === "png") {
+    while (true) {
+      const { done, value: context } = await generate.next();
+      if (done) {
+        const image = context.canvas.toBuffer("image/png");
+
+        store.set(`${orientation}.${format}`, image.buffer as ArrayBuffer, {
+          metadata: { seed: SEED },
+        });
+
+        return new Response(image.buffer as ArrayBuffer, {
+          headers: {
+            "Content-Type": "image/png",
+            // "Content-Length": image.length.toString(),
+            "X-Webscape-Chunk-Size": chunkSize.toString(),
+          },
+        });
+      }
     }
+  } else if (format === "gif") {
+    const body = new ReadableStream<Buffer<ArrayBufferLike>>({
+      async start(controller) {
+        const encoder = new GifEncoder(size.width, size.height);
+        encoder.setRepeat(-1);
+        encoder.setDelay(0);
+        encoder.on("data", (data) => controller.enqueue(data));
+        encoder.writeHeader();
+
+        while (true) {
+          const { done, value: context } = await generate.next();
+          const { data } = context.getImageData(0, 0, size.width, size.height);
+          encoder.addFrame(data);
+          if (done) {
+            encoder.finish();
+            controller.close();
+            break;
+          }
+        }
+      },
+      async cancel() {
+        generate.throw(new Error("Cancelled"));
+      },
+    });
+
+    const streams = body.tee();
+
+    store.set(`${orientation}.${format}`, streams[0], {
+      metadata: { seed: SEED },
+    });
+
+    return new Response(streams[1], {
+      headers: {
+        "Content-Type": "image/gif",
+        "Transfer-Encoding": "chunked",
+        "X-Webscape-Chunk-Size": chunkSize.toString(),
+      },
+    });
   }
 }
 
-export function context2d(
+export const config: Config = {
+  path: "/webscape.:format(gif|png)",
+};
+
+function context2d(
   width: number,
   height: number,
   _dpi = 1,

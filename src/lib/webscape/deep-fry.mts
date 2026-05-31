@@ -18,7 +18,7 @@ export function deepFryFactory<
    * @param jitterX amount (px) to randomly shift image on X axis
    * @param jitterY amount (px) to randomly shift image on Y axis
    */
-  return async function deepFry(
+  return async function* deepFry(
     context: C,
     seed = 42,
     quality = 0.1,
@@ -40,8 +40,10 @@ export function deepFryFactory<
       context2.drawImage(context.canvas, x, y, width, height);
       const image = (await toJpeg(context2, quality)) as CanvasImageSource;
       context.drawImage(image, x, y, width, height, 0, 0, width, height);
-      if ("src" in image && image.src?.startsWith("blob"))
+      if ("src" in image && image.src?.startsWith("blob")) {
         URL.revokeObjectURL(image.src);
+      }
+      yield context;
     }
   };
 }
