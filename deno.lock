@@ -18,6 +18,7 @@
         "npm:@netlify/blobs@^10.7.7",
         "npm:@netlify/functions@^5.2.1",
         "npm:@types/d3@^7.4.3",
+        "npm:@types/gif-encoder@~0.7.4",
         "npm:@types/node@^25.8.0",
         "npm:canvas-dither@^1.0.1",
         "npm:canvas@^3.2.3",
@@ -26,6 +27,8 @@
         "npm:d3@^7.9.0",
         "npm:esbuild-plugin-import-map@^2.1.0",
         "npm:esbuild@0.28",
+        "npm:gif-encoder@~0.7.2",
+        "npm:gifuct-js@^2.1.2",
         "npm:tsx@^4.22.1"
       ]
     }

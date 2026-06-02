@@ -1,0 +1,32 @@
+---
+layout: layouts/home.html
+eleventyImport:
+  collections: ["portfolio"]
+
+title: cubegho.st
+---
+
+<div class="tree">
+  <div class="node">
+    <button class="node-button"></button>
+    <div class="node-content">~/cubegho.st</div>
+  </div>
+  {% tree collections.portfolio | directoryTree -%}
+    <div class="node">
+      <button class="node-button" ></button>
+      <div class="node-content">
+      {% if node %}
+        <a href="{{ node.url }}">{{ node.data.portfolioTitle | default: node.data.title }}</a>
+        {% if node.data.years %}{{ node.data.years }}{% endif %}
+        {% if node.data.preview -%}
+          <div class="preview">
+            <img src="{{ node.data.preview.src }}" alt="{{ node.data.preview.alt }}" width="400" />
+          </div>
+        {%- endif %}
+      {% else %}
+        {{ directory }}
+      {% endif %}
+      </div>
+    </div>
+  {%- endtree %}
+</div>

@@ -1,9 +1,14 @@
 import { defineConfig } from "11ty.ts";
-// import pluginWebc from "@11ty/eleventy-plugin-webc";
+// import { InputPathToUrlTransformPlugin } from "@11ty/eleventy";
+
+import { stratify } from "d3-hierarchy";
+import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+// import { consolePlus } from "eleventy-plugin-console-plus";
 import esbuild from "esbuild";
 import * as importMap from "esbuild-plugin-import-map";
 
 import webscapeDimensions from "./src/lib/webscape/dimensions.mts";
+import { directoryTreeFilter, treeTag } from "./tree.ts";
 
 importMap.load({
   imports: {
@@ -15,7 +20,28 @@ importMap.load({
 });
 
 export default defineConfig((eleventyConfig) => {
+  eleventyConfig.addPassthroughCopy("src/styles/*.css");
+
+  // eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
+  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
+    transformOnRequest: process.env.NODE_ENV !== "production",
+    sharpOptions: {
+      animated: true,
+    },
+  });
+
+  // eleventyConfig.setFrontMatterParsingOptions({
+  //   excerpt: true,
+  //   excerpt_separator: "<!-- excerpt -->",
+  // });
+  // eleventyConfig.addPlugin(consolePlus);
+  eleventyConfig.setLiquidOptions({
+    dynamicPartials: false,
+  });
+
   eleventyConfig.addGlobalData("webscapeDimensions", webscapeDimensions);
+
+  // bundle webscape modules
   eleventyConfig.on("eleventy.before", () => {
     return esbuild.build({
       entryPoints: ["src/lib/webscape/generate.mts"],
@@ -40,8 +66,10 @@ export default defineConfig((eleventyConfig) => {
   });
   eleventyConfig.addWatchTarget("./src/lib/webscape");
 
-  eleventyConfig.addPassthroughCopy("src/styles/*.css");
-  // eleventyConfig.addPassthroughCopy("src/lib/webscape/*.mts");
+  // tree tag and filter
+  // @ts-expect-error
+  eleventyConfig.addFilter("directoryTree", directoryTreeFilter);
+  eleventyConfig.addLiquidTag("tree", treeTag);
 
   return {
     dir: {

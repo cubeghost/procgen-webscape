@@ -6,6 +6,7 @@
 	"dependencies": {
 		"11ty.ts": "^0.0.7",
 		"@11ty/eleventy": "^3.1.5",
+		"@11ty/eleventy-img": "^6.0.4",
 		"@11ty/eleventy-plugin-webc": "^0.11.2",
 		"@cornerstonejs/codec-libjpeg-turbo-8bit": "^1.2.2",
 		"@netlify/blobs": "^10.7.7",
@@ -14,15 +15,20 @@
 		"canvas-dither": "^1.0.1",
 		"d3": "^7.9.0",
 		"d3-array": "^3.2.4",
+		"d3-hierarchy": "^3.1.2",
 		"d3-random": "^3.0.1",
 		"esbuild-plugin-import-map": "^2.1.0",
 		"gif-encoder": "^0.7.2",
 		"gifuct-js": "^2.1.2"
 	},
 	"devDependencies": {
+		"@types/11ty__eleventy-img": "^4.0.0",
 		"@types/d3": "^7.4.3",
+		"@types/d3-hierarchy": "^3.1.7",
+		"@types/esbuild-plugin-import-map": "^0.0.3",
 		"@types/gif-encoder": "^0.7.4",
 		"@types/node": "^25.8.0",
+		"eleventy-plugin-console-plus": "^2.0.0",
 		"esbuild": "^0.28.0",
 		"tsx": "^4.22.1"
 	},

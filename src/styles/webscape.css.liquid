@@ -1,30 +1,6 @@
 ---
-permalink: styles/home.css
+permalink: styles/webscape.css
 ---
-
-@import "./reset.css";
-@import "./spinner.css";
-
-body {
-  font-family: 'Courier New', Courier, monospace;
-  margin: 0;
-}
-
-h1 {
-  margin-top: 0;
-  font-size: 1rem;
-}
-
-h2 {
-  font-size: 1rem;
-  background-color: white;
-  border: 1px solid black;
-  display: inline-block;
-}
-
-.hidden {
-  display: none;
-}
 
 {% assign landscape = webscapeDimensions | where: "id", "landscape" | first %}
 {% assign portrait = webscapeDimensions | where: "id", "portrait" | first %}
