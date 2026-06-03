@@ -30,6 +30,7 @@ export default async function (request: Request, context: Context) {
       headers: {
         "Content-Type": `image/${format}`,
         "X-Webscape-Chunk-Size": chunkSize.toString(),
+        "Cache-Control": "public, max-age=86400",
       },
     });
   }
@@ -60,8 +61,8 @@ export default async function (request: Request, context: Context) {
         return new Response(image.buffer as ArrayBuffer, {
           headers: {
             "Content-Type": "image/png",
-            // "Content-Length": image.length.toString(),
             "X-Webscape-Chunk-Size": chunkSize.toString(),
+            "Cache-Control": "public, max-age=86400",
           },
         });
       }
@@ -102,6 +103,7 @@ export default async function (request: Request, context: Context) {
         "Content-Type": "image/gif",
         "Transfer-Encoding": "chunked",
         "X-Webscape-Chunk-Size": chunkSize.toString(),
+        "Cache-Control": "public, max-age=86400",
       },
     });
   }

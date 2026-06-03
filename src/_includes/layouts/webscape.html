@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>{{ title }}</title>
+		<link rel="stylesheet" href="/styles/home.css">
+		{% for style in styles %}
+			<link rel="stylesheet" href="{{ style }}">
+		{% endfor %}
+	</head>
+	<body>
+		<div>
+			<div class="root">
+				<!-- <h1>⟡*·_</h1> -->
+				{{ content }}
+			</div>
+		</div>
+
+		<div class="webscape"></div>
+	</body>
+</html>

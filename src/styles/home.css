@@ -22,7 +22,7 @@ h2 {
   display: inline-block;
 }
 
-a:not([class]) {
+a {
   color: blue;
 }
 
@@ -138,16 +138,11 @@ a:not([class]) {
 
 .tree li:last-child:before {
   border-left: 1px solid #000;
-  /* padding-top: 0.2rem; */
-}
-
-.tree li:last-child > .node {
-  /* margin-top: 0.4rem; */
 }
 
 .tree li:only-child:before {
-  /* padding-top: 0.6rem; */
-  /* height: 1.5rem; */
+  height: calc(var(--node-height) / 2 + 0.75rem);
+  transform: translateY(-0.75rem);
 }
 
 .tree li:only-child {

@@ -1,14 +1,79 @@
 ---
-layout: layouts/home.html
-tags: portfolio
+layout: layouts/webscape.html
 
 title: kid pix 1.0 zine
 portfolioTitle: 1.0 zine
 preview:
   src: /kidpix/zine/00.png
   alt: page 1
+styles: [/styles/page.css]
 ---
 
-{% for i in (0..14) -%}
-<img src="./{{ i | prepend: '00' | slice: -2, 2 }}.png" alt="page {{ i + 1 }}">
-{%- endfor %}
+{% render home-link.html.liquid %}
+
+{% assign pageWidth = 473 %}
+
+<div class="zine-container">
+  <div class="zine">
+    {% for i in (0..14) -%}
+      <div class="zine-page">
+        <img src="./{{ i | prepend: '00' | slice: -2, 2 }}.png" alt="page {{ i | plus: 1 }}" width="{{ pageWidth }}">
+      </div>
+    {%- endfor %}
+  </div>
+
+  <div class="page">
+    this is a zine i wrote in 2014, created entirely in kid pix 1.0.
+
+    for an early history of kid pix, see craig hickman's post [kid pix: the early years](http://red-green-blue.com/kid-pix-the-early-years/).
+
+  </div>
+</div>
+
+<style type="text/css">
+  {% capture zineWidth -%}
+    calc(({{ pageWidth }}px + 2rem + 1px) * 2 + 1px)
+  {%- endcapture %}
+
+  .zine-container {
+    container: zine / inline-size;
+    max-width: {{ zineWidth }};
+    margin: 1rem auto 0;
+  }
+
+  .zine {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .zine-page {
+    background: white;
+    padding: 1rem;
+    border: 1px solid black;
+    border-bottom-width: 0;
+    border-collapse: collapse;
+  }
+  .zine-page:nth-child(14), .zine-page:nth-child(15) {
+    border-bottom-width: 1px;
+  }
+
+  .zine picture {
+    image-rendering: pixelated;
+    width: {{ pageWidth }}px;
+  }
+
+  @container zine (min-width: {{ zineWidth }}) {
+    .zine-page:first-child {
+      margin-left: calc({{ pageWidth }}px + 2rem + 1px);
+    }
+    .zine-page:nth-child(even) {
+      border-right-width: 0;
+    }
+  }
+
+  @container zine (max-width: calc({{ pageWidth }}px + 2rem + 2px)) {
+    .zine picture {
+      width: unset;
+    }
+  }
+</style>

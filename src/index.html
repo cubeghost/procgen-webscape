@@ -1,5 +1,5 @@
 ---
-layout: layouts/home.html
+layout: layouts/webscape.html
 eleventyImport:
   collections: ["portfolio"]
 
@@ -9,7 +9,7 @@ title: cubegho.st
 <div class="tree">
   <div class="node">
     <button class="node-button"></button>
-    <div class="node-content">~/cubegho.st</div>
+    <div class="node-content">~</div>
   </div>
   {% tree collections.portfolio | directoryTree -%}
     <div class="node">
@@ -30,3 +30,73 @@ title: cubegho.st
     </div>
   {%- endtree %}
 </div>
+
+<div class="webscape-controls">
+  <button id="replay">replay webscape <span class="spinner hidden"></span></button>
+  <button id="cancelReplay" class="hidden">cancel</button>
+</div>
+<script type="text/javascript">
+  globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
+</script>
+<script type="text/javascript">
+  const replayButton = document.getElementById("replay");
+  const cancelButton = document.getElementById("cancelReplay");
+
+  replayButton.addEventListener("click", (event) => {
+    initialize();
+  });
+  cancelButton.addEventListener("click", (event) => {
+    replayButton.disabled = false;
+    replayButton.querySelector(".spinner").classList.add("hidden");
+    cancelButton.classList.add("hidden");
+    const canvasContainer = document.getElementById("webscape-canvas");
+    if (canvasContainer) canvasContainer.innerHTML = "";
+  });
+
+  async function initialize() {
+    const webscape = document.querySelector(".webscape");
+    const orientation = getComputedStyle(webscape).getPropertyValue("--orientation");
+    const scale = parseInt(getComputedStyle(webscape).getPropertyValue("--scale"));
+
+    try {
+      replayButton.disabled = true;
+      replayButton.querySelector(".spinner").classList.remove("hidden");
+      cancelButton.classList.remove("hidden");
+
+      const response = await fetch(`/webscape.gif?orientation=${orientation}`);
+
+      const buffer = await response.arrayBuffer();
+      const chunkSize = parseInt(response.headers.get("x-webscape-chunk-size"));
+
+      let canvasContainer = document.getElementById("webscape-canvas");
+      if (!canvasContainer) {
+        canvasContainer = document.createElement("div");
+        canvasContainer.id = "webscape-canvas";
+        document.querySelector(".webscape").appendChild(canvasContainer);
+      }
+
+      const { replay } = await import("/replay.js");
+      replayButton.querySelector(".spinner").classList.add("hidden");
+
+      await replay(canvasContainer, context2d, buffer, chunkSize, scale);
+      
+      replayButton.disabled = false;
+      cancelButton.classList.add("hidden");
+      canvasContainer.innerHTML = "";
+    } catch (err) {
+      replayButton.disabled = false;
+      replayButton.querySelector(".spinner").classList.add("hidden");
+      cancelButton.classList.add("hidden");
+    }
+  }
+
+  function context2d(width, height, dpi = 1) {
+    const canvas = document.createElement("canvas");
+    canvas.width = width * dpi;
+    canvas.height = height * dpi;
+    canvas.style.setProperty("image-rendering", "pixelated");
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    context.scale(dpi, dpi);
+    return context;
+  }
+</script>

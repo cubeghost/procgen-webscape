@@ -1,5 +1,5 @@
 ---
-layout: layouts/home.html
+layout: layouts/webscape.html
 tags: portfolio
 
 title: chromosphere

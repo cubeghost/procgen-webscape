@@ -3,7 +3,7 @@ import { defineConfig } from "11ty.ts";
 
 import { stratify } from "d3-hierarchy";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
-// import { consolePlus } from "eleventy-plugin-console-plus";
+import { consolePlus } from "eleventy-plugin-console-plus";
 import esbuild from "esbuild";
 import * as importMap from "esbuild-plugin-import-map";
 
@@ -34,7 +34,7 @@ export default defineConfig((eleventyConfig) => {
   //   excerpt: true,
   //   excerpt_separator: "<!-- excerpt -->",
   // });
-  // eleventyConfig.addPlugin(consolePlus);
+  eleventyConfig.addPlugin(consolePlus);
   eleventyConfig.setLiquidOptions({
     dynamicPartials: false,
   });

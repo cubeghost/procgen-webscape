@@ -1,5 +1,5 @@
 ---
-layout: layouts/home.html
+layout: layouts/webscape-page.html
 tags: portfolio
 
 title: ephemeral web presence space
