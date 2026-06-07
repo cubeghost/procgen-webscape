@@ -11,12 +11,12 @@ title: cubegho.st
     <button class="node-button"></button>
     <div class="node-content">~</div>
   </div>
-  {% tree collections.portfolio | directoryTree -%}
+  {% tree collections.portfolio | directory_tree -%}
     <div class="node">
       <button class="node-button" ></button>
       <div class="node-content">
       {% if node %}
-        <a href="{{ node.url }}">{{ node.data.portfolioTitle | default: node.data.title }}</a>
+        <a href="{{ node.url }}">{{ node.data.portfolio.title | default: node.data.title }}</a>
         {% if node.data.years %}{{ node.data.years }}{% endif %}
         {% if node.data.preview -%}
           <div class="preview">

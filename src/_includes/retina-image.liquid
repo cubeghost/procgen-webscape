@@ -1,0 +1,11 @@
+{% capture props %}
+{
+  "src": "{{ src }}",
+  "alt":"{{ alt }}",
+  "width": "{{ width }}"
+  {% if class %}, "class": "{{ class }}"{% endif %}
+  {% if style %}, "style": "{{ style }}"{% endif %}
+}
+{% endcapture %}
+{% assign props = props | json_parse %}
+{% retina_image props %}

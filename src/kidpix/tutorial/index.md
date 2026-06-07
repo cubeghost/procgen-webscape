@@ -4,7 +4,8 @@ tags: portfolio
 # date:
 
 title: Kid Pix Studio Deluxe on macOS
-portfolioTitle: studio deluxe emulation tutorial
+portfolio:
+  title: studio deluxe emulation tutorial
 ---
 
 # Kid Pix Studio Deluxe on macOS

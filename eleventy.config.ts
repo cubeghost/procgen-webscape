@@ -1,9 +1,9 @@
+import path from "path";
 import { defineConfig } from "11ty.ts";
 // import { InputPathToUrlTransformPlugin } from "@11ty/eleventy";
 
-import { stratify } from "d3-hierarchy";
-import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
-import { consolePlus } from "eleventy-plugin-console-plus";
+import Image, { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+// import { consolePlus } from "eleventy-plugin-console-plus";
 import esbuild from "esbuild";
 import * as importMap from "esbuild-plugin-import-map";
 
@@ -20,21 +20,66 @@ importMap.load({
 });
 
 export default defineConfig((eleventyConfig) => {
-  eleventyConfig.addPassthroughCopy("src/styles/*.css");
+  const outputDir = "dist";
+  eleventyConfig.setOutputDirectory(outputDir);
+  eleventyConfig.addPassthroughCopy("src/**/*.css");
 
-  // eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
-  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
-    transformOnRequest: process.env.NODE_ENV !== "production",
+  const imageOptions: Image.PluginOptions = {
+    outputDir: `${outputDir}/assets`,
+    urlPath: "/assets/",
+    formats: ["auto"],
     sharpOptions: {
       animated: true,
     },
+    filenameFormat: function (id, src, width, format, options) {
+      const extension = path.extname(src);
+      const name = path.basename(src, extension);
+
+      return `${name}-${width}.${format}`;
+    },
+  };
+  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
+    ...imageOptions,
+    transformOnRequest: process.env.NODE_ENV !== "production",
+  });
+  eleventyConfig.setLiquidParameterParsing("builtin");
+  eleventyConfig.addShortcode(
+    "retina_image",
+    async function ({ src, alt, width, style, ...props }) {
+      const source = path.join(this.eleventy.directories.input, src);
+      const metadata = await Image(source, {
+        widths: [width, width * 2],
+        ...imageOptions,
+      });
+
+      return Image.generateHTML(metadata, {
+        alt, // required
+        style: `width: ${width}px; height: auto; ${style ?? ""}`,
+        sizes: `(min-resolution: 2x) ${width * 2}px, ${width}px`,
+        "eleventy:ignore": "",
+        ...props,
+      });
+    },
+  );
+  eleventyConfig.addShortcode("image_src", async function (src) {
+    const source = path.join(this.eleventy.directories.input, src);
+    const metadata = await Image(source, imageOptions);
+
+    const formats = Object.keys(metadata) as Image.ImageFormat[]; // TODO
+    if (formats.length) {
+      console.warn("found multiple formats", metadata);
+    }
+
+    const files = metadata[formats[0]];
+    if (!files) throw new Error("no output");
+    return files[0].url;
   });
 
   // eleventyConfig.setFrontMatterParsingOptions({
   //   excerpt: true,
   //   excerpt_separator: "<!-- excerpt -->",
   // });
-  eleventyConfig.addPlugin(consolePlus);
+  // eleventyConfig.addPlugin(consolePlus);
   eleventyConfig.setLiquidOptions({
     dynamicPartials: false,
   });
@@ -68,8 +113,16 @@ export default defineConfig((eleventyConfig) => {
 
   // tree tag and filter
   // @ts-expect-error
-  eleventyConfig.addFilter("directoryTree", directoryTreeFilter);
+  eleventyConfig.addFilter("directory_tree", directoryTreeFilter);
   eleventyConfig.addLiquidTag("tree", treeTag);
+
+  eleventyConfig.addFilter("json_parse", function (string) {
+    try {
+      return JSON.parse(string);
+    } catch (error) {
+      return null;
+    }
+  });
 
   return {
     dir: {

@@ -2,7 +2,8 @@
 layout: layouts/webscape.html
 
 title: kid pix 1.0 zine
-portfolioTitle: 1.0 zine
+portfolio:
+  title: 1.0 zine
 preview:
   src: /kidpix/zine/00.png
   alt: page 1

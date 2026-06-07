@@ -1,0 +1,582 @@
+---
+title: "RFC: maintenance dinners"
+tags: portfolio
+
+portfolio:
+  title: maintenance dinners
+preview:
+  src: /maintenance/assets/screenshot_1.gif
+  alt: TODO
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- originally built with mmm.page, recreated by hand -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>{{ title }}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/styles/reset.css">
+  <!-- <link rel="stylesheet" href="/styles/screen-dimensions.css"> -->
+  <style type="text/css">
+    :root { --milkyway: url({% image_src "/maintenance/assets/milkyway.jpg" %}) }
+  </style>
+  <style type="text/css">
+    html, body {
+      background-color: #131b2d;
+    }
+    body {
+      font-family: "Roboto Mono", monospace;
+      background-attachment: fixed;
+      background-color: #131b2d;
+      background-image: var(--milkyway);
+      line-height: 1;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    section {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: calc(700px + 2rem);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    @media screen and (max-width: 700px) {
+      section {
+        overflow-x: hidden;
+      }
+    }
+
+    .row {
+      display: flex;
+      position: relative
+    }
+
+    .group {
+      position: relative;
+    }
+
+    .block {
+      display: block;
+      position: absolute;
+      left: calc(var(--x, 0) * 1px);
+      top: calc(var(--y, 0) * 1px);
+      z-index: var(--z);
+      transform: rotate(calc(var(--rotation, 0) * 1deg));
+    }
+
+    .text {}
+    @media screen and (max-width: 700px) {
+      .text > br {
+        display: none;
+      }
+    }
+
+    /* .invite .invite-text {
+      max-width: 500px;
+    }
+    @media screen and (max-width: 700px) {
+      .invite .invite-image {
+        width: 214.5px;
+        height:  214.5px;
+      }
+    } */
+
+    @media screen and (max-width: 700px) {
+      .hide-narrow {
+        display: none;
+      }
+    }
+
+    /* https://kizu.dev/shrinkwrap-problem */
+    .glow-behind {
+      background-color: var(--glow-color);
+    }
+    @supports (anchor-name: --anchor) {
+      .glow-behind {
+        position: relative;
+        isolation: isolate;
+        background: none; 
+      }
+      .glow-behind > span {
+        anchor-name: --span;
+      }
+      .glow-behind:after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        position-anchor: --span;
+        inset: calc(var(--glow-padding-y, 0rem) * -1) calc(anchor(inside) - var(--glow-padding-x, 0rem));
+        background: var(--glow-color, rgba(255, 255, 255, 0.5));
+        filter: blur(var(--glow-blur-amount, 20px));
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .glow-behind-pulse:after {
+          animation: pulse 2s linear infinite;
+        }
+      }
+    }
+
+    .emoji {
+      font-size: 1.125rem;
+      line-height: 1.25;
+    }
+
+    .flex-center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* tailwind-like utilities */
+    .p-3 {
+      padding: 0.75rem;
+    }
+    .px-3 {
+      padding: 0 0.75rem;
+    }
+    .my-3 {
+      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .text-xl {
+      font-size: 1.25rem;
+    }
+
+    a {
+      color: var(--link-color, currentColor);
+    }
+    h1, h2, h3, h4, h5, h6, p {
+      margin: 0;
+    }
+    span[role=img] {
+      display: table-cell;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .animated.pulse {
+        animation: pulse 2s linear infinite;
+      }
+      .animated.spin {
+        animation: spin 15s linear infinite;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scaleX(1) }
+      50% { transform: scale3d(1.1, 1.1, 1.1) }
+      100% { transform: scaleX(1) }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg) }
+      to { transform: rotate(1turn) }
+    }
+
+    /* @media screen and (max-width: 700px) {
+      section > div + div {
+        margin-top: calc(6.625rem / 2);
+      }
+    } */
+  </style>
+</head>
+<body>
+  <div >
+    <section style="color: #fff;">
+      <h1 style="text-align: center; margin: 6.625rem 0;">RFC: maintenance dinners</h1>
+
+      <div class="row">
+        <div class="group" style="width: 272px; margin-right: auto">
+          <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 200 200" class="animated pulse">
+            <path fill="#f6a04d"
+              d="M100 0c3.395 53.76 46.24 96.605 100 100-53.76 3.395-96.605 46.24-100 100-3.395-53.76-46.24-96.605-100-100C53.76 96.605 96.605 53.76 100 0Z">
+            </path>
+          </svg>
+          <strong class="block" style="color: #840808; --x: 50; --y: 126">maintenance & care</strong>
+          <img src="https://media1.giphy.com/media/wj1Hz68rlKRbOiCXHh/giphy.webp" width="150" height="150" class="block" style="--x: -30; --y: -50; --rotation: 26.9" alt="purple pulsing 3d sparkle gif" eleventy:ignore />
+          <div class="block flex-center" style="--x: 57.5; --y: 25.5; width: 275px; ">
+            <p class="glow-behind" style="--glow-color: rgba(26, 15, 91, 0.75); --glow-blur-amount: 12px; --glow-padding-x: 2rem; --glow-padding-y: 0.25rem; padding: 0.65625rem 1.5rem; line-height: 1.4; text-align: center;"><span>collective maintenance as knowledge sharing</span></p>
+          </div>
+          <div class="block flex-center" style="--x: -12; --y: 186; width: 278px;">
+            <p class="glow-behind" style="--glow-color: rgba(26, 15, 91, 0.75); --glow-blur-amount: 12px; --glow-padding-x: 2rem; --glow-padding-y: 0.25rem; padding: 0.65625rem; line-height: 1.4; text-align: center;">
+              <span><a href="https://dl.acm.org/doi/10.1145/3579617" target="_blank" rel="noreferrer nofollow">sysadmin as care worker</a></span>
+            </p>
+          </div>
+          <p class="block emoji p-3" style="--x: 245;--y: 157.5;">✨</p>
+        </div>
+      </div>
+
+      <div class="row" style="flex-wrap: wrap;">
+        <div class="spacer" style="width: calc(700px - 401px); height: 5rem;"></div>
+        <div class="group" style="width: 401px; margin-left: auto;">
+          <div style="transform: translateX(18.5px);">
+            <img src="./assets/potluck.jpg" alt="dark photo of a nighttime park potluck with some mutual aid organizer friends" width="401" style="border-radius: 48px;" />
+            <img src="https://media4.giphy.com/media/KmYV2zWKxa60OCck5p/giphy.webp" width="159" class="block" style="--x: 196; --y: -79.5" alt="illustrated gif of hot pot" eleventy:ignore />
+            {% include retina-image, src: "/maintenance/assets/fnb.webp", alt: "food not bombs logo", width: 91, class: "block", style: "--x: 286; --y: -113;" %}
+            <div style="line-height: 1.25;">
+              <p class="block p-3" style="--x: 109.5; --y: 9;">potluck</p>
+              <p class="block p-3" style="--x: 71.5; --y: 41;">family meal</p>
+              <p class="block p-3" style="--x: 131.5; --y: 69;">dinner club</p>
+              <p class="block p-3" style="--x: 182.5; --y: 95;">food distro</p>
+              <p class="block p-3" style="--x: -36; --y: 281.5;">to nourish is to maintain</p>
+              <p class="block p-3" style="--x: 104; --y: 305.5;">table as gathering place</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="flex-wrap: wrap; flex-direction: row-reverse;">
+        <div class="spacer" style="width: calc(700px - 243px); height: 5rem;"></div>
+        <div class="group" style="margin-right: auto;">
+          <div style="transform: translateX(-4.5px) translateY(-2rem);">
+            <div style="width: 243px; height: 222px; background-color: rgba(255, 255, 255, 0.05);"></div>
+            <p class="block emoji p-3" style="--x: 6.5; --y: -13.5;" role="presentation" aria-hidden="true">📌</p>
+            <div style="opacity: 0.6; line-height: 1.4;">
+              <p class="block p-3" style="--x: 111; --y: 2.5;">infoshop</p>
+              <p class="block p-3" style="--x: 29; --y: 23.5;">zine share</p>
+              <p class="block p-3" style="--x: 95.5; --y: 59.5;">mailing list</p>
+              <p class="block p-3" style="--x: 8.5; --y: 101.5;">repair cafe</p>
+              <p class="block p-3" style="--x: 100.5; --y: 118.5;">hackerspace</p>
+              <p class="block p-3" style="--x: 5; --y: 152.5;">meeting space</p>
+              <p class="block p-3" style="--x: 58.5; --y: 176; font-size: 14px;">(physical, virtual)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="group" style="max-width: 533px; display: flex; align-items: flex-end; margin: 2rem auto; background-color: rgba(0, 0, 0, 0.75); border-radius: 13px;">
+          <p style="flex-basis: 487px; opacity: 0.8; padding: 20px 18px 18px; line-height: 1.4; text-align: justify;">/whisper “i often place myself in the role of digital infrastructure and maintenance because little else is physically accessible to me”</p>
+          <div style="flex-grow: 0; flex-shrink: 0; padding: 0 1rem 1rem 0.5rem">
+            <svg xmlns="http://www.w3.org/2000/svg" style="transform: rotate(90deg);" height="23" width="23" viewBox="0 0 512 512" preserveAspectRatio="none">
+              <polygon points="256 0, 512 512, 0 512" fill="rgba(255, 255, 255, 0.68)"></polygon>
+              <polygon points="256 0, 512 512, 0 512" fill="#000" style="transform: scaleY(0.82) scaleX(0.22) translateY(44.5px); transform-origin: bottom center;"></polygon>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="group" style="width: 653px; height: 354px; margin: 2rem auto 2rem 0;">
+          <div style="transform: translateX(-64px); position: absolute">
+            <div style="background-color: #169b62; opacity: 0.4; filter: blur(20px); width: 354px; height: 354px; border-radius: 100%;"></div>
+            <div style="position: absolute; top: calc(354px / 2); left: calc(354px / 2); transform: translate(-50%, -50%);">
+            <div class="animated pulse"
+              style="background-color: #169b62; filter: blur(20px); width: 265px; height: 265px; border-radius: 100%;"></div>
+            </div>
+          </div>
+          <div style="margin-top: 4rem; display: flex; flex-direction: column; align-items: stretch; position: relative; z-index: 1; line-height: 1.4;">
+            <div style="display: grid; grid-template-columns: 2fr fit-content(354px) 3fr;">
+              <p class="p-3" style="grid-column: 2;">transition from crisis response to<br />sustainable mutual** organizing</p>
+            </div>
+            <div style="display: grid; grid-template-columns: fit-content(226px) 1fr minmax(min-content, 320px) 4fr; align-items: center; margin-top: 1rem; ">
+              <h4 class="p-3" style="--x: 64; --y: 153.5; text-align: center; grid-column: 1;">hyperlocal mutual aid<br />(2025)</h4>
+              <div class="p-3" style="--x: 316.5; --y: 137.5; grid-column: 3;">
+                <p>disrepair, abandonment,<br />lack of maintenance</p>
+                <p style="--x: 345; --y: 185; font-size: 14px; text-align: right;">(infrastructural/interpersonal)</p>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 5fr minmax(min-content, 430px) 1fr; margin-top: 0.75rem; ">
+              <p class="px-3" style="--x: 259; --y: 233.5; grid-column: 2;">weak intergroup relationships</p>
+              <p class="px-3" style="--x: 465; --y:265; font-size: 14px; grid-row: 2; grid-column: 2; text-align: right; margin-top: 0.5rem">fragmented community memory</p>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr minmax(min-content, 430px) 6fr; margin-top: -0.75rem">
+              <p class="p-3" style="--x: 99; --y: 280.5; grid-column: 2;">burdened by infrastructures no<br />longer needed, politically unaligned</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="display: grid; grid-template-columns: 1fr minmax(min-content, 518px);">
+        <div class="" style="grid-column: 2; margin: 2rem 0 3rem 0; position: relative; height: 518px; display: flex; flex-direction: column; align-items: center;">
+          <svg xmlns="http://www.w3.org/2000/svg" height="518" width="518" viewBox="0 0 518 518" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+            <defs>
+              <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="fade" stdDeviation="20" out="blurred" color-interpolation-filters="sRGB"></feGaussianBlur>
+              </filter>
+              <clipPath id="left-ellipse" clipPathUnits="userSpaceOnUse">
+                <ellipse cx="213" cy="267" rx="135.5" ry="96"></ellipse>
+              </clipPath>
+              <ellipse cx="320" cy="290" rx="143" ry="98.5" id="right-ellipse"></ellipse>
+            </defs>
+            <g transform="scale(9.77)">
+              <path fill="rgba(34, 37, 154, 1)"
+                d="M52.6 26.5c0-2.6-2.1-4.8-4.8-4.8h-3.7l3.2-1.9c2.3-1.3 3.1-4.2 1.7-6.5-1.3-2.3-4.2-3.1-6.5-1.7l-3.2 1.9 1.9-3.2c1.3-2.3.5-5.2-1.7-6.5-2.3-1.3-5.2-.5-6.5 1.7l-1.9 3.2V5c0-2.6-2.1-4.8-4.8-4.8-2.6 0-4.8 2.1-4.8 4.8v3.7l-1.9-3.2c-1.3-2.3-4.2-3.1-6.5-1.7-2.3 1.3-3.1 4.2-1.7 6.5l1.9 3.2-3.2-1.9c-2.3-1.3-5.2-.5-6.5 1.7-1.3 2.3-.5 5.2 1.7 6.5l3.2 1.9H4.8c-2.6 0-4.8 2.1-4.8 4.8 0 2.6 2.1 4.8 4.8 4.8h3.7l-3.2 1.9c-2.3 1.3-3.1 4.2-1.7 6.5 1.3 2.3 4.2 3.1 6.5 1.7l3.2-1.9-1.9 3.2c-1.3 2.3-.5 5.2 1.7 6.5 2.3 1.3 5.2.5 6.5-1.7l1.9-3.2V48c0 2.6 2.1 4.8 4.8 4.8 2.6 0 4.8-2.1 4.8-4.8v-3.7l1.9 3.2c1.3 2.3 4.2 3.1 6.5 1.7 2.3-1.3 3.1-4.2 1.7-6.5l-1.9-3.2 3.2 1.9c2.3 1.3 5.2.5 6.5-1.7 1.3-2.3.5-5.2-1.7-6.5l-3.2-1.9h3.7c2.7 0 4.8-2.1 4.8-4.8Z">
+              </path>
+            </g>
+            <g filter="url(#blur)">
+              <ellipse cx="213" cy="267" rx="135.5" ry="96" fill="#7f46ae"></ellipse>
+              <ellipse cx="320" cy="290" rx="143" ry="98.5" fill="#537fb8"></ellipse>
+              <use href="#right-ellipse" clip-path="url(#left-ellipse)" fill="#9786c3"></use>
+            </g>
+          </svg>
+          <div style="padding-top: 2.5rem; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="134" height="134" class="animated spin" style="opacity: 0.4; filter: blur(2px);" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="47.5" stroke="#fff" fill="transparent" stroke-dasharray="0.3 9.32746" stroke-width="2" stroke-linecap="round"></circle>
+            </svg>
+          </div>
+          <h2 class="" style="--x: 114.5; --y: 144; position: relative; margin-top: 142px">meta-infrastructures</h2>
+          <div class="" style="height: 134px; width: 100%; max-width: 350px; margin-top: 2.35rem; position: relative; display: flex;">
+            <div style="position: relative; flex-basis: 50%;">
+              <p class="block p-3" style="--x: 56.5; --y: 35.5; opacity: 0.6;">material</p>
+              <div style="opacity: 0.64; white-space: collapse;">
+                <p class="block p-3" style="--x: 101; --y: 0;"><span aria-label="battery" role="img">🔋</span></p>
+                <p class="block p-3" style="--x: 0; --y: 11;">
+                  <span aria-label="rock" role="img">🪨</span>
+                  <span aria-label="computer disk" role="img">📀</span>
+                </p>
+                <p class="block p-3" style="--x: 56.5; --y: 107;">
+                  <span aria-label="delivery truck" role="img">🚚</span>
+                  <span aria-label="airplane" role="img">✈️</span>
+                  <span aria-label="package" role="img">📦</span>
+                </p>
+              </div>
+            </div>
+            <div style="position: relative; flex-basis: 50%;">
+              <p class="block p-3" style="--x: 14; --y: 66.5; opacity: 0.6;">relational</p>
+              <div style="opacity: 0.64; white-space: collapse;">
+                <p class="block p-3" style="--x: 92.5; --y: 11;"><span aria-label="mechanic" role="img">🧑‍🔧</span></p>
+                <p class="block p-3" style="--x: 41.5; --y: 26;"><span aria-label="telephone" role="img">☎️</span></p>
+                <p class="block p-3" style="--x: 120.5; --y: 32;"><span aria-label="family" role="img">👪</span></p>
+                <p class="block p-3" style="--x: 46.5; --y: 119;">
+                  <span aria-label="calendar" role="img">📆</span>
+                  <span aria-label="paper and pencil" role="img">📝</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div style="background-color: #ceb7ee; color: #181437;">
+      <section>
+        <div class="row" style="flex-wrap: wrap-reverse; padding-top: 4rem;">
+          <div style="color: #8054ca; margin-left: 1rem">
+            <p class="emoji my-3"><span aria-label="love letter" role="img">💌</span></p>
+            <h2 class="my-3" style="font-size: 2rem;">maintenance dinners</h2>
+            <h3 class="my-3">for mutual aid infrastructure</h3>
+          </div>
+          <div style="width: min(25vw, 286px); min-height: 2rem; position: relative; margin-left: auto;">
+            <img src="https://media1.giphy.com/media/GKCJ0hpJk0OCcydAdg/giphy.webp" width="286" style="width: min(200%, 286px); position: absolute; top: 75%; left: 50%; transform: translate(-50%, -50%)" alt="cute 3d geometric shape characters at a picnic" eleventy:ignore />
+          </div>
+        </div>
+        <div class="row" style="padding-bottom: 5rem; margin: 0 1rem;">
+          <div style="max-width: 480px; font-size: 1.25rem; line-height: 1.4; display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2.5rem">
+            <p>shared meals form the basis <br />of communal maintenance. we’re maintaining our bodies and our relationships.</p>
+            <p>we can work towards our own technical infrastructures by first forming the social infrastructure and practicing maintenance in all its forms.</p>
+            <p>maintenance dinners can be a time and place where we learn, share, hack, debug, code, connect, salvage, repair...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div style="background-color: #9571c1; color: #fff;">
+      <section>
+        <div class="row" style="padding: 1rem 0 3rem 0; flex-wrap: wrap; align-items: center;">
+          <img src="https://media3.giphy.com/media/THZQbkCtpUohS4r8sZ/giphy.webp" width="142" class="block hide-narrow" style="--x: -133.5; --y: 42.5;" alt="gif of pile of 3d computer cursors" eleventy:ignore>
+          <div style="flex: 1">
+            <img src="https://media4.giphy.com/media/W3NjuxoCNrfTLGJxfX/giphy.webp" width="135" height="135" style="margin: 1rem auto" alt="illustration of a laptop showing cute animals doing a video call" eleventy:ignore>
+          </div>
+          <div style="max-width: 482px; margin-left: auto; margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; line-height: 1.25;">
+            <p class="text">irl is always special, but sometimes meeting online is more accessible.</p>
+            <p class="text">there are ways to hang out and collaborate in cyberspace beyond a zoom meeting!</p>
+            <p class="text">virtual worlds, text-based games, doing puzzles together, spatial audio, infinite drawing canvases, <a href="#chillzone">to name a few</a></p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div style="background-color: rgba(21, 9, 62, 0.43); color: #fff;">
+      <section style="padding: 4.5rem 1rem 2.5rem 2rem; line-height: 1.25;">
+        <div class="row">
+          <div class="group" style="margin: 0 1rem 0 auto;">
+            <p class="block emoji p-3" style="--x: -61.5; --y: -7;" role="presentation" aria-hidden="true">🌙</p>
+            <p class="block emoji p-3" style="--x: -37.5; --y: -13;" role="presentation" aria-hidden="true">✨</p>
+            <p class="emoji p-3" style="position: absolute; top: 73%; left: 94.5%;" role="presentation" aria-hidden="true">💫</p>
+            <div style="padding: 0.875rem;">
+              <h1 class="text-xl glow-behind glow-behind-pulse" style="--glow-color: rgba(157, 122, 210, 0.74)">
+                <span>things we might talk about over dinner</span>
+              </h1>
+            </div>
+          </div>
+        </div>
+        <ul style="margin: 0; padding: 0">
+          <div class="row" style="display: grid; grid-template-columns: 4fr minmax(min-content, 510px) 2fr; margin-top: 3rem;">
+            <div class="group" style="grid-column: 2;">
+              <p class="block emoji p-3" style="--x: -28; --y: 10.5;" role="presentation" aria-hidden="true">✨</p>
+              <p style="max-width: 510px; padding: 0.875rem; padding-bottom: 0;">
+                who are we? what skills and knowledge do we bring? what perspectives? what do we want to learn?
+              </p>
+              <p style="font-size: 14px; opacity: 0.9; text-align: right; margin: 0.5rem; margin-right: 11%;">what resources do we have access to?</p>
+              <p style="font-size: 14px; opacity: 0.9; text-align: right; padding-right: 0.5rem;">what is our capacity?</p>
+            </div>
+          </div>
+          <div class="row" style="display: grid; grid-template-columns: minmax(min-content, 414px) 6fr; margin-top: 2rem;">
+            <div class="group">
+              <p class="block emoji p-3" style="--x: -31; --y: 10.5;" role="presentation" aria-hidden="true">⭐️</p>
+              <p style="max-width: 414px; padding: 0.875rem; padding-bottom: 0;">
+                what are our shared principles? how will those guide how we select technologies?
+              </p>
+            </div>
+          </div>
+          <div class="row" style="display: grid; grid-template-columns: 3fr minmax(min-content, 430px) 1fr; margin-top: 2rem;">
+            <div class="group" style="grid-column: 2;">
+              <p class="block emoji p-3" style="--x: -31; --y: 9.5;" role="presentation" aria-hidden="true">💫</p>
+              <p style="max-width: 300px; padding: 0.875rem; padding-bottom: 0;">
+                how will we make decisions? deal with conflict?
+              </p>
+              <p style="font-size: 14px; opacity: 0.9; margin-left: 54%; margin-top: -0.6rem; margin-bottom: 0.1rem">what kind of power <br />dynamics are at play?</p>
+            </div>
+          </div>
+          <div class="row" style="display: grid; grid-template-columns: 1fr minmax(min-content, 409px); margin-top: 2rem;">
+            <div class="group" style="grid-column: 2;">
+              <p class="block emoji p-3" style="--x: -28.5; --y: 10.5;" role="presentation" aria-hidden="true">⭐️</p>
+              <p style="max-width: 409px; padding: 0.875rem; padding-bottom: 0;">
+                who should access our infrastructure? who is it for? how do they participate?
+              </p>
+            </div>
+          </div>
+          <div class="row" style="display: grid; grid-template-columns: 2fr minmax(min-content, 614px) 5fr; margin-top: 2rem;">
+            <div class="group" style="grid-column: 2; display: flex; flex-wrap: wrap;">
+              <p class="block emoji p-3" style="--x: -27; --y: 10.5;" role="presentation" aria-hidden="true">✨</p>
+              <p style="max-width: 370px; padding: 0.875rem;">what infrastructures are we already using? which do we rely on?</p>
+              <p style="font-size: 14px; opacity: 0.9; max-width: 230px; margin-left: auto; align-self: flex-end;">do alternatives exist that align with our principles?</p>
+              <p style="font-size: 14px; opacity: 0.9; width: 100%; padding: 0 0.875rem; margin-left: 14%">what’s good and bad about them?</p>
+            </div>
+          </div>
+          <div class="row"
+            style="display: grid; grid-template-columns: 1fr minmax(min-content, 408.5px) 3fr; margin-top: 2.5rem;">
+            <div class="group" style="grid-column: 2;">
+              <p class="block emoji p-3" style="--x: -30; --y: 2.5;" role="presentation" aria-hidden="true">💫</p>
+              <p style="max-width: 300px; padding: 0.875rem;">
+                what is practical for us?<br />
+                what is aspirational?
+              </p>
+              <p style="font-size: 14px; opacity: 0.9; margin: 0 0.5rem; margin-left: 14%;">how available do we need a server to
+                be?</p>
+            </div>
+          </div>
+          <div class="row" style="display: grid; grid-template-columns: 1fr minmax(min-content, 424px); margin-top: 2rem;">
+            <div class="group" style="grid-column: 2;">
+              <p class="block emoji p-3" style="--x: -29; --y: 0.5;" role="presentation" aria-hidden="true">⭐️</p>
+              <p style="padding: 0.875rem; padding-bottom: 0;">do we have enough trust to share servers?</p>
+              <p style="font-size: 14px; opacity: 0.9; margin: 0.5rem; margin-left: 37%;">what is our threat model?</p>
+            </div>
+          </div>
+          <div class="row" style="display: grid; grid-template-columns: 1fr minmax(min-content, 451px) 1fr; margin-top: 1.25rem;">
+            <div class="group" style="grid-column: 2;">
+              <p class="block emoji p-3" style="--x: -26.5; --y: 0.5;" role="presentation" aria-hidden="true">✨</p>
+              <p style="padding: 0.875rem;">where will our physical infrastructure live?</p>
+            </div>
+          </div>
+        </ul>
+        <p style="font-size: 1.25rem; text-align: center; margin-top: 4.5rem; margin-bottom: 5.5rem;" role="presentation" aria-hidden="true">🌎</p>
+      </section>
+    </div>
+
+    <div id="chillzone" style="background-color: rgba(0, 0, 0, 0.75); color: #fff; overflow: hidden; scroll-margin: 0;">
+      <section>
+        <div style="display: grid; grid-template-columns: 5fr min(100%, 560px) 2fr;">
+          <div class="row" style="grid-column: 2;">
+            <h2 class="text-xl" style="padding: 4.5rem 2rem; flex-basis: 75%;">bonus content</h2>
+            <div style="flex-basis: 200px; margin-left: auto; position: relative;">
+              <div style="width: min(50vw, 415px); height: min(50vw, 415px); background-color: #c9f3ef; border-radius: 100%; position: absolute; top: -25.5px; left: 50%; transform: translateX(-50%);"></div>
+              <img src="https://media0.giphy.com/media/LAaop3d8mpx0KjltzO/giphy.webp" width="363" style="width: min(43vw, 363px); position: absolute; top: -7.5px; left: 54%; transform: translateX(-50%);" alt="hanging vines and flowers drifting in the breeze" eleventy:ignore>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="display: grid; grid-template-columns: min(100%, 535.5px) 1fr;">
+          <figure style="max-width: 535.5px; display: flex; align-items: flex-start; flex-wrap: wrap; --border-radius: 7px; margin: 0 calc(-1rem - var(--border-radius));">
+            <div style="flex-basis: 55.5%;">
+              {% include retina-image, src: "/maintenance/assets/lan_party_1.jpg", alt: "photo of a lan party, a person is duct taped to the ceiling in the background, leaning down to use a raised desktop computer", width: 295, style: "width: 100%; border-radius: var(--border-radius);" %}
+              <figcaption class="p-3"
+                style="max-width: 190px; opacity: 0.6; font-size: 14px; line-height: 1.4; margin: 0 auto;">nostalgia
+                is a trap but i’ll always love these iconic LAN party pics</figcaption>
+            </div>
+            <div style="flex-basis: 44.5%;">
+              {% include retina-image, src: "/maintenance/assets/lan_party_2.jpg", alt: "photo of a lan party, a person is duct taped to the ceiling, eating pizza from a tall computer desk", width: 280, style: "width: 116%; border-radius: var(--border-radius); margin-top: 61%; margin-left: -16%;" %}
+            </div>
+          </figure>
+        </div>
+        <div class="row" style="margin-top: 5.5rem;">
+          <div style="line-height: 1.4; margin: 0 auto;">
+            <h3 style="font-weight: normal; font-style: italic; font-size: 1rem;">silly catchphrases</h3>
+            <p>
+              let’s...
+              <ul style="list-style-type: '&gt; '; padding-left: 2ch; margin: 0">
+                <li>break bread and fix phones</li>
+                <li>connect with each other and connect a mesh network</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 3rem; align-items: flex-end;">
+          <h3 style="font-style: italic; font-size: 1rem; margin: min(6vw, 3rem);">places to hang out on the world wide web</h3>
+          <div style="flex-basis: 216px;">
+            {% include retina-image, src: "/maintenance/assets/palacechat.jpg", alt: "screenshot of PalaceChat, full of colorful dollz-style avatars", width: 331, style: "width: 153.5%; margin-right: -34.5%" %}
+          </div>
+        </div>
+        <div class="row" style="display: grid; grid-template-columns: 9fr fit-content(498px) 1fr; margin-top: 1.5rem; margin-bottom: 5rem;">
+          <div class="group" style="grid-column: 2;">
+            <img src="https://media1.giphy.com/media/pIDQVCnqYhUyI/giphy.webp" width="217" style="position: absolute; top: 50%; transform: translateY(-50%) translateX(-100%); left: -2rem;" alt="animated rainbow text reading 'internet party' with multicolored balloons" eleventy:ignore>
+            <ul style="line-height:1.4; list-style-type: '&gt; '; padding-left: 2ch; --link-color: rgb(157,122,210); ">
+              <li>Roguelike Celebration’s <a target="_self" rel="noopener noreferrer nofollow" href="https://dev.to/lazerwalker/using-game-design-to-make-virtual-events-more-social-24o">MUD-like chat game</a></li>
+              <li><a target="_blank" rel="noopener noreferrer nofollow" href="https://hellopaint.io">hellopaint.io</a> (doodle with friends)</li>
+              <li>remote office platforms like <a target="_blank" rel="noopener noreferrer nofollow" href="https://gather.town">gather.town</a></li>
+              <li><a target="_blank" rel="noopener noreferrer nofollow" href="https://deepcut.live">deepcut.live</a><span style="color:rgb(255,255,255)"> (dj with friends)</span></li>
+              <li>collaborative whiteboard (yunohost has <a target="_self" rel="noopener noreferrer nofollow" href="https://apps.yunohost.org/app/tldraw">tldraw</a>)</li>
+              <li>the <a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/Skittish/virtual-venue-prototype">code</a> for <a target="_self" rel="noopener noreferrer nofollow" href="https://waxy.org/2022/10/winding-down-skittish">Skittish</a> is available to fork if someone can figure out a new backend</li>
+              <li>
+                <span aria-label="warning sign" role="img" style="display: inline;">⚠️</span><span aria-label="smiling crying emoji" role="img" style="display: inline;">🥲</span> seemingly down:
+                <ul style="list-style-type: '&gt; '; padding-left: 2ch">
+                  <li><a target="_blank" rel="noopener noreferrer nofollow" href="https://cozyroom.xyz">cozyroom.xyz</a> (blob hangout + p2p spatial audio)</li>
+                  <li><a target="_self" rel="noopener noreferrer nofollow" href="https://sprout.place">sprout.place</a> (collaborative workspace + video)</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div style="background-color: rgba(0, 0, 0, 0.5); color: #fff;">
+      <section style="padding: 7.25rem 0 2rem; line-height:1.4; text-align: center;">
+        <p style="font-size: 1.5rem; padding-bottom: 2rem">⌘</p>
+        <p >
+          built by <a target="_blank" href="https://cubegho.st">cubeghost</a> using 
+          <a target="_blank" rel="noopener noreferrer nofollow" href="https://mmm.page">mmm.page</a> <br />as
+          part of <a target="_blank" rel="noopener noreferrer nofollow" href="https://infrastructures.us">solidarity infrastructures</a> 
+          winter ‘25
+        </p>
+      </section>
+    </div>
+  </div>
+  <script type="text/javascript">
+    function relativePosition(relativeToId, elementId) {
+      const baseRect = document.getElementById(relativeToId).getBoundingClientRect();
+      const rect = document.getElementById(elementId).getBoundingClientRect();
+
+      const relativePosition = {
+        top: rect.top - baseRect.top,
+        left: rect.left - baseRect.left,
+        bottom: rect.bottom - baseRect.bottom,
+        right: rect.right - baseRect.right
+      };
+
+      return relativePosition;
+    }
+  </script>
+</body>
+</html>
