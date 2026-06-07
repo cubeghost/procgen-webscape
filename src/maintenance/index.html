@@ -12,7 +12,6 @@ preview:
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- originally built with mmm.page, recreated by hand -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
 
@@ -23,14 +22,10 @@ preview:
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/styles/reset.css">
-  <!-- <link rel="stylesheet" href="/styles/screen-dimensions.css"> -->
   <style type="text/css">
     :root { --milkyway: url({% image_src "/maintenance/assets/milkyway.jpg" %}) }
   </style>
   <style type="text/css">
-    html, body {
-      background-color: #131b2d;
-    }
     body {
       font-family: "Roboto Mono", monospace;
       background-attachment: fixed;
@@ -42,6 +37,16 @@ preview:
       -moz-osx-font-smoothing: grayscale;
     }
 
+    a {
+      color: var(--link-color, currentColor);
+    }
+    h1, h2, h3, h4, h5, h6, p {
+      margin: 0;
+    }
+    span[role=img] {
+      display: table-cell;
+    }
+
     section {
       display: flex;
       flex-direction: column;
@@ -50,15 +55,38 @@ preview:
       margin: 0 auto;
       padding: 0 1rem;
     }
+    section:target {
+      scroll-margin: 0;
+    }
     @media screen and (max-width: 700px) {
       section {
         overflow-x: hidden;
       }
     }
 
-    .row {
+    .flex-row {
+      position: relative;
       display: flex;
-      position: relative
+    }
+    .flex-row-wrap {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .flex-column {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .flex-column-center {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .grid-row {
+      position: relative;
+      display: grid;
     }
 
     .group {
@@ -74,22 +102,16 @@ preview:
       transform: rotate(calc(var(--rotation, 0) * 1deg));
     }
 
-    .text {}
+    .emoji {
+      font-size: 1.125rem;
+      line-height: 1.25;
+    }
+
     @media screen and (max-width: 700px) {
       .text > br {
         display: none;
       }
     }
-
-    /* .invite .invite-text {
-      max-width: 500px;
-    }
-    @media screen and (max-width: 700px) {
-      .invite .invite-image {
-        width: 214.5px;
-        height:  214.5px;
-      }
-    } */
 
     @media screen and (max-width: 700px) {
       .hide-narrow {
@@ -126,17 +148,6 @@ preview:
       }
     }
 
-    .emoji {
-      font-size: 1.125rem;
-      line-height: 1.25;
-    }
-
-    .flex-center {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
     /* tailwind-like utilities */
     .p-3 {
       padding: 0.75rem;
@@ -150,16 +161,6 @@ preview:
     }
     .text-xl {
       font-size: 1.25rem;
-    }
-
-    a {
-      color: var(--link-color, currentColor);
-    }
-    h1, h2, h3, h4, h5, h6, p {
-      margin: 0;
-    }
-    span[role=img] {
-      display: table-cell;
     }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -183,20 +184,17 @@ preview:
       from { transform: rotate(0deg) }
       to { transform: rotate(1turn) }
     }
-
-    /* @media screen and (max-width: 700px) {
-      section > div + div {
-        margin-top: calc(6.625rem / 2);
-      }
-    } */
   </style>
 </head>
 <body>
   <div >
-    <section style="color: #fff;">
+    <div style="position: absolute; top: 0; left: 0; padding: 0.5rem; color: #fff; font-size: 0.875rem; opacity: 0.75;">
+      {% render home-link.html.liquid, style: "text-decoration: none;" %}
+    </div>
+    <section id="moodboard" style="color: #fff;">
       <h1 style="text-align: center; margin: 6.625rem 0;">RFC: maintenance dinners</h1>
 
-      <div class="row">
+      <div class="flex-row">
         <div class="group" style="width: 272px; margin-right: auto">
           <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 200 200" class="animated pulse">
             <path fill="#f6a04d"
@@ -205,10 +203,10 @@ preview:
           </svg>
           <strong class="block" style="color: #840808; --x: 50; --y: 126">maintenance & care</strong>
           <img src="https://media1.giphy.com/media/wj1Hz68rlKRbOiCXHh/giphy.webp" width="150" height="150" class="block" style="--x: -30; --y: -50; --rotation: 26.9" alt="purple pulsing 3d sparkle gif" eleventy:ignore />
-          <div class="block flex-center" style="--x: 57.5; --y: 25.5; width: 275px; ">
+          <div class="block flex-column-center" style="--x: 57.5; --y: 25.5; width: 275px; ">
             <p class="glow-behind" style="--glow-color: rgba(26, 15, 91, 0.75); --glow-blur-amount: 12px; --glow-padding-x: 2rem; --glow-padding-y: 0.25rem; padding: 0.65625rem 1.5rem; line-height: 1.4; text-align: center;"><span>collective maintenance as knowledge sharing</span></p>
           </div>
-          <div class="block flex-center" style="--x: -12; --y: 186; width: 278px;">
+          <div class="block flex-column-center" style="--x: -12; --y: 186; width: 278px;">
             <p class="glow-behind" style="--glow-color: rgba(26, 15, 91, 0.75); --glow-blur-amount: 12px; --glow-padding-x: 2rem; --glow-padding-y: 0.25rem; padding: 0.65625rem; line-height: 1.4; text-align: center;">
               <span><a href="https://dl.acm.org/doi/10.1145/3579617" target="_blank" rel="noreferrer nofollow">sysadmin as care worker</a></span>
             </p>
@@ -217,8 +215,8 @@ preview:
         </div>
       </div>
 
-      <div class="row" style="flex-wrap: wrap;">
-        <div class="spacer" style="width: calc(700px - 401px); height: 5rem;"></div>
+      <div class="flex-row-wrap">
+        <div class="spacer" style="width: calc(700px - 401px); height: 8rem;"></div>
         <div class="group" style="width: 401px; margin-left: auto;">
           <div style="transform: translateX(18.5px);">
             <img src="./assets/potluck.jpg" alt="dark photo of a nighttime park potluck with some mutual aid organizer friends" width="401" style="border-radius: 48px;" />
@@ -236,10 +234,10 @@ preview:
         </div>
       </div>
 
-      <div class="row" style="flex-wrap: wrap; flex-direction: row-reverse;">
-        <div class="spacer" style="width: calc(700px - 243px); height: 5rem;"></div>
+      <div class="flex-row-wrap" style="flex-direction: row-reverse;">
+        <div class="spacer" style="width: calc(700px - 243px); height: 10rem;"></div>
         <div class="group" style="margin-right: auto;">
-          <div style="transform: translateX(-4.5px) translateY(-2rem);">
+          <div style="transform: translateX(-4.5px); margin-top: -5rem;">
             <div style="width: 243px; height: 222px; background-color: rgba(255, 255, 255, 0.05);"></div>
             <p class="block emoji p-3" style="--x: 6.5; --y: -13.5;" role="presentation" aria-hidden="true">📌</p>
             <div style="opacity: 0.6; line-height: 1.4;">
@@ -249,13 +247,14 @@ preview:
               <p class="block p-3" style="--x: 8.5; --y: 101.5;">repair cafe</p>
               <p class="block p-3" style="--x: 100.5; --y: 118.5;">hackerspace</p>
               <p class="block p-3" style="--x: 5; --y: 152.5;">meeting space</p>
-              <p class="block p-3" style="--x: 58.5; --y: 176; font-size: 14px;">(physical, virtual)</p>
+              <p class="block p-3" style="--x: 58.5; --y: 176; font-size: 0.875rem;">(physical, virtual)</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="row">
+      <div class="flex-row-wrap">
+        <div class="spacer" style="width: calc((700px - 533px) / 2); height: 2rem;"></div>
         <div class="group" style="max-width: 533px; display: flex; align-items: flex-end; margin: 2rem auto; background-color: rgba(0, 0, 0, 0.75); border-radius: 13px;">
           <p style="flex-basis: 487px; opacity: 0.8; padding: 20px 18px 18px; line-height: 1.4; text-align: justify;">/whisper “i often place myself in the role of digital infrastructure and maintenance because little else is physically accessible to me”</p>
           <div style="flex-grow: 0; flex-shrink: 0; padding: 0 1rem 1rem 0.5rem">
@@ -265,41 +264,42 @@ preview:
             </svg>
           </div>
         </div>
+        <div class="spacer" style="width: calc((700px - 533px) / 2); height: 2rem;"></div>
       </div>
 
-      <div class="row">
+      <div class="flex-row-wrap">
         <div class="group" style="width: 653px; height: 354px; margin: 2rem auto 2rem 0;">
-          <div style="transform: translateX(-64px); position: absolute">
+          <div style="position: absolute; transform: translateX(calc(-50% - 64px)); left: min(calc(354px / 2), 25vw);">
             <div style="background-color: #169b62; opacity: 0.4; filter: blur(20px); width: 354px; height: 354px; border-radius: 100%;"></div>
             <div style="position: absolute; top: calc(354px / 2); left: calc(354px / 2); transform: translate(-50%, -50%);">
-            <div class="animated pulse"
-              style="background-color: #169b62; filter: blur(20px); width: 265px; height: 265px; border-radius: 100%;"></div>
+              <div class="animated pulse" style="background-color: #169b62; filter: blur(20px); width: 265px; height: 265px; border-radius: 100%;"></div>
             </div>
           </div>
-          <div style="margin-top: 4rem; display: flex; flex-direction: column; align-items: stretch; position: relative; z-index: 1; line-height: 1.4;">
+          <div class="flex-column" style="margin-top: 4rem; align-items: stretch; z-index: 1; line-height: 1.4;">
             <div style="display: grid; grid-template-columns: 2fr fit-content(354px) 3fr;">
               <p class="p-3" style="grid-column: 2;">transition from crisis response to<br />sustainable mutual** organizing</p>
             </div>
             <div style="display: grid; grid-template-columns: fit-content(226px) 1fr minmax(min-content, 320px) 4fr; align-items: center; margin-top: 1rem; ">
-              <h4 class="p-3" style="--x: 64; --y: 153.5; text-align: center; grid-column: 1;">hyperlocal mutual aid<br />(2025)</h4>
-              <div class="p-3" style="--x: 316.5; --y: 137.5; grid-column: 3;">
+              <h4 class="p-3" style="text-align: center; grid-column: 1;">hyperlocal mutual aid<br />(2025)</h4>
+              <div class="p-3" style="grid-column: 3;">
                 <p>disrepair, abandonment,<br />lack of maintenance</p>
-                <p style="--x: 345; --y: 185; font-size: 14px; text-align: right;">(infrastructural/interpersonal)</p>
+                <p style="font-size: 0.875rem; text-align: right;">(infrastructural/interpersonal)</p>
               </div>
             </div>
             <div style="display: grid; grid-template-columns: 5fr minmax(min-content, 430px) 1fr; margin-top: 0.75rem; ">
-              <p class="px-3" style="--x: 259; --y: 233.5; grid-column: 2;">weak intergroup relationships</p>
-              <p class="px-3" style="--x: 465; --y:265; font-size: 14px; grid-row: 2; grid-column: 2; text-align: right; margin-top: 0.5rem">fragmented community memory</p>
+              <p class="px-3" style="grid-column: 2;">weak intergroup relationships</p>
+              <p class="px-3" style="font-size: 0.875rem; grid-row: 2; grid-column: 2; text-align: right; margin-top: 0.5rem">fragmented community memory</p>
             </div>
             <div style="display: grid; grid-template-columns: 1fr minmax(min-content, 430px) 6fr; margin-top: -0.75rem">
-              <p class="p-3" style="--x: 99; --y: 280.5; grid-column: 2;">burdened by infrastructures no<br />longer needed, politically unaligned</p>
+              <p class="p-3" style="grid-column: 2;">burdened by infrastructures no<br />longer needed, politically unaligned</p>
             </div>
           </div>
         </div>
+        <div class="spacer" style="width: calc(700px - 653px); height: 3rem;"></div>
       </div>
 
-      <div class="row" style="display: grid; grid-template-columns: 1fr minmax(min-content, 518px);">
-        <div class="" style="grid-column: 2; margin: 2rem 0 3rem 0; position: relative; height: 518px; display: flex; flex-direction: column; align-items: center;">
+      <div class="grid-row" style="grid-template-columns: 1fr minmax(min-content, 518px);">
+        <div class="flex-column" style="grid-column: 2; margin: 2rem 0 5rem 0; position: relative; height: 518px; align-items: center;">
           <svg xmlns="http://www.w3.org/2000/svg" height="518" width="518" viewBox="0 0 518 518" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
             <defs>
               <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
@@ -321,15 +321,15 @@ preview:
               <use href="#right-ellipse" clip-path="url(#left-ellipse)" fill="#9786c3"></use>
             </g>
           </svg>
-          <div style="padding-top: 2.5rem; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+          <div style="padding-top: 38px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
             <svg xmlns="http://www.w3.org/2000/svg" width="134" height="134" class="animated spin" style="opacity: 0.4; filter: blur(2px);" viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="47.5" stroke="#fff" fill="transparent" stroke-dasharray="0.3 9.32746" stroke-width="2" stroke-linecap="round"></circle>
             </svg>
           </div>
-          <h2 class="" style="--x: 114.5; --y: 144; position: relative; margin-top: 142px">meta-infrastructures</h2>
-          <div class="" style="height: 134px; width: 100%; max-width: 350px; margin-top: 2.35rem; position: relative; display: flex;">
+          <h2 style="position: relative; margin-top: 146px">meta-infrastructures</h2>
+          <div style="height: 134px; width: 100%; max-width: 350px; margin-top: 34.5px; position: relative; display: flex;">
             <div style="position: relative; flex-basis: 50%;">
-              <p class="block p-3" style="--x: 56.5; --y: 35.5; opacity: 0.6;">material</p>
+              <p class="block p-3" style="--x: 56.5; --y: 36.5; opacity: 0.6;">material</p>
               <div style="opacity: 0.64; white-space: collapse;">
                 <p class="block p-3" style="--x: 101; --y: 0;"><span aria-label="battery" role="img">🔋</span></p>
                 <p class="block p-3" style="--x: 0; --y: 11;">
@@ -344,7 +344,7 @@ preview:
               </div>
             </div>
             <div style="position: relative; flex-basis: 50%;">
-              <p class="block p-3" style="--x: 14; --y: 66.5; opacity: 0.6;">relational</p>
+              <p class="block p-3" style="--x: 14; --y: 67.5; opacity: 0.6;">relational</p>
               <div style="opacity: 0.64; white-space: collapse;">
                 <p class="block p-3" style="--x: 92.5; --y: 11;"><span aria-label="mechanic" role="img">🧑‍🔧</span></p>
                 <p class="block p-3" style="--x: 41.5; --y: 26;"><span aria-label="telephone" role="img">☎️</span></p>
@@ -361,8 +361,8 @@ preview:
     </section>
 
     <div style="background-color: #ceb7ee; color: #181437;">
-      <section>
-        <div class="row" style="flex-wrap: wrap-reverse; padding-top: 4rem;">
+      <section id="dinners">
+        <div class="flex-row-wrap" style="flex-wrap: wrap-reverse; padding-top: 4rem;">
           <div style="color: #8054ca; margin-left: 1rem">
             <p class="emoji my-3"><span aria-label="love letter" role="img">💌</span></p>
             <h2 class="my-3" style="font-size: 2rem;">maintenance dinners</h2>
@@ -372,8 +372,8 @@ preview:
             <img src="https://media1.giphy.com/media/GKCJ0hpJk0OCcydAdg/giphy.webp" width="286" style="width: min(200%, 286px); position: absolute; top: 75%; left: 50%; transform: translate(-50%, -50%)" alt="cute 3d geometric shape characters at a picnic" eleventy:ignore />
           </div>
         </div>
-        <div class="row" style="padding-bottom: 5rem; margin: 0 1rem;">
-          <div style="max-width: 480px; font-size: 1.25rem; line-height: 1.4; display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2.5rem">
+        <div class="flex-row" style="padding-bottom: 5rem; margin: 0 1rem;">
+          <div class="flex-column" style="max-width: 480px; font-size: 1.25rem; line-height: 1.4; gap: 1.5rem; margin-top: 2.5rem">
             <p>shared meals form the basis <br />of communal maintenance. we’re maintaining our bodies and our relationships.</p>
             <p>we can work towards our own technical infrastructures by first forming the social infrastructure and practicing maintenance in all its forms.</p>
             <p>maintenance dinners can be a time and place where we learn, share, hack, debug, code, connect, salvage, repair...</p>
@@ -384,23 +384,25 @@ preview:
 
     <div style="background-color: #9571c1; color: #fff;">
       <section>
-        <div class="row" style="padding: 1rem 0 3rem 0; flex-wrap: wrap; align-items: center;">
+        <div class="flex-row" style="padding: 3rem 1rem; align-items: center;">
           <img src="https://media3.giphy.com/media/THZQbkCtpUohS4r8sZ/giphy.webp" width="142" class="block hide-narrow" style="--x: -133.5; --y: 42.5;" alt="gif of pile of 3d computer cursors" eleventy:ignore>
-          <div style="flex: 1">
-            <img src="https://media4.giphy.com/media/W3NjuxoCNrfTLGJxfX/giphy.webp" width="135" height="135" style="margin: 1rem auto" alt="illustration of a laptop showing cute animals doing a video call" eleventy:ignore>
-          </div>
-          <div style="max-width: 482px; margin-left: auto; margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; line-height: 1.25;">
-            <p class="text">irl is always special, but sometimes meeting online is more accessible.</p>
-            <p class="text">there are ways to hang out and collaborate in cyberspace beyond a zoom meeting!</p>
-            <p class="text">virtual worlds, text-based games, doing puzzles together, spatial audio, infinite drawing canvases, <a href="#chillzone">to name a few</a></p>
+          <div class="flex-column" style="max-width: 667.5px; margin: 0 auto; gap: 1.5rem; align-items: flex-end; line-height: 1.25;">
+            <div class="flex-row">
+              <div style="position: relative; width: 135px; min-width: 85px; height: 100%; margin-right: 2rem;">
+                <img src="https://media4.giphy.com/media/W3NjuxoCNrfTLGJxfX/giphy.webp" width="135" style="width: 100%; object-fit: contain; position: absolute; transform: translateY(clamp(-25%, calc((100vw - 700px) / 4), 17%));" alt="illustration of a laptop showing cute animals doing a video call" eleventy:ignore />
+              </div>
+              <p class="text" style="max-width: 482px; margin-left: auto;">irl is always special, but sometimes meeting online is more accessible.</p>
+            </div>
+            <p class="text" style="max-width: 482px;">there are ways to hang out and collaborate in cyberspace beyond a zoom meeting!</p>
+            <p class="text" style="max-width: 482px;">virtual worlds, text-based games, doing puzzles together, spatial audio, infinite drawing canvases, <a href="#chillzone">to name a few</a></p>
           </div>
         </div>
       </section>
     </div>
 
     <div style="background-color: rgba(21, 9, 62, 0.43); color: #fff;">
-      <section style="padding: 4.5rem 1rem 2.5rem 2rem; line-height: 1.25;">
-        <div class="row">
+      <section id="questions" style="padding: 4.5rem 1rem 2.5rem 2rem; line-height: 1.25;">
+        <div class="flex-row">
           <div class="group" style="margin: 0 1rem 0 auto;">
             <p class="block emoji p-3" style="--x: -61.5; --y: -7;" role="presentation" aria-hidden="true">🌙</p>
             <p class="block emoji p-3" style="--x: -37.5; --y: -13;" role="presentation" aria-hidden="true">✨</p>
@@ -413,17 +415,17 @@ preview:
           </div>
         </div>
         <ul style="margin: 0; padding: 0">
-          <div class="row" style="display: grid; grid-template-columns: 4fr minmax(min-content, 510px) 2fr; margin-top: 3rem;">
+          <div class="grid-row" style="grid-template-columns: 4fr minmax(min-content, 510px) 2fr; margin-top: 3rem;">
             <div class="group" style="grid-column: 2;">
               <p class="block emoji p-3" style="--x: -28; --y: 10.5;" role="presentation" aria-hidden="true">✨</p>
               <p style="max-width: 510px; padding: 0.875rem; padding-bottom: 0;">
                 who are we? what skills and knowledge do we bring? what perspectives? what do we want to learn?
               </p>
-              <p style="font-size: 14px; opacity: 0.9; text-align: right; margin: 0.5rem; margin-right: 11%;">what resources do we have access to?</p>
-              <p style="font-size: 14px; opacity: 0.9; text-align: right; padding-right: 0.5rem;">what is our capacity?</p>
+              <p style="font-size: 0.875rem; opacity: 0.9; text-align: right; margin: 0.5rem; margin-right: 11%;">what resources do we have access to?</p>
+              <p style="font-size: 0.875rem; opacity: 0.9; text-align: right; padding-right: 0.5rem;">what is our capacity?</p>
             </div>
           </div>
-          <div class="row" style="display: grid; grid-template-columns: minmax(min-content, 414px) 6fr; margin-top: 2rem;">
+          <div class="grid-row" style="grid-template-columns: minmax(min-content, 414px) 6fr; margin-top: 2rem;">
             <div class="group">
               <p class="block emoji p-3" style="--x: -31; --y: 10.5;" role="presentation" aria-hidden="true">⭐️</p>
               <p style="max-width: 414px; padding: 0.875rem; padding-bottom: 0;">
@@ -431,16 +433,16 @@ preview:
               </p>
             </div>
           </div>
-          <div class="row" style="display: grid; grid-template-columns: 3fr minmax(min-content, 430px) 1fr; margin-top: 2rem;">
+          <div class="grid-row" style="grid-template-columns: 3fr minmax(min-content, 430px) 1fr; margin-top: 2rem;">
             <div class="group" style="grid-column: 2;">
               <p class="block emoji p-3" style="--x: -31; --y: 9.5;" role="presentation" aria-hidden="true">💫</p>
               <p style="max-width: 300px; padding: 0.875rem; padding-bottom: 0;">
                 how will we make decisions? deal with conflict?
               </p>
-              <p style="font-size: 14px; opacity: 0.9; margin-left: 54%; margin-top: -0.6rem; margin-bottom: 0.1rem">what kind of power <br />dynamics are at play?</p>
+              <p style="font-size: 0.875rem; opacity: 0.9; margin-left: 54%; margin-top: -0.6rem; margin-bottom: 0.1rem">what kind of power <br />dynamics are at play?</p>
             </div>
           </div>
-          <div class="row" style="display: grid; grid-template-columns: 1fr minmax(min-content, 409px); margin-top: 2rem;">
+          <div class="grid-row" style="grid-template-columns: 1fr minmax(min-content, 409px); margin-top: 2rem;">
             <div class="group" style="grid-column: 2;">
               <p class="block emoji p-3" style="--x: -28.5; --y: 10.5;" role="presentation" aria-hidden="true">⭐️</p>
               <p style="max-width: 409px; padding: 0.875rem; padding-bottom: 0;">
@@ -448,34 +450,33 @@ preview:
               </p>
             </div>
           </div>
-          <div class="row" style="display: grid; grid-template-columns: 2fr minmax(min-content, 614px) 5fr; margin-top: 2rem;">
+          <div class="grid-row" style="grid-template-columns: 2fr minmax(min-content, 614px) 5fr; margin-top: 2rem;">
             <div class="group" style="grid-column: 2; display: flex; flex-wrap: wrap;">
               <p class="block emoji p-3" style="--x: -27; --y: 10.5;" role="presentation" aria-hidden="true">✨</p>
               <p style="max-width: 370px; padding: 0.875rem;">what infrastructures are we already using? which do we rely on?</p>
-              <p style="font-size: 14px; opacity: 0.9; max-width: 230px; margin-left: auto; align-self: flex-end;">do alternatives exist that align with our principles?</p>
-              <p style="font-size: 14px; opacity: 0.9; width: 100%; padding: 0 0.875rem; margin-left: 14%">what’s good and bad about them?</p>
+              <p style="font-size: 0.875rem; opacity: 0.9; max-width: 230px; margin-left: auto; align-self: flex-end;">do alternatives exist that align with our principles?</p>
+              <p style="font-size: 0.875rem; opacity: 0.9; width: 100%; padding: 0 0.875rem; margin-left: 14%">what’s good and bad about them?</p>
             </div>
           </div>
-          <div class="row"
-            style="display: grid; grid-template-columns: 1fr minmax(min-content, 408.5px) 3fr; margin-top: 2.5rem;">
+          <div class="grid-row" style="grid-template-columns: 1fr minmax(min-content, 408.5px) 3fr; margin-top: 2.5rem;">
             <div class="group" style="grid-column: 2;">
               <p class="block emoji p-3" style="--x: -30; --y: 2.5;" role="presentation" aria-hidden="true">💫</p>
               <p style="max-width: 300px; padding: 0.875rem;">
                 what is practical for us?<br />
                 what is aspirational?
               </p>
-              <p style="font-size: 14px; opacity: 0.9; margin: 0 0.5rem; margin-left: 14%;">how available do we need a server to
+              <p style="font-size: 0.875rem; opacity: 0.9; margin: 0 0.5rem; margin-left: 14%;">how available do we need a server to
                 be?</p>
             </div>
           </div>
-          <div class="row" style="display: grid; grid-template-columns: 1fr minmax(min-content, 424px); margin-top: 2rem;">
+          <div class="grid-row" style="grid-template-columns: 1fr minmax(min-content, 424px); margin-top: 2rem;">
             <div class="group" style="grid-column: 2;">
               <p class="block emoji p-3" style="--x: -29; --y: 0.5;" role="presentation" aria-hidden="true">⭐️</p>
               <p style="padding: 0.875rem; padding-bottom: 0;">do we have enough trust to share servers?</p>
-              <p style="font-size: 14px; opacity: 0.9; margin: 0.5rem; margin-left: 37%;">what is our threat model?</p>
+              <p style="font-size: 0.875rem; opacity: 0.9; margin: 0.5rem; margin-left: 37%;">what is our threat model?</p>
             </div>
           </div>
-          <div class="row" style="display: grid; grid-template-columns: 1fr minmax(min-content, 451px) 1fr; margin-top: 1.25rem;">
+          <div class="grid-row" style="grid-template-columns: 1fr minmax(min-content, 451px) 1fr; margin-top: 1.25rem;">
             <div class="group" style="grid-column: 2;">
               <p class="block emoji p-3" style="--x: -26.5; --y: 0.5;" role="presentation" aria-hidden="true">✨</p>
               <p style="padding: 0.875rem;">where will our physical infrastructure live?</p>
@@ -486,10 +487,10 @@ preview:
       </section>
     </div>
 
-    <div id="chillzone" style="background-color: rgba(0, 0, 0, 0.75); color: #fff; overflow: hidden; scroll-margin: 0;">
-      <section>
+    <div style="background-color: rgba(0, 0, 0, 0.75); color: #fff; overflow: hidden;">
+      <section id="chillzone">
         <div style="display: grid; grid-template-columns: 5fr min(100%, 560px) 2fr;">
-          <div class="row" style="grid-column: 2;">
+          <div class="flex-row" style="grid-column: 2;">
             <h2 class="text-xl" style="padding: 4.5rem 2rem; flex-basis: 75%;">bonus content</h2>
             <div style="flex-basis: 200px; margin-left: auto; position: relative;">
               <div style="width: min(50vw, 415px); height: min(50vw, 415px); background-color: #c9f3ef; border-radius: 100%; position: absolute; top: -25.5px; left: 50%; transform: translateX(-50%);"></div>
@@ -497,12 +498,12 @@ preview:
             </div>
           </div>
         </div>
-        <div class="row" style="display: grid; grid-template-columns: min(100%, 535.5px) 1fr;">
+        <div class="grid-row" style="grid-template-columns: min(100%, 535.5px) 1fr;">
           <figure style="max-width: 535.5px; display: flex; align-items: flex-start; flex-wrap: wrap; --border-radius: 7px; margin: 0 calc(-1rem - var(--border-radius));">
             <div style="flex-basis: 55.5%;">
               {% include retina-image, src: "/maintenance/assets/lan_party_1.jpg", alt: "photo of a lan party, a person is duct taped to the ceiling in the background, leaning down to use a raised desktop computer", width: 295, style: "width: 100%; border-radius: var(--border-radius);" %}
               <figcaption class="p-3"
-                style="max-width: 190px; opacity: 0.6; font-size: 14px; line-height: 1.4; margin: 0 auto;">nostalgia
+                style="max-width: 190px; opacity: 0.6; font-size: 0.875rem; line-height: 1.4; margin: 0 auto;">nostalgia
                 is a trap but i’ll always love these iconic LAN party pics</figcaption>
             </div>
             <div style="flex-basis: 44.5%;">
@@ -510,7 +511,7 @@ preview:
             </div>
           </figure>
         </div>
-        <div class="row" style="margin-top: 5.5rem;">
+        <div class="flex-row" style="margin-top: 5.5rem;">
           <div style="line-height: 1.4; margin: 0 auto;">
             <h3 style="font-weight: normal; font-style: italic; font-size: 1rem;">silly catchphrases</h3>
             <p>
@@ -522,13 +523,13 @@ preview:
             </p>
           </div>
         </div>
-        <div class="row" style="margin-top: 3rem; align-items: flex-end;">
+        <div class="flex-row" style="margin-top: 3rem; align-items: flex-end;">
           <h3 style="font-style: italic; font-size: 1rem; margin: min(6vw, 3rem);">places to hang out on the world wide web</h3>
           <div style="flex-basis: 216px;">
             {% include retina-image, src: "/maintenance/assets/palacechat.jpg", alt: "screenshot of PalaceChat, full of colorful dollz-style avatars", width: 331, style: "width: 153.5%; margin-right: -34.5%" %}
           </div>
         </div>
-        <div class="row" style="display: grid; grid-template-columns: 9fr fit-content(498px) 1fr; margin-top: 1.5rem; margin-bottom: 5rem;">
+        <div class="grid-row" style="grid-template-columns: 9fr fit-content(498px) 1fr; margin-top: 1.5rem; margin-bottom: 5rem;">
           <div class="group" style="grid-column: 2;">
             <img src="https://media1.giphy.com/media/pIDQVCnqYhUyI/giphy.webp" width="217" style="position: absolute; top: 50%; transform: translateY(-50%) translateX(-100%); left: -2rem;" alt="animated rainbow text reading 'internet party' with multicolored balloons" eleventy:ignore>
             <ul style="line-height:1.4; list-style-type: '&gt; '; padding-left: 2ch; --link-color: rgb(157,122,210); ">
@@ -554,29 +555,16 @@ preview:
     <div style="background-color: rgba(0, 0, 0, 0.5); color: #fff;">
       <section style="padding: 7.25rem 0 2rem; line-height:1.4; text-align: center;">
         <p style="font-size: 1.5rem; padding-bottom: 2rem">⌘</p>
-        <p >
-          built by <a target="_blank" href="https://cubegho.st">cubeghost</a> using 
-          <a target="_blank" rel="noopener noreferrer nofollow" href="https://mmm.page">mmm.page</a> <br />as
-          part of <a target="_blank" rel="noopener noreferrer nofollow" href="https://infrastructures.us">solidarity infrastructures</a> 
-          winter ‘25
+        <p style="text-wrap: balance;">
+          written for <a target="_blank" rel="noopener noreferrer nofollow" href="https://infrastructures.us">solidarity infrastructures</a> 
+          winter ‘25 at <a target="_blank" rel="noopener noreferrer nofollow" href="https://sfpc.study/">sfpc</a>
+          <br />
+          originally built using <a target="_blank" rel="noopener noreferrer nofollow" href="https://mmm.page">mmm.page</a>, later hand-coded
+          <br /><br />
+          {% render home-link.html.liquid %}
         </p>
       </section>
     </div>
   </div>
-  <script type="text/javascript">
-    function relativePosition(relativeToId, elementId) {
-      const baseRect = document.getElementById(relativeToId).getBoundingClientRect();
-      const rect = document.getElementById(elementId).getBoundingClientRect();
-
-      const relativePosition = {
-        top: rect.top - baseRect.top,
-        left: rect.left - baseRect.left,
-        bottom: rect.bottom - baseRect.bottom,
-        right: rect.right - baseRect.right
-      };
-
-      return relativePosition;
-    }
-  </script>
 </body>
 </html>
