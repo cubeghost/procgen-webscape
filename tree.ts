@@ -52,7 +52,12 @@ export function treeTag(liquidEngine: Liquid) {
         if (node.data) {
           context.push({ node: node.data });
         } else {
-          context.push({ directory: node.id!.split("/").at(-1) });
+          context.push({
+            directory: {
+              name: node.id!.split("/").at(-1),
+              id: node.id,
+            },
+          });
         }
         yield liquid.renderer.renderTemplates(templates, context, emitter);
         context.pop();

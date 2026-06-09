@@ -1,11 +1,24 @@
 ---
-layout: layouts/webscape.html
 eleventyImport:
   collections: ["portfolio"]
 
 title: cubegho.st
 ---
+{% layout layouts/webscape.html %}
 
+{% block head %}
+<link rel="stylesheet" href="/styles/tree.css">
+{% endblock %}
+
+{% block menubar %}
+<h1>cubegho.st</h1>
+<div class="webscape-controls">
+  <button id="replay">replay webscape <span class="spinner hidden"></span></button>
+  <button id="cancelReplay" class="hidden">cancel</button>
+</div>
+{% endblock %}
+
+{% block content %}
 <div class="tree">
   <div class="node">
     <button class="node-button"></button>
@@ -14,31 +27,52 @@ title: cubegho.st
   {% tree collections.portfolio | directory_tree -%}
     <div class="node">
       <button class="node-button" ></button>
-      <div class="node-content">
       {% if node %}
-        <a href="{{ node.url }}">{{ node.data.portfolio.title | default: node.data.title }}</a>
+      <div class="node-content">
+        {% assign title = node.data.portfolio.title | default: node.data.title %}
+        <a href="{{ node.url }}">{{ title }}</a>
         {% if node.data.years %}{{ node.data.years }}{% endif %}
         {% if node.data.preview -%}
-          <div class="preview">
-            <img src="{{ node.data.preview.src }}" alt="{{ node.data.preview.alt }}" width="400" />
+          <div class="preview window">
+            <div class="window-titlebar">
+              <span class="window-titlebar-button left-button"></span>
+              <span class="window-titlebar-title">{{ title }}</span>
+            </div>
+            {% include retina-image, src: node.data.preview.src, alt: node.data.preview.alt, width: 500 %}
           </div>
         {%- endif %}
-      {% else %}
-        {{ directory }}
-      {% endif %}
       </div>
+      {% else %}
+        {% assign directory_meta = directories[directory.id] %}
+        {% assign directory_label = directory_meta.label | default: directory.name %}
+        <div class="node-content">{{ directory_label }}</div>
+        {% if directory_meta.icon %}
+        <div class="node-icon">
+          {% assign icon = directory_meta.icon %}
+          {% include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style, class: icon.class %}
+        </div>
+        {% endif %}
+      {% endif %}
     </div>
   {%- endtree %}
 </div>
 
-<div class="webscape-controls">
-  <button id="replay">replay webscape <span class="spinner hidden"></span></button>
-  <button id="cancelReplay" class="hidden">cancel</button>
-</div>
-<script type="text/javascript">
+{% comment %}<div class="window">
+  <div class="window-titlebar">
+    <span class="window-titlebar-button left-button"></span>
+    <span class="window-titlebar-title">donate</span>
+  </div>
+  {% render donation-links.html.liquid %}
+</div>{% endcomment %}
+
+{% endblock %}
+
+{% block scripts %}
+{% capture global_dimensions %}
   globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
-</script>
+{% endcapture %}
 <script type="text/javascript">
+  {{ global_dimensions }}
   const replayButton = document.getElementById("replay");
   const cancelButton = document.getElementById("cancelReplay");
 
@@ -100,3 +134,4 @@ title: cubegho.st
     return context;
   }
 </script>
+{% endblock %}

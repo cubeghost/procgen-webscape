@@ -1,0 +1,30 @@
+---
+tags: portfolio
+eleventyImport:
+  collections: ["code-art"]
+
+title: code art
+---
+{% layout layouts/webscape-collection.html %}
+
+{% block content %}
+
+<ul class="collection">
+  {%- for page in collections.code-art -%}
+  <li class="window">
+    <div class="window-titlebar">
+      <button class="window-titlebar-button left-button"></button>
+      <a href="{{ page.url }}"><span class="window-titlebar-title">{{ page.data.title }}</span></a>
+    </div>
+    {%- if page.data.preview -%}
+    <a href="{{ page.url }}">
+      <img src="{{ page.data.preview.src }}" alt="{{ page.data.preview.alt }}" width="500" />
+    </a>
+    {%- else -%}
+      <p>{{ page.content }}</p>
+    {%- endif -%}
+  </li>
+  {%- endfor -%}
+</ul>
+
+{% endblock %}

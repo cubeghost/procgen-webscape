@@ -1,9 +1,11 @@
 import path from "path";
 import { defineConfig } from "11ty.ts";
+import type { EleventyScope } from "11ty.ts";
 // import { InputPathToUrlTransformPlugin } from "@11ty/eleventy";
+import type { Tag } from "liquidjs";
 
 import Image, { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
-// import { consolePlus } from "eleventy-plugin-console-plus";
+import { consolePlus } from "eleventy-plugin-console-plus";
 import esbuild from "esbuild";
 import * as importMap from "esbuild-plugin-import-map";
 
@@ -23,6 +25,7 @@ export default defineConfig((eleventyConfig) => {
   const outputDir = "dist";
   eleventyConfig.setOutputDirectory(outputDir);
   eleventyConfig.addPassthroughCopy("src/**/*.css");
+  eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 
   const imageOptions: Image.PluginOptions = {
     outputDir: `${outputDir}/assets`,
@@ -53,7 +56,7 @@ export default defineConfig((eleventyConfig) => {
       });
 
       return Image.generateHTML(metadata, {
-        alt, // required
+        alt,
         style: `width: ${width}px; height: auto; ${style ?? ""}`,
         sizes: `(min-resolution: 2x) ${width * 2}px, ${width}px`,
         "eleventy:ignore": "",
@@ -66,7 +69,7 @@ export default defineConfig((eleventyConfig) => {
     const metadata = await Image(source, imageOptions);
 
     const formats = Object.keys(metadata) as Image.ImageFormat[]; // TODO
-    if (formats.length) {
+    if (formats.length > 1) {
       console.warn("found multiple formats", metadata);
     }
 
@@ -74,12 +77,19 @@ export default defineConfig((eleventyConfig) => {
     if (!files) throw new Error("no output");
     return files[0].url;
   });
+  eleventyConfig.addFilter("json_parse", function (string) {
+    try {
+      return JSON.parse(string);
+    } catch (error) {
+      return null;
+    }
+  });
 
   // eleventyConfig.setFrontMatterParsingOptions({
   //   excerpt: true,
   //   excerpt_separator: "<!-- excerpt -->",
   // });
-  // eleventyConfig.addPlugin(consolePlus);
+  eleventyConfig.addPlugin(consolePlus);
   eleventyConfig.setLiquidOptions({
     dynamicPartials: false,
   });
@@ -116,12 +126,28 @@ export default defineConfig((eleventyConfig) => {
   eleventyConfig.addFilter("directory_tree", directoryTreeFilter);
   eleventyConfig.addLiquidTag("tree", treeTag);
 
-  eleventyConfig.addFilter("json_parse", function (string) {
-    try {
-      return JSON.parse(string);
-    } catch (error) {
-      return null;
-    }
+  eleventyConfig.addFilter("breadcrumbs", function (permalink: string) {
+    const all: EleventyScope[] = this.context.environments.collections.all;
+    const parts: string[] = permalink.split("/").filter(Boolean);
+    const paths = parts.reduce((acc, value) => {
+      const prev = acc[acc.length - 1] ?? "/";
+      acc.push(`${prev}${value}/`);
+      return acc;
+    }, [] as string[]);
+    const urls = new Set(all.map((v) => v.page.url));
+    return paths.map((path) => {
+      const label = path.split("/").filter(Boolean).at(-1);
+      if (urls.has(path)) {
+        return {
+          label,
+          url: path,
+        };
+      } else {
+        return {
+          label,
+        };
+      }
+    });
   });
 
   return {

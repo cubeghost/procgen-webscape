@@ -1,0 +1,14 @@
+<div class="menubar-breadcrumbs">
+  <a href="/" class="menubar-breadcrumb" title="home">~</a>
+  <span>/</span>
+  {% assign breadcrumbs = page.url | breadcrumbs %}
+  {% for breadcrumb in breadcrumbs %}
+    {%- if breadcrumb.url -%}
+      <a href="{{ breadcrumb.url }}" class="menubar-breadcrumb">{{ breadcrumb.label }}</a>
+    {%- else -%}
+      <span class="menubar-breadcrumb">{{ breadcrumb.label }}</span>
+    {%- endif -%}
+
+    {%- if forloop.last == false -%}<span>/</span>{%- endif %}
+  {% endfor %}
+</div>

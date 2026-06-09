@@ -1,0 +1,29 @@
+.donation-banner {
+  background: black;
+  color: white;
+  width: 100%;
+  margin: 0;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  list-style-type: none;
+  text-align: center;
+}
+
+.donation-links {
+  
+}
+
+.donation-banner li {
+  margin: 0 0.25rem;
+  display: inline-flex;
+}
+
+.donation-banner a {
+  color: currentColor;
+  margin-left: 0.5rem;
+  text-decoration: none;
+}
+.donation-banner a:hover,
+.donation-banner a:focus {
+  text-decoration: underline;
+}

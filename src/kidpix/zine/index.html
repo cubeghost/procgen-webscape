@@ -1,16 +1,23 @@
 ---
-layout: layouts/webscape.html
-
 title: kid pix 1.0 zine
 portfolio:
   title: 1.0 zine
 preview:
   src: /kidpix/zine/00.png
   alt: page 1
-styles: [/styles/page.css]
 ---
 
-{% render home-link.html.liquid %}
+{% layout layouts/webscape.html %}
+
+{% block head %}
+<link rel="stylesheet" href="/styles/page.css">
+{% endblock %}
+
+{% block menubar %}
+  {% include breadcrumbs.html.liquid %}
+{% endblock %}
+
+{% block content %}
 
 {% assign pageWidth = 473 %}
 
@@ -24,10 +31,8 @@ styles: [/styles/page.css]
   </div>
 
   <div class="page">
-    this is a zine i wrote in 2014, created entirely in kid pix 1.0.
-
-    for an early history of kid pix, see craig hickman's post [kid pix: the early years](http://red-green-blue.com/kid-pix-the-early-years/).
-
+    <p>this is a zine i wrote in 2014, created entirely in kid pix 1.0.</p>
+    <p>for an early history of kid pix, see craig hickman's post <a href="http://red-green-blue.com/kid-pix-the-early-years/" target="_blank" rel="noopener noreferrer nofollow">kid pix: the early years</a>.</p>
   </div>
 </div>
 
@@ -78,3 +83,5 @@ styles: [/styles/page.css]
     }
   }
 </style>
+
+{% endblock %}

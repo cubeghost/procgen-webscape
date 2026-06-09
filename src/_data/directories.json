@@ -1,0 +1,11 @@
+{
+  "/kidpix": {
+    "label": "kid pix",
+    "icon": {
+      "src": "/kidpix/tutorial/icon.png",
+      "alt": "kid pix icon",
+      "width": 32,
+      "style": "image-rendering: pixelated"
+    }
+  }
+}
