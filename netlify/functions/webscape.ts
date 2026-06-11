@@ -22,6 +22,8 @@ export default async function (request: Request, context: Context) {
   const size = dimensions.find((d) => d.id === orientation) ?? dimensions[0];
   const chunkSize = 16;
 
+  const midnight = getNextMidnight();
+
   const cached = await store.getWithMetadata(`${orientation}.${format}`, {
     type: "stream",
   });
@@ -31,6 +33,7 @@ export default async function (request: Request, context: Context) {
         "Content-Type": `image/${format}`,
         "X-Webscape-Chunk-Size": chunkSize.toString(),
         "Cache-Control": "public, max-age=86400",
+        "Set-Cookie": `webscape_seed=${SEED}; Expires=${midnight.toUTCString()}`,
       },
     });
   }
@@ -63,6 +66,7 @@ export default async function (request: Request, context: Context) {
             "Content-Type": "image/png",
             "X-Webscape-Chunk-Size": chunkSize.toString(),
             "Cache-Control": "public, max-age=86400",
+            "Set-Cookie": `webscape_seed=${SEED}; Expires=${midnight.toUTCString()}`,
           },
         });
       }
@@ -104,6 +108,7 @@ export default async function (request: Request, context: Context) {
         "Transfer-Encoding": "chunked",
         "X-Webscape-Chunk-Size": chunkSize.toString(),
         "Cache-Control": "public, max-age=86400",
+        "Set-Cookie": `webscape_seed=${SEED}; Expires=${midnight.toUTCString()}`,
       },
     });
   }
@@ -165,4 +170,13 @@ function toJpegFactory(libjpegturbo: LibJpegTurbo) {
       encoder.delete();
     });
   };
+}
+
+function getNextMidnight() {
+  const date = new Date();
+  date.setHours(24);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date;
 }

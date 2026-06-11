@@ -6,17 +6,52 @@ title: cubegho.st
 ---
 {% layout layouts/webscape.html %}
 
-{% block head %}
+{%- block head %}
 <link rel="stylesheet" href="/styles/tree.css">
-{% endblock %}
+{% endblock -%}
 
-{% block menubar %}
+{%- block menubar %}
 <h1>cubegho.st</h1>
-<div class="webscape-controls">
-  <button id="replay">replay webscape <span class="spinner hidden"></span></button>
-  <button id="cancelReplay" class="hidden">cancel</button>
+<div class="menubar-menu" style="margin-left: auto;">
+<button popovertarget="webscape-dialog" class="menu-trigger" title="webscape" style="height: 100%;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 17" width="14">
+    <!-- screen -->
+    <rect width="10" height="9" x="2" y="2" fill="white" />
+    <polygon points="2,10 2,2 12,2 12,3 3,3 3,10" fill="black" opacity="0.75" />
+    <rect width="1" height="1" x="2" y="10" fill="black" opacity="0.5" />
+    <polygon points="11,3 12,3 12,11 3,11 3,10 11,10" fill="black" opacity="0.25" />
+
+    <!-- computer -->
+    <g fill="currentColor">
+      <rect width="12" height="1" x="1" y="0" />
+      <rect width="1" height="14" x="0" y="1" />
+      <rect width="1" height="14" x="13" y="1" />
+      <rect width="12" height="2" x="1" y="15" />
+      <rect width="1" height="1" x="2" y="12" opacity="0.5" />
+      <rect width="1" height="1" x="2" y="13" opacity="0.25" />
+      <rect width="4" height="1" x="8" y="13" />
+    </g>
+      
+    <!-- face -->
+    <g transform="translate(4 4)" fill="black">
+      <rect width="1" height="2" x="0" y="0" />
+      <rect width="1" height="2" x="5" y="0" />
+      <polygon points="3,0 3,3 2,3 2,4 4,4 4,0" />
+      <rect width="1" height="1" x="0" y="4" />
+      <rect width="1" height="1" x="5" y="4" />
+      <rect width="4" height="1" x="1" y="5" />
+    </g>
+  </svg>
+{% comment %} webscape {% endcomment %}
+</button>
+<dialog id="webscape-dialog" class="menu-popover" popover>
+  <button id="replay">replay webscape<span class="spinner hidden"></span></button>
+  <button id="cancelReplay" class="hidden">cancel replay</button>
+  <hr />
+  <a href="https://observablehq.com/@cubeghost/procgen-dreamscape" id="notebook" target="_blank">notebook</a>
+</dialog>
 </div>
-{% endblock %}
+{%- endblock %}
 
 {% block content %}
 <div class="tree">
@@ -75,6 +110,31 @@ title: cubegho.st
   {{ global_dimensions }}
   const replayButton = document.getElementById("replay");
   const cancelButton = document.getElementById("cancelReplay");
+
+  (async () => {
+    function setWebscapeSeed(seed) {
+      const notebookLink = document.querySelector("#webscape-dialog #notebook");
+      const url = new URL(notebookLink.href);
+      url.searchParams.set("seed", seed);
+      notebookLink.href = url.toString();
+
+      cookieStore.removeEventListener("change", onCookieChange);
+    }
+    function onCookieChange(event) {
+      const change = event.changed.find(cookie => cookie.name === "webscape_seed");
+      if (change && change.value) {
+        setWebscapeSeed(change.value);
+      }
+    }
+
+    const initialCookie = await cookieStore.get("webscape_seed");
+    if (initialCookie) {
+      setWebscapeSeed(initialCookie.value);
+    } else {
+      // wait for cookie to be set by loading background image
+      cookieStore.addEventListener("change", onCookieChange);
+    }
+  })();
 
   replayButton.addEventListener("click", (event) => {
     initialize();
