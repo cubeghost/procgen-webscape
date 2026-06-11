@@ -5,12 +5,20 @@
   "🇸🇩": "Sudan"
 }
 {% endcapture %}
-{% assign flag_labels = flag_labels | json_parse %}
-<ul class="donation-links {{ class }}">
+{%- assign flag_labels = flag_labels | json_parse -%}
+{%- capture links -%}
   {% include donation-link.html.liquid, label: "bridge of solidarity", flags: "🇵🇸", href: "https://chuffed.org/project/bridgeofsolidarity" %}
   {% include donation-link.html.liquid, label: "lebanon solidarity collective", flags: "🇱🇧", href: "https://chuffed.org/project/lebanonsolidarity" %}
   {% include donation-link.html.liquid, label: "abu hureirah aid network", flags: "🇸🇩 🇵🇸", href: "https://chuffed.org/project/126887-abu-hureirah-aid-network" %}
   {% include donation-link.html.liquid, label: "hope giving circle", flags: "🇵🇸", href: "https://chuffed.org/project/hope-giving-circle" %}
   {% include donation-link.html.liquid, label: "sameer project", flags: "🇵🇸", href: "https://linktr.ee/thesameerproject" %}
   {% include donation-link.html.liquid, label: "gazafunds.com", flags: "🇵🇸", href: "https://gazafunds.com/" %}
+{%- endcapture -%}
+<ul class="donation-links {% if marquee -%}marquee{%- endif %} {{ class }}">
+  {%- if marquee -%}
+    <div class="donation-marquee">{{ links }}</div>
+    <div class="donation-marquee" aria-hidden="true">{{ links }}</div>
+  {%- else -%}
+    {{ links }}
+  {%- endif -%}
 </ul>

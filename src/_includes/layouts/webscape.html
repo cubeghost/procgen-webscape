@@ -19,7 +19,7 @@
 	<body>
 		<div class="sticky-top">
 			{%- if page.url == "/" -%}
-				{% render donation-links.html.liquid, class: "donation-banner" %}
+				{% render donation-links.html.liquid, class: "donation-banner", marquee: true %}
 			{%- endif -%}
 			<div class="menubar">
 				{% block menubar %}{% endblock %}
