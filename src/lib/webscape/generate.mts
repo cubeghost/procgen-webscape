@@ -132,11 +132,11 @@ export function generatorFactory<
     );
     for await (const frame of deepFrySteps) {
       if (animate) {
-        const friedFrame = CanvasDither.atkinson(
-          frame.getImageData(0, 0, canvasWidth, canvasHeight),
-        );
-        baseLayer.putImageData(friedFrame, 0, 0);
-        yield await delay(0, baseLayer);
+        // const friedFrame = CanvasDither.atkinson(
+        //   frame.getImageData(0, 0, canvasWidth, canvasHeight),
+        // );
+        // baseLayer.putImageData(friedFrame, 0, 0);
+        // yield await delay(0, baseLayer);
       }
     }
     const friedImage = CanvasDither.atkinson(
@@ -152,7 +152,7 @@ export function generatorFactory<
     const lighterLayer = context2d(width, height, 1);
     const lighterImage = context.getImageData(0, 0, canvasWidth, canvasHeight);
     lighterLayer.putImageData(CanvasDither.atkinson(lighterImage), 0, 0);
-    if (animate) yield await delay(100, lighterLayer);
+    // if (animate) yield await delay(100, lighterLayer);
 
     // lightestLayer: lighten more
     context.globalCompositeOperation = "source-over";
@@ -162,7 +162,7 @@ export function generatorFactory<
     const lightestLayer = context2d(width, height, 1);
     lightestLayer.putImageData(CanvasDither.atkinson(lightestImage), 0, 0);
     context.drawImage(lightestLayer.canvas, 0, 0);
-    if (animate) yield await delay(100, lightestLayer);
+    // if (animate) yield await delay(100, lightestLayer);
 
     // reset blending
     context.globalCompositeOperation = "source-over";

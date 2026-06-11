@@ -30,11 +30,11 @@ export async function replay(
   const queuedFrames: ParsedFrame[] = [];
 
   // skip every other deep fry frame, for speed
-  for (let i = 0; i < deepFryFrames; i += 2) {
-    queuedFrames.push(frames[i]);
-  }
+  // for (let i = 0; i < deepFryFrames; i += 2) {
+  //   queuedFrames.push(frames[i]);
+  // }
 
-  queuedFrames.push(...frames.slice(deepFryFrames, chunkFramesStart - 1));
+  // queuedFrames.push(...frames.slice(deepFryFrames, chunkFramesStart - 1));
 
   for (let cy = yChunks - 1, i = chunkFramesStart - 1; cy >= 0; --cy) {
     for (let cx = xChunks - 1; cx >= 0; --cx, i++) {
