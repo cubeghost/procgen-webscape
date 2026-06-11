@@ -1,8 +1,8 @@
 <div class="menubar-breadcrumbs">
   <a href="/" class="menubar-breadcrumb" title="home">~</a>
   <span>/</span>
-  {% assign breadcrumbs = page.url | breadcrumbs %}
-  {% for breadcrumb in breadcrumbs %}
+  {%- assign breadcrumbs = page.url | breadcrumbs -%}
+  {%- for breadcrumb in breadcrumbs -%}
     {%- if breadcrumb.url -%}
       <a href="{{ breadcrumb.url }}" class="menubar-breadcrumb">{{ breadcrumb.label }}</a>
     {%- else -%}
@@ -10,5 +10,5 @@
     {%- endif -%}
 
     {%- if forloop.last == false -%}<span>/</span>{%- endif %}
-  {% endfor %}
+  {%- endfor -%}
 </div>

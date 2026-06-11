@@ -1,4 +1,4 @@
-{% capture props %}
+{%- capture props %}
 {
   "src": "{{ src }}",
   "alt":"{{ alt }}",
@@ -6,6 +6,6 @@
   {% if class %}, "class": "{{ class }}"{% endif %}
   {% if style %}, "style": "{{ style }}"{% endif %}
 }
-{% endcapture %}
-{% assign props = props | json_parse %}
+{% endcapture -%}
+{%- assign props = props | json_parse -%}
 {% retina_image props %}

@@ -24,6 +24,7 @@ importMap.load({
 export default defineConfig((eleventyConfig) => {
   const outputDir = "dist";
   eleventyConfig.setOutputDirectory(outputDir);
+  eleventyConfig.addPassthroughCopy("src/assets/*.(ttf|woff2)");
   eleventyConfig.addPassthroughCopy("src/**/*.css");
   eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 
