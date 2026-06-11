@@ -54,55 +54,74 @@ title: cubegho.st
 {%- endblock %}
 
 {% block content %}
-<div class="tree">
-  <div class="node">
-    <button class="node-button"></button>
-    <div class="node-content">~</div>
-  </div>
-  {% tree collections.portfolio | directory_tree -%}
+
+<div style="display: flex; justify-content: space-between; gap: 2rem;">
+  <div class="tree">
     <div class="node">
-      <button class="node-button" ></button>
-      {% if node %}
-      <div class="node-content">
-        {% assign title = node.data.portfolio.title | default: node.data.title %}
-        <a href="{{ node.url }}">{{ title }}</a>
-        {% if node.data.years %}{{ node.data.years }}{% endif %}
-        {% if node.data.preview -%}
-          <div class="preview window">
-            <div class="window-titlebar">
-              <span class="window-titlebar-button left-button"></span>
-              <span class="window-titlebar-title">{{ title }}</span>
-            </div>
-            {% include retina-image, src: node.data.preview.src, alt: node.data.preview.alt, width: 500 %}
+      <button class="node-button"></button>
+      <div class="node-content">~</div>
+    </div>
+    {% tree collections.portfolio | directory_tree %}
+      {% assign id = node.url | slugify -%}
+      <div class="node" {% if node.data.preview %}popovertarget="{{ id }}" popovertargetaction="toggle"{% endif %}>
+        <button class="node-button"></button>
+        {% if node -%}
+        <div class="node-content">
+          {% assign title = node.data.portfolio.title | default: node.data.title -%}
+          <a href="{{ node.data.url | default: node.url }}">{{ title }}</a>
+          {%- if node.data.portfolio.years %}&nbsp;{{ node.data.portfolio.years | join: "~" }}{% endif -%}
+        </div>
+        {%- else -%}
+          {%- assign directory_meta = directories[directory.id] -%}
+          {%- assign directory_label = directory_meta.label | default: directory.name -%}
+          <div class="node-content">{{ directory_label }}</div>
+          {% if directory_meta.icon -%}
+          <div class="node-icon">
+            {%- assign icon = directory_meta.icon -%}
+            {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style, class: icon.class -%}
           </div>
+          {%- endif %}
         {%- endif %}
       </div>
-      {% else %}
-        {% assign directory_meta = directories[directory.id] %}
-        {% assign directory_label = directory_meta.label | default: directory.name %}
-        <div class="node-content">{{ directory_label }}</div>
-        {% if directory_meta.icon %}
-        <div class="node-icon">
-          {% assign icon = directory_meta.icon %}
-          {% include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style, class: icon.class %}
-        </div>
-        {% endif %}
-      {% endif %}
-    </div>
-  {%- endtree %}
-</div>
-
-{% comment %}<div class="window">
-  <div class="window-titlebar">
-    <span class="window-titlebar-button left-button"></span>
-    <span class="window-titlebar-title">donate</span>
+    {% endtree %}
   </div>
-  {% render donation-links.html.liquid %}
-</div>{% endcomment %}
-
+  <div class="preview-container">
+    {%- for page in collections.portfolio -%}
+      {%- if page.data.preview -%}
+      {%- assign id = page.url | slugify -%}
+      <div id="{{ id }}" class="preview window" popover="hint">
+        <div class="window-titlebar">
+          <span class="window-titlebar-button left-button"></span>
+          <span class="window-titlebar-title">{{ page.data.title }}</span>
+        </div>
+        {%- include retina-image, src: page.data.preview.src, alt: page.data.preview.alt, width: 500 -%}
+      </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
+<script type="text/javascript">
+  if (window.matchMedia("(pointer: fine)").matches) {
+    const nodesWithPreviews = document.querySelectorAll(".node[popovertarget]");
+    nodesWithPreviews.forEach((node) => {
+      const target = document.getElementById(node.getAttribute("popovertarget"));
+      const button = node.querySelector(".node-button");
+      const link = node.querySelector(".node-content a");
+      
+      node.addEventListener("mouseenter", (event) => target.showPopover());
+      node.addEventListener("mouseleave", (event) => target.hidePopover());
+
+      button.addEventListener("focus", (event) => target.showPopover());
+      button.addEventListener("blur", (event) => target.hidePopover());
+      link.addEventListener("focus", (event) => target.showPopover());
+      link.addEventListener("blur", (event) => target.hidePopover());
+    });
+  }
+</script>
+
 {% capture global_dimensions %}
   globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
 {% endcapture %}

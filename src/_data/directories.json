@@ -1,6 +1,7 @@
 {
   "/kidpix": {
     "label": "kid pix",
+    "sort": 2,
     "icon": {
       "src": "/kidpix/tutorial/icon.png",
       "alt": "kid pix icon",

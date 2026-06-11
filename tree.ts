@@ -1,4 +1,5 @@
 import type { EleventyScope } from "11ty.ts";
+import { sort } from "d3-array";
 import { stratify, type HierarchyNode } from "d3-hierarchy";
 import { Value } from "liquidjs";
 import type {
@@ -11,7 +12,10 @@ import type {
   Tag,
 } from "liquidjs";
 
-export function directoryTreeFilter(collection: EleventyScope[]) {
+export function directoryTreeFilter(
+  this: EleventyScope,
+  collection: EleventyScope[],
+) {
   return stratify<EleventyScope>().path((d) => d.page.url || "")(collection);
 }
 
@@ -45,9 +49,11 @@ export function treeTag(liquidEngine: Liquid) {
         yield this.value.value(context);
       const liquid = this.liquid;
       const templates = this.templates;
+      const directories = context.environments.directories;
 
       function* renderNode(node: HierarchyNode<EleventyScope>): Generator<any> {
         emitter.write(`<li>`);
+        emitter.write(`<span class="tree-marker"></span>`);
 
         if (node.data) {
           context.push({ node: node.data });
@@ -66,14 +72,25 @@ export function treeTag(liquidEngine: Liquid) {
           yield* renderTree(node.children);
         }
 
-        emitter.write("</li>");
+        emitter.write("</li>\n");
       }
 
       function* renderTree(
         nodes: HierarchyNode<EleventyScope>[],
       ): Generator<any> {
         emitter.write("<ul>");
-        for (const node of nodes) {
+        const sorted = sort(
+          nodes,
+          (d) => {
+            if (d.data) {
+              return d.data.data.portfolio?.sort ?? Infinity;
+            } else {
+              return directories[d.id]?.sort ?? Infinity;
+            }
+          },
+          (d) => d.id,
+        );
+        for (const node of sorted) {
           yield* renderNode(node);
         }
         return `<ul>${nodes.map(renderNode)}</ul>`;
