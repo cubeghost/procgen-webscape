@@ -1,6 +1,7 @@
 import path from "path";
 import { defineConfig } from "11ty.ts";
-import type { EleventyScope } from "11ty.ts";
+import type { EleventyScope, EleventySuppliedData } from "11ty.ts";
+import { hierarchy, type HierarchyNode } from "d3-hierarchy";
 // import { InputPathToUrlTransformPlugin } from "@11ty/eleventy";
 import type { Tag } from "liquidjs";
 
@@ -25,6 +26,7 @@ export default defineConfig((eleventyConfig) => {
   const outputDir = "dist";
   eleventyConfig.setOutputDirectory(outputDir);
   eleventyConfig.addPassthroughCopy("src/assets/*.(ttf|woff2)");
+  eleventyConfig.addPassthroughCopy("src/assets/icons.png");
   eleventyConfig.addPassthroughCopy("src/**/*.css");
   eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 
@@ -82,14 +84,17 @@ export default defineConfig((eleventyConfig) => {
     try {
       return JSON.parse(string);
     } catch (error) {
+      console.warn("json_parse error", string);
       return null;
     }
   });
+  eleventyConfig.addFilter("find_index_value", function (array, value) {
+    return array.indexOf(value);
+  });
+  eleventyConfig.addFilter("reject_value", function (array, value) {
+    return array.filter((v: any) => v !== value);
+  });
 
-  // eleventyConfig.setFrontMatterParsingOptions({
-  //   excerpt: true,
-  //   excerpt_separator: "<!-- excerpt -->",
-  // });
   eleventyConfig.addPlugin(consolePlus);
   eleventyConfig.setLiquidOptions({
     dynamicPartials: false,
@@ -123,6 +128,36 @@ export default defineConfig((eleventyConfig) => {
   eleventyConfig.addWatchTarget("./src/lib/webscape");
 
   // tree tag and filter
+  type TreeNode = {
+    name: string;
+    url?: string;
+    tag?: string;
+    children?: TreeNode[];
+    data?: EleventySuppliedData;
+  };
+  eleventyConfig.addCollection("portfolio", function (collectionsApi) {
+    const all = collectionsApi.getAll();
+    const postsByUrl = new Map(all.map((p) => [p.url, p]));
+    const portfolio = all[0].data.portfolio;
+    function addNodeContent(node: TreeNode): TreeNode {
+      const children = node.children?.map(addNodeContent);
+      if (node.url && postsByUrl.has(node.url)) {
+        return { ...node, children, data: postsByUrl.get(node.url)! };
+      } else if (node.tag) {
+        const url = `/tags/${node.tag}/`;
+        return { ...node, children, url };
+      } else {
+        return { ...node, children };
+      }
+    }
+    return hierarchy(addNodeContent(portfolio));
+  });
+  eleventyConfig.addFilter(
+    "flatten_tree",
+    function (tree: HierarchyNode<TreeNode>) {
+      return tree.descendants().map((node) => node.data.data);
+    },
+  );
   // @ts-expect-error
   eleventyConfig.addFilter("directory_tree", directoryTreeFilter);
   eleventyConfig.addLiquidTag("tree", treeTag);
@@ -149,6 +184,38 @@ export default defineConfig((eleventyConfig) => {
         };
       }
     });
+  });
+
+  // https://keepinguptodate.com/pages/2019/06/creating-blog-with-eleventy/
+  eleventyConfig.addShortcode("excerpt", function (article) {
+    if (!article.hasOwnProperty("templateContent")) {
+      console.warn(
+        'Failed to extract excerpt: Document has no property "templateContent".',
+      );
+      return null;
+    }
+
+    let excerpt = null;
+    const content = article.templateContent;
+
+    const separatorsList = [
+      { start: "<!-- excerpt -->", end: "<!-- endexcerpt -->" },
+      { start: "<p>", end: "</p>" },
+    ];
+
+    separatorsList.some((separators) => {
+      const startPosition = content.indexOf(separators.start);
+      const endPosition = content.indexOf(separators.end);
+
+      if (startPosition !== -1 && endPosition !== -1) {
+        excerpt = content
+          .substring(startPosition + separators.start.length, endPosition)
+          .trim();
+        return true;
+      }
+    });
+
+    return excerpt;
   });
 
   return {

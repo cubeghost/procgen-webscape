@@ -7,6 +7,8 @@
   font-size: 0.7rem;
   list-style-type: none;
   text-align: center;
+  line-height: 1.4;
+  height: 1.375rem;
 }
 
 .donation-marquee+.donation-marquee {

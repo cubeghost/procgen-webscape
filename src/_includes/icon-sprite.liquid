@@ -1,0 +1,25 @@
+{%- capture sprites -%}
+  [
+    "looped-square",
+    "sheep",
+    "baby-sheep",
+    "nodepad",
+    "help",
+    "hypercard-stack",
+    "hypercard",
+    "alert-text",
+    "document-preferences",
+    "document-code",
+    "document-text",
+    "simpletext",
+    "git",
+    "mail1",
+    "suitcase-git",
+    "suitcase",
+    "scrapbook",
+    "globe"
+  ]
+{%- endcapture -%}
+{%- assign sprites = sprites | json_parse -%}
+{%- assign sprite_index = sprites | find_index_value: id -%}
+<img src="/assets/icons.png" class="sprite" alt="{{ alt }}" style="object-position: {{ sprite_index | times: -16 }}px 0; {{ style }}" role="{{ role }}" eleventy:ignore />

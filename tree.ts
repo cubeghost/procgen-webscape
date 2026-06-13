@@ -49,27 +49,24 @@ export function treeTag(liquidEngine: Liquid) {
         yield this.value.value(context);
       const liquid = this.liquid;
       const templates = this.templates;
-      const directories = context.environments.directories;
 
       function* renderNode(node: HierarchyNode<EleventyScope>): Generator<any> {
         emitter.write(`<li>`);
         emitter.write(`<span class="tree-marker"></span>`);
+        const { children, ...rest } = node;
 
-        if (node.data) {
-          context.push({ node: node.data });
+        if (rest.data.data) {
+          context.push({ node: { ...rest.data, ...rest.data.data } });
         } else {
           context.push({
-            directory: {
-              name: node.id!.split("/").at(-1),
-              id: node.id,
-            },
+            directory: rest.data,
           });
         }
         yield liquid.renderer.renderTemplates(templates, context, emitter);
         context.pop();
 
-        if (node.children && node.children.length > 0) {
-          yield* renderTree(node.children);
+        if (children && children.length > 0) {
+          yield* renderTree(children);
         }
 
         emitter.write("</li>\n");
@@ -79,18 +76,18 @@ export function treeTag(liquidEngine: Liquid) {
         nodes: HierarchyNode<EleventyScope>[],
       ): Generator<any> {
         emitter.write("<ul>");
-        const sorted = sort(
-          nodes,
-          (d) => {
-            if (d.data) {
-              return d.data.data.portfolio?.sort ?? Infinity;
-            } else {
-              return directories[d.id]?.sort ?? Infinity;
-            }
-          },
-          (d) => d.id,
-        );
-        for (const node of sorted) {
+        // const sorted = sort(
+        //   nodes,
+        //   (d) => {
+        //     if (d.data) {
+        //       return d.data.data.portfolio?.sort ?? Infinity;
+        //     } else {
+        //       return directories[d.id]?.sort ?? Infinity;
+        //     }
+        //   },
+        //   (d) => d.id,
+        // );
+        for (const node of nodes) {
           yield* renderNode(node);
         }
         return `<ul>${nodes.map(renderNode)}</ul>`;

@@ -1,6 +1,5 @@
 ---
 layout: layouts/webscape.html
-tags: portfolio
 
 title: tag replacer
 url: https://tags.circumfluo.us/

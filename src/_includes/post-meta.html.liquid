@@ -1,0 +1,10 @@
+<span class="meta-date">{{ date | date: "%b %d, %Y", "UTC" }}</span>
+<span class="meta-tags">
+  {% if tags %}
+  {%- assign filtered_tags = tags | reject_value: "portfolio" -%}
+  {%- for tag in filtered_tags -%}
+    <a href="/tags/{{ tag }}">#{{ tag }}</a>
+    {%- if forloop.first == false -%},{%- endif -%}
+  {%- endfor -%}
+  {% endif %}
+</span>

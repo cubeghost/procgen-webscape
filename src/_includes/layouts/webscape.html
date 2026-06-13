@@ -25,11 +25,12 @@
 				{%- block menubar -%}{%- endblock -%}
 			</div>
 		</div>
-		<div>
-			<div class="root">
-				{% block content %}{% endblock %}
-			</div>
+		<div class="root">
+			{% block content %}{% endblock %}
 		</div>
+		<footer>
+		{%- block footer -%}{%- endblock -%}
+		</footer>
 
 		<div class="webscape"></div>
 

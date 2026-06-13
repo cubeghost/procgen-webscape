@@ -1,0 +1,54 @@
+{
+  "name": "~",
+  "children": [
+    {
+      "name": "maintenance dinners",
+      "url": "/maintenance/",
+      "meta": "2025"
+    },
+    {
+      "name": "kid pix",
+      "tag": "kid-pix",
+      "icon": {
+        "src": "/kidpix/tutorial/icon.png",
+        "alt": "kid pix icon",
+        "width": 32,
+        "style": "image-rendering: pixelated"
+      },
+      "children": [
+        {
+          "name": "studio deluxe emulation tutorial",
+          "url": "/kidpix/tutorial/"
+        }
+      ]
+    },
+    {
+      "name": "code art",
+      "tag": "code-art"
+    },
+    {
+      "name": "tumblr",
+      "children": [
+        {
+          "name": "tag replacer",
+          "url": "/tumblr/tag-replacer/"
+        },
+        {
+          "name": "themes",
+          "children": [
+            {
+              "name": "pulsar",
+              "url": "/tumblr/themes/pulsar/",
+              "meta": "2015"
+            },
+            {
+              "name": "chromosphere",
+              "url": "/tumblr/themes/chromosphere/",
+              "meta": "2013"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

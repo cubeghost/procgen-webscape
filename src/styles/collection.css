@@ -5,6 +5,12 @@
   list-style-type: none;
   padding: 0;
   gap: 3rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.collection .window:nth-child(odd) {
+  margin-left: auto;
 }
 
 .collection .window {
@@ -16,9 +22,9 @@
   height: auto;
 }
 
-.collection .window p {
+.collection .window .excerpt {
   min-width: 300px;
-  margin: 1rem;
+  /* margin: 1rem; */
 }
 
 .collection .window-titlebar a {

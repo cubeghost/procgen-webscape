@@ -53,6 +53,9 @@ importers:
       esbuild-plugin-import-map:
         specifier: ^2.1.0
         version: 2.1.0
+      farmhash:
+        specifier: ^5.0.1
+        version: 5.0.1
       gif-encoder:
         specifier: ^0.7.2
         version: 0.7.2
@@ -1083,6 +1086,10 @@ packages:
   extend-shallow@2.0.1:
     resolution: {integrity: sha512-zCnTtlxNoAiDc3gqY2aYAWFx7XWWiasuF2K8Me5WbN8otHKTUKBwjPtNpRs/rbUZm7KxWAaNj7P1a/p52GbVug==}
     engines: {node: '>=0.10.0'}
+
+  farmhash@5.0.1:
+    resolution: {integrity: sha512-YSrAI+lNwDsvBsHfhYO6ihkFjObVsI/4DckifTcfGrks6MR4WxZoOtNWlHXDfzmFo4B7x0rOlxAxgxghu8qMtw==}
+    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -2675,6 +2682,10 @@ snapshots:
   extend-shallow@2.0.1:
     dependencies:
       is-extendable: 0.1.1
+
+  farmhash@5.0.1:
+    dependencies:
+      detect-libc: 2.1.2
 
   fast-glob@3.3.3:
     dependencies:

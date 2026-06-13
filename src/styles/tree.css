@@ -189,8 +189,10 @@
 .tree .node .node-icon {
   position: absolute;
   top: 50%;
-  right: -0.5rem;
+  right: calc(-0.5rem - var(--stroke));
   transform: translateX(100%) translateY(-50%);
+  background: white;
+  outline: var(--stroke) solid var(--stroke-color);
 }
 
 /* preview popovers */

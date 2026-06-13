@@ -5,16 +5,18 @@
       <button class="window-titlebar-button left-button"></button>
       <a href="{{ page.url }}"><span class="window-titlebar-title">{{ page.data.title }}</span></a>
     </div>
-    <div class="window-meta">
-      <span class="meta-date">{{ page.date | date: "%b %d, %Y", "UTC" }}</span>
+    <div class="window-contents">
+      <div class="window-meta">
+        {%- render post-meta.html.liquid, date: page.data.date, tags: page.data.tags -%}
+      </div>
+      {%- if page.data.preview -%}
+      <a href="{{ page.url }}">
+        {% include retina-image.liquid, src: page.data.preview.src, alt: page.data.preview.alt, width: 500 %}
+      </a>
+      {%- else -%}
+      <div class="excerpt page-content">{% excerpt page %}</div>
+      {%- endif -%}
     </div>
-    {%- if page.data.preview -%}
-    <a href="{{ page.url }}">
-      {% include retina-image.liquid, src: page.data.preview.src, alt: page.data.preview.alt, width: 500 %}
-    </a>
-    {%- else -%}
-    <p>{{ page.content }}</p>
-    {%- endif -%}
   </li>
   {%- endfor -%}
 </ul>

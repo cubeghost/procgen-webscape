@@ -11,45 +11,34 @@ title: cubegho.st
 {% endblock -%}
 
 {%- block menubar %}
-<h1>cubegho.st</h1>
-<div class="menubar-menu" style="margin-left: auto;">
-<button popovertarget="webscape-dialog" class="menu-trigger" title="webscape" style="height: 100%;">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 17" width="14">
-    <!-- screen -->
-    <rect width="10" height="9" x="2" y="2" fill="white" />
-    <polygon points="2,10 2,2 12,2 12,3 3,3 3,10" fill="black" opacity="0.75" />
-    <rect width="1" height="1" x="2" y="10" fill="black" opacity="0.5" />
-    <polygon points="11,3 12,3 12,11 3,11 3,10 11,10" fill="black" opacity="0.25" />
 
-    <!-- computer -->
-    <g fill="currentColor">
-      <rect width="12" height="1" x="1" y="0" />
-      <rect width="1" height="14" x="0" y="1" />
-      <rect width="1" height="14" x="13" y="1" />
-      <rect width="12" height="2" x="1" y="15" />
-      <rect width="1" height="1" x="2" y="12" opacity="0.5" />
-      <rect width="1" height="1" x="2" y="13" opacity="0.25" />
-      <rect width="4" height="1" x="8" y="13" />
-    </g>
-      
-    <!-- face -->
-    <g transform="translate(4 4)" fill="black">
-      <rect width="1" height="2" x="0" y="0" />
-      <rect width="1" height="2" x="5" y="0" />
-      <polygon points="3,0 3,3 2,3 2,4 4,4 4,0" />
-      <rect width="1" height="1" x="0" y="4" />
-      <rect width="1" height="1" x="5" y="4" />
-      <rect width="4" height="1" x="1" y="5" />
-    </g>
-  </svg>
-{% comment %} webscape {% endcomment %}
-</button>
-<dialog id="webscape-dialog" class="menu-popover" popover>
-  <button id="replay">replay webscape<span class="spinner hidden"></span></button>
-  <button id="cancelReplay" class="hidden">cancel replay</button>
-  <hr />
-  <a href="https://observablehq.com/@cubeghost/procgen-dreamscape" id="notebook" target="_blank">notebook</a>
-</dialog>
+<div class="menubar-menu">
+  <button popovertarget="cubeghost-dialog" class="menu-trigger" style="display: flex; padding: 0 0.75rem">
+    {% include icon-sprite, id: "globe", style: "align-self: center" %}
+  </button>
+  <dialog id="cubeghost-dialog" class="menu-popover" popover>
+    <a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", role: "presentation" %} github</a>
+    <a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", role: "presentation" %} observable</a>
+    <a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", role: "presentation" %} codepen</a>
+    <a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail1", role: "presentation" %} e-mail</a>
+  </dialog>
+</div>
+
+<h1 style="margin-left: 0.25rem">cubegho.st</h1>
+
+<div class="menubar-menu" style="margin-left: auto;">
+  <button popovertarget="webscape-dialog" class="menu-trigger" title="webscape">
+    {% render happy-mac.svg.liquid, width: 14 %}
+    {% comment %} webscape {% endcomment %}
+  </button>
+  <dialog id="webscape-dialog" class="menu-popover" popover>
+    <button id="replay">replay webscape<span class="spinner hidden"></span></button>
+    <button id="cancelReplay" class="hidden">cancel replay</button>
+    <hr />
+    {% for dimension in webscapeDimensions -%}
+    <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}" class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">notebook</a>  
+    {%- endfor %}
+  </dialog>
 </div>
 {%- endblock %}
 
@@ -61,23 +50,27 @@ title: cubegho.st
       <button class="node-button"></button>
       <div class="node-content">~</div>
     </div>
-    {% tree collections.portfolio | directory_tree %}
+    {% tree collections.portfolio %}
       {% assign id = node.url | slugify -%}
       <div class="node" {% if node.data.preview %}popovertarget="{{ id }}" popovertargetaction="toggle"{% endif %}>
         <button class="node-button"></button>
         {% if node -%}
         <div class="node-content">
-          {% assign title = node.data.portfolio.title | default: node.data.title -%}
+          {% assign title = node.name | default: node.data.title -%}
           <a href="{{ node.data.url | default: node.url }}">{{ title }}</a>
           {%- if node.data.portfolio.years %}&nbsp;{{ node.data.portfolio.years | join: "~" }}{% endif -%}
         </div>
         {%- else -%}
-          {%- assign directory_meta = directories[directory.id] -%}
-          {%- assign directory_label = directory_meta.label | default: directory.name -%}
-          <div class="node-content">{{ directory_label }}</div>
-          {% if directory_meta.icon -%}
+          <div class="node-content">
+          {%- if directory.url -%}
+            <a href="{{ directory.url }}">{{ directory.name }}</a>
+          {% else %}
+            {{ directory.name }}
+          {%- endif -%}
+          </div>
+          {% if directory.icon -%}
           <div class="node-icon">
-            {%- assign icon = directory_meta.icon -%}
+            {%- assign icon = directory.icon -%}
             {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style, class: icon.class -%}
           </div>
           {%- endif %}
@@ -86,7 +79,8 @@ title: cubegho.st
     {% endtree %}
   </div>
   <div class="preview-container">
-    {%- for page in collections.portfolio -%}
+    {%- assign portfolio_flat = collections.portfolio | flatten_tree -%}
+    {%- for page in portfolio_flat -%}
       {%- if page.data.preview -%}
       {%- assign id = page.url | slugify -%}
       <div id="{{ id }}" class="preview window" popover="hint">
@@ -100,6 +94,7 @@ title: cubegho.st
     {%- endfor -%}
   </div>
 </div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -132,10 +127,12 @@ title: cubegho.st
 
   (async () => {
     function setWebscapeSeed(seed) {
-      const notebookLink = document.querySelector("#webscape-dialog #notebook");
-      const url = new URL(notebookLink.href);
-      url.searchParams.set("seed", seed);
-      notebookLink.href = url.toString();
+      const notebookLinks = document.querySelectorAll("#webscape-dialog .webscape-link");
+      notebookLinks.forEach((notebookLink) => {
+        const url = new URL(notebookLink.href);
+        url.searchParams.set("seed", seed);
+        notebookLink.href = url.toString();
+      });
 
       cookieStore.removeEventListener("change", onCookieChange);
     }

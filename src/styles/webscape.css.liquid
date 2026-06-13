@@ -40,6 +40,9 @@ permalink: styles/webscape.css
   left: 0;
 }
 
+.webscape-link.webscape-link-landscape {display: block}
+.webscape-link.webscape-link-portrait {display: none}
+
 @media (orientation: portrait) {
   .webscape {
     background-image: url("/webscape.png?orientation=portrait");
@@ -48,6 +51,8 @@ permalink: styles/webscape.css
     --height: {{ portrait.height }}px;
     --scale: 2;
   }
+  .webscape-link.webscape-link-landscape {display: none}
+  .webscape-link.webscape-link-portrait {display: block}
 }
 
 {% for dimension in webscapeDimensions %}

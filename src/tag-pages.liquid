@@ -1,0 +1,17 @@
+---
+pagination:
+  data: collections
+  size: 1
+  alias: tag
+  filter:
+    - all
+    - portfolio
+permalink: /tags/{{ tag }}/
+---
+
+{% layout layouts/webscape-collection.html %}
+
+{% block content %}
+{% assign collection = collections[tag] %}
+{% include collection.html.liquid, collection: collection %}
+{% endblock %}

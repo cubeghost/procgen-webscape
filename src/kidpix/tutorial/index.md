@@ -1,20 +1,25 @@
 ---
 layout: layouts/webscape-page.html
-tags: portfolio
+tags: kid-pix
 # date:
 
 title: Kid Pix Studio Deluxe on macOS
 portfolio:
   title: studio deluxe emulation tutorial
+  sort: 1
 ---
+
+<!-- excerpt -->
 
 # Kid Pix Studio Deluxe on macOS
 
-![Kid Pix Studio Deluxe icon, but huge](icon.png)
+{% include retina-image, src: "/kidpix/tutorial/icon.png", alt: "Kid Pix Studio Deluxe icon, but huge", width: 149 %}
 
 _**Kid Pix Studio Deluxe**_ 🎨, released in 1998, is something I grew up using on school computers and on my mom's Mac. At its core, it's a paint program, but packed with a surprise and delight that's missing from a lot of modern software design. Regardless, it's fucking fun and I want everyone to be able to experience it.
 
 For more background, I highly recommend reading [Craig Hickman's personal history of Kid Pix](http://red-green-blue.com/kid-pix-the-early-years/) and watching Just Another System's [recent interview with Hickman](https://www.youtube.com/watch?v=csalhuSixQU) about the unexpected legacy of Kid Pix.
+
+<!-- endexcerpt -->
 
 ---
 
@@ -26,7 +31,7 @@ Emulators are basically just a way for your computer to imitate the hardware of 
 
 The emulator we'll use to imitate Mac OS 9 is called SheepShaver. It's got a cute little icon!
 
-![cute SheepShaver icon](sheepshaver_icon.png)
+{% include retina-image, src: "/kidpix/tutorial/sheepshaver_icon.png", alt: "cute SheepShaver icon", width: 64 %}
 
 ### 💾 Downloads
 
@@ -74,7 +79,7 @@ Before we install Kid Pix, we need to do a little tidying. Right now the `System
 
 Once that's done, open up `System Folder > Extensions` and also open the `MacinTalk Temp` drive. Drag everything in the `MacinTalk Temp > Into Extensions` folder into `Extensions`.
 
-![Screen recording showing "MacinTalk 3", "Speech Manager" and the "Voices" folder being copied to the Extensions folder](macintalk.gif)
+{% include retina-image, src: "/kidpix/tutorial/macintalk.gif", alt: 'Screen recording showing "MacinTalk 3", "Speech Manager" and the "Voices" folder being copied to the Extensions folder', width: 839 %}
 
 You can now install Kid Pix from the installer "disk" on the desktop! Just double click and it'll walk you through the steps. Make sure you choose to install it on the `System` disk.
 
@@ -82,11 +87,11 @@ Now, open SheepShaver Preferences, select `OS9.img` from the list, and click "Re
 
 Launch SheepShaver again and you'll be able to open Kid Pix!
 
-![iconic Kid Pix Studio Deluxe splash screen](splash.png)
+{% include retina-image, src: "/kidpix/tutorial/splash.png", alt: "iconic Kid Pix Studio Deluxe splash screen", width: 800 %}
 
 ### 🎷 Tips
 
-- Make sure to enable sound effects (under the Toolbox menu) when in Kid Pix mode![Toolbox > Tool Sounds are ON](tool_sounds.png)
+- Make sure to enable sound effects (under the Toolbox menu) when in Kid Pix mode! {% include retina-image, src: "/kidpix/tutorial/tool_sounds.png", alt: "Toolbox > Tool Sounds are ON", width: 662 %}
 
 - "Picture" files saved by the main Kid Pix program are supposed to be just [PICT](http://fileformats.archiveteam.org/wiki/PICT) images. There's something weird about them though, and I've only been able to convert them using Photoshop 😰 **So for your final images, use "Export a Graphic" instead of "Save a Picture"**
 
@@ -114,4 +119,4 @@ While this is the most complete copy of Kid Pix Studio Deluxe I've been able to 
 
 Did these instructions work? Show me what you made! Did they not work? Tell me what broke. I'm [@cubeghost](https://twitter.com/cubeghost) on Twitter, and the source of this article [is on Github](https://github.com/cubeghost/personal-static-site/blob/development/src/kidPix/assets/tutorial/tutorial.md).
 
-![a picture of my cats I edited in Kid Pix](kitties.gif)
+{% include retina-image, src: "/kidpix/tutorial/kitties.gif", alt: "a picture of my cats I edited in Kid Pix", width: 1280 %}

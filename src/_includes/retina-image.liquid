@@ -1,10 +1,10 @@
 {%- capture props %}
 {
   "src": "{{ src }}",
-  "alt":"{{ alt }}",
+  "alt": "{{ alt | escape_once }}",
   "width": "{{ width }}"
   {% if class %}, "class": "{{ class }}"{% endif %}
-  {% if style %}, "style": "{{ style }}"{% endif %}
+  {% if style %}, "style": "{{ style | escape_once }}"{% endif %}
 }
 {% endcapture -%}
 {%- assign props = props | json_parse -%}

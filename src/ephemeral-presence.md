@@ -1,11 +1,11 @@
 ---
 layout: layouts/webscape-page.html
-tags: portfolio
+tags: code
 
 title: ephemeral web presence space
 url: https://ephemeral.circumfluo.us/
 portfolio:
-  sort: 1
+  sort: 5
   years: 2019
 preview:
   src: /assets/ephemeral-presence.gif

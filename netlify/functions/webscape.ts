@@ -1,4 +1,6 @@
 import { Config, Context } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
+import farmhash from "farmhash";
 import { Buffer } from "buffer";
 import { createCanvas, Image } from "canvas";
 import type { CanvasRenderingContext2D } from "canvas";
@@ -7,9 +9,6 @@ import GifEncoder from "gif-encoder";
 import dimensions from "../../src/lib/webscape/dimensions.mts";
 import { generatorFactory } from "../../src/lib/webscape/generate.mts";
 import type { LibJpegTurbo } from "@cornerstonejs/codec-libjpeg-turbo-8bit";
-import { getStore } from "@netlify/blobs";
-
-const SEED = 883089543;
 
 export default async function (request: Request, context: Context) {
   const store = getStore("webscapes");
@@ -22,20 +21,25 @@ export default async function (request: Request, context: Context) {
   const size = dimensions.find((d) => d.id === orientation) ?? dimensions[0];
   const chunkSize = 16;
 
-  const midnight = getNextMidnight();
+  const { seed, expires } = getDateSeed();
 
   const cached = await store.getWithMetadata(`${orientation}.${format}`, {
     type: "stream",
   });
   if (cached) {
-    return new Response(cached.data, {
-      headers: {
-        "Content-Type": `image/${format}`,
-        "X-Webscape-Chunk-Size": chunkSize.toString(),
-        "Cache-Control": "public, max-age=86400",
-        "Set-Cookie": `webscape_seed=${SEED}; Expires=${midnight.toUTCString()}`,
-      },
-    });
+    if (cached.metadata.seed === seed) {
+      return new Response(cached.data, {
+        headers: {
+          "Content-Type": `image/${format}`,
+          ...(format === "gif"
+            ? { "X-Webscape-Chunk-Size": chunkSize.toString() }
+            : {}),
+          ...getResponseHeaders(seed, expires),
+        },
+      });
+    } else {
+      await store.delete(`${orientation}.${format}`);
+    }
   }
 
   const { default: libjpegturbojs } = await import(
@@ -49,7 +53,7 @@ export default async function (request: Request, context: Context) {
     context2d,
     toJpegTurbo,
   );
-  const generate = generator(SEED, size.width, size.height, 16, animated);
+  const generate = generator(seed, size.width, size.height, 16, animated);
 
   if (format === "png") {
     while (true) {
@@ -58,15 +62,13 @@ export default async function (request: Request, context: Context) {
         const image = context.canvas.toBuffer("image/png");
 
         store.set(`${orientation}.${format}`, image.buffer as ArrayBuffer, {
-          metadata: { seed: SEED },
+          metadata: { seed },
         });
 
         return new Response(image.buffer as ArrayBuffer, {
           headers: {
             "Content-Type": "image/png",
-            "X-Webscape-Chunk-Size": chunkSize.toString(),
-            "Cache-Control": "public, max-age=86400",
-            "Set-Cookie": `webscape_seed=${SEED}; Expires=${midnight.toUTCString()}`,
+            ...getResponseHeaders(seed, expires),
           },
         });
       }
@@ -98,17 +100,20 @@ export default async function (request: Request, context: Context) {
 
     const streams = body.tee();
 
-    store.set(`${orientation}.${format}`, streams[0], {
-      metadata: { seed: SEED },
-    });
+    store.set(
+      `${orientation}.${format}`,
+      streams[0] as unknown as ArrayBuffer, // ReadableStream input is supported but missing from types
+      {
+        metadata: { seed },
+      },
+    );
 
     return new Response(streams[1], {
       headers: {
         "Content-Type": "image/gif",
         "Transfer-Encoding": "chunked",
         "X-Webscape-Chunk-Size": chunkSize.toString(),
-        "Cache-Control": "public, max-age=86400",
-        "Set-Cookie": `webscape_seed=${SEED}; Expires=${midnight.toUTCString()}`,
+        ...getResponseHeaders(seed, expires),
       },
     });
   }
@@ -172,11 +177,26 @@ function toJpegFactory(libjpegturbo: LibJpegTurbo) {
   };
 }
 
-function getNextMidnight() {
+function getDateSeed() {
   const date = new Date();
+  const seed = farmhash.fingerprint32(date.toISOString().substring(0, 10));
   date.setHours(24);
   date.setMinutes(0);
   date.setSeconds(0);
   date.setMilliseconds(0);
-  return date;
+
+  return {
+    seed,
+    expires: date,
+  };
+}
+
+function getResponseHeaders(seed: number, expires: Date) {
+  const expiresStr = expires.toUTCString();
+  const expiresInSeconds = Math.floor((expires.getTime() - Date.now()) / 1000);
+  return {
+    "Cache-Control": `public, max-age=${expiresInSeconds}`,
+    "Set-Cookie": `webscape_seed=${seed}; Expires=${expiresStr}`,
+    Expires: expiresStr,
+  };
 }
