@@ -32,6 +32,9 @@ importers:
       '@netlify/functions':
         specifier: ^5.2.1
         version: 5.2.1
+      aseprite:
+        specifier: ^0.3.1
+        version: 0.3.1
       canvas:
         specifier: ^3.2.3
         version: 3.2.3
@@ -706,6 +709,9 @@ packages:
   asap@2.0.6:
     resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
 
+  aseprite@0.3.1:
+    resolution: {integrity: sha512-9wjhTFY1MJsa3a+gwDDEdKZm0XJE1wRHiHVqDYKEeu8njTi4pEM5y+XgDj0egNYUKujOd5oS9VpUE31s0WZ43g==}
+
   atomically@2.1.1:
     resolution: {integrity: sha512-P4w9o2dqARji6P7MHprklbfiArZAWvo07yW7qs3pdljb3BWr12FIB7W+p0zJiuiVsUpRO0iZn1kFFcpPegg0tQ==}
 
@@ -1256,6 +1262,9 @@ packages:
   junk@3.1.0:
     resolution: {integrity: sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==}
     engines: {node: '>=8'}
+
+  kaitai-struct@0.9.0:
+    resolution: {integrity: sha512-mfoBu9+IGqaY3ykG1TyAy9omOAZWtheqESQOvo/HKIQVTz+gRPVCNBnhjbO+8wAQ77RD33wYvLBWmITuXIviQg==}
 
   kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
@@ -2286,6 +2295,10 @@ snapshots:
 
   asap@2.0.6: {}
 
+  aseprite@0.3.1:
+    dependencies:
+      kaitai-struct: 0.9.0
+
   atomically@2.1.1:
     dependencies:
       stubborn-fs: 2.0.0
@@ -2842,6 +2855,8 @@ snapshots:
       argparse: 2.0.1
 
   junk@3.1.0: {}
+
+  kaitai-struct@0.9.0: {}
 
   kind-of@6.0.3: {}
 

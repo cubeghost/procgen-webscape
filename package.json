@@ -11,6 +11,7 @@
 		"@cornerstonejs/codec-libjpeg-turbo-8bit": "^1.2.2",
 		"@netlify/blobs": "^10.7.7",
 		"@netlify/functions": "^5.2.1",
+		"aseprite": "^0.3.1",
 		"canvas": "^3.2.3",
 		"canvas-dither": "^1.0.1",
 		"d3": "^7.9.0",

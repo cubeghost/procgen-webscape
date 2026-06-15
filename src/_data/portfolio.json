@@ -49,6 +49,17 @@
           ]
         }
       ]
+    },
+    {
+      "name": "#visuals",
+      "tag": "visuals",
+      "icon": {
+        "src": "/assets/macpaint.png",
+        "alt": "macpaint icon",
+        "width": 25,
+        "style": "image-rendering: pixelated",
+        "retina": false
+      }
     }
   ]
 }

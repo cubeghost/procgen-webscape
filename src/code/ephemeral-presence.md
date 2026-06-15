@@ -1,6 +1,6 @@
 ---
-tags: code
 title: ephemeral web presence space
+tags: code
 permalink: false
 
 url: https://ephemeral.circumfluo.us/

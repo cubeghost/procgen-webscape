@@ -70,9 +70,11 @@ title: cubegho.st
           {% if directory.icon -%}
           <div class="node-icon">
             {%- assign icon = directory.icon -%}
-            {% comment %} {%- assign icon_style = icon.style | default: "" -%}
-            {%- assign icon_class = icon.class | default: "" -%} {% endcomment %}
-            {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style | default: "", class: icon.class | default: "" -%}
+            {%- if icon.retina != false -%}
+              {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style | default: "", class: icon.class | default: "" -%}
+            {%- else -%}
+              <img src="{{ icon.src }}" alt="{{ icon.alt }}" width="{{ icon.width }}" style="{{ icon.style | default: "" }}" eleventy:ignore />
+            {%- endif -%}
           </div>
           {%- endif %}
         {%- endif %}

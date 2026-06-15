@@ -20,7 +20,7 @@ import esbuild from "esbuild";
 import * as importMap from "esbuild-plugin-import-map";
 
 import webscapeDimensions from "./src/lib/webscape/dimensions.mts";
-import { directoryTreeFilter, treeTag } from "./tree.ts";
+import { treeTag } from "./tree.ts";
 
 importMap.load({
   imports: {
@@ -34,6 +34,12 @@ importMap.load({
 export default defineConfig((eleventyConfig) => {
   const outputDir = "dist";
   eleventyConfig.setOutputDirectory(outputDir);
+  eleventyConfig.addExtension("11ty.ts", {
+    key: "11ty.js",
+  });
+  eleventyConfig.addWatchTarget("./src/assets/*.aseprite");
+
+  eleventyConfig.addTemplateFormats("11ty.ts");
   eleventyConfig.addPassthroughCopy("src/assets/*.(ttf|woff2)");
   eleventyConfig.addPassthroughCopy("src/assets/icons.png");
   eleventyConfig.addPassthroughCopy("src/**/*.css");
