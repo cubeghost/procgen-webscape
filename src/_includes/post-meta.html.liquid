@@ -1,4 +1,7 @@
 <span class="meta-date">{{ date | date: "%b %d, %Y", "UTC" }}</span>
+{%- if extra -%}
+<span class="meta-extra">{{ extra }}</span>
+{%- endif -%}
 <span class="meta-tags">
   {% if tags %}
   {%- assign filtered_tags = tags | reject_value: "portfolio" -%}

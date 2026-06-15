@@ -1,0 +1,23 @@
+<picture>
+  <source srcset="{{ src }}" media="(prefers-reduced-motion: no-preference)"></source>
+  {%- liquid 
+    if src_still == nil and src contains "giphy.com"
+      assign still = src | replace: ".webp", "_s.gif"
+    else 
+      assign still = src_still
+    endif
+  -%}
+  <img
+    srcset="{{ still }}" 
+    alt="{{ alt }}"
+    width="{{ width | default: "" }}"
+    height="{{ height | default: "" }}"
+    class="{{ class | default: "" }}"
+    style="{{ style | default: "" }}"
+    id="{{ id | default: "" }}"
+    eleventy:ignore
+  />
+</picture>
+{%- if play_button %}
+{% play_gif "", id %}
+{% endif -%}

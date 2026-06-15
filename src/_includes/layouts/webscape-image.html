@@ -1,0 +1,60 @@
+{% layout layouts/webscape.html %}
+
+{% block head %}
+<style type="text/css">
+.image-page {
+  max-width: 60rem;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.image-page img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.image-page figure {
+  margin: 0;
+}
+.image-page figure:not(:first-child) {
+  border-top: var(--border-width) solid black;
+}
+
+.image-page figcaption {
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  border-top: var(--border-width) solid black;
+}
+</style>
+{% endblock %}
+
+{% block menubar %}
+{% include breadcrumbs.html.liquid %}
+{% endblock %}
+
+{% block content %}
+<div class="window image-page">
+  <div class="window-titlebar">
+    <span class="window-titlebar-title">{{ title }}</span>
+  </div>
+  <div class="window-contents">
+    <div class="window-meta">
+      {%- capture extra_meta -%}{{ images.length }} images{%- endcapture -%}
+      {%- assign date_param = date | default: nil -%}
+      {%- render post-meta.html.liquid, date: date_param, tags: tags, extra: extra_meta -%}
+    </div>
+    <div class="page-content">
+      {%- for image in images %}
+      <figure>
+        {% include retina-image, src: image.src, alt: image.alt %}
+        {% if image.caption %}
+        <figcaption>{{ image.caption }}</figcaption>
+        {% endif %}
+      </figure>
+      {% endfor -%}
+    </div>
+  </div>
+</div>
+{% endblock %}

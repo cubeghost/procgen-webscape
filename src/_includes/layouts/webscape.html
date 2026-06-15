@@ -12,9 +12,23 @@
 
 		<link rel="stylesheet" href="/styles/home.css">
 		{%- block head %}{% endblock -%}
-		{% for style in styles %}
-		<link rel="stylesheet" href="{{ style }}">
-		{% endfor %}
+		<script type="text/javascript">
+			function playGifToggle(event) {
+				const targetId = event.target.dataset.targetId;
+				const gifSource = document.querySelector(`source[type="image/gif"]:has(~ #${targetId})`);
+				const label = event.target.querySelector("span");
+				const isPlaying = event.target.getAttribute("aria-pressed") === "true";
+				if (isPlaying) {
+					gifSource.media = "(prefers-reduced-motion: no-preference)";
+					event.target.setAttribute("aria-pressed", "false");
+					label.innerText = "play gif";
+				} else {
+					gifSource.media = "";
+					event.target.setAttribute("aria-pressed", "true");
+					label.innerText = "pause gif";
+				}
+			}
+		</script>
 	</head>
 	<body>
 		<div class="sticky-top">

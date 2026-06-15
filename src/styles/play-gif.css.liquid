@@ -1,0 +1,38 @@
+---
+permalink: styles/play-gif.css
+---
+
+.play-gif {
+  position: absolute;
+  transform: translateY(-2rem) translateX(1rem);
+  width: calc(16px * var(--ui-scale));
+  height: calc(16px * var(--ui-scale));
+  border: 0;
+  cursor: pointer;
+  outline: var(--border-width) solid black;
+  image-rendering: pixelated;
+  background-color: white;
+  background-image: url(/assets/icons.png);
+  background-position: {% render icon-sprite, id: "play", position_only: true %};
+}
+
+.play-gif:before {
+  content: '';
+  position: absolute;
+  inset: -0.5rem;
+}
+
+.play-gif:focus,
+.play-gif:hover {
+  box-shadow: var(--border-width) var(--border-width) 0 var(--border-width) black;
+}
+
+.play-gif[aria-pressed=true] {
+  background-position: {% render icon-sprite, id: "pause", position_only: true %};
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .play-gif {
+    display: none;
+  }
+}

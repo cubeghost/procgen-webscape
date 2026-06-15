@@ -7,12 +7,24 @@
     </div>
     <div class="window-contents">
       <div class="window-meta">
-        {%- render post-meta.html.liquid, date: page.data.date, tags: page.data.tags -%}
+        {%- assign date = page.data.date | default: nil -%}
+        {%- assign tags = page.data.tags | default: nil -%}
+        {%- render post-meta.html.liquid, date: date, tags: tags -%}
       </div>
-      {%- if page.data.preview -%}
-      <a href="{{ page.url }}">
-        {% include retina-image.liquid, src: page.data.preview.src, alt: page.data.preview.alt, width: 500 %}
+      {%- liquid
+        if page.data.preview
+          assign preview = page.data.preview
+        elsif page.data.images and page.data.images.length > 0
+          assign preview = page.data.images[0]
+        else
+          assign preview = nil
+        endif
+      -%}
+      {%- if preview -%}
+      <a href="{{ page.url | default }}">
+        {% include retina-image.liquid, src: preview.src, alt: preview.alt, width: 500, play_gif: false %}
       </a>
+      {% play_gif preview.src %}
       {%- else -%}
       <div class="excerpt page-content">{% excerpt page %}</div>
       <div class="window-notepad-footer"><span></span></div>

@@ -39,6 +39,13 @@ export default defineConfig((eleventyConfig) => {
   eleventyConfig.addPassthroughCopy("src/**/*.css");
   eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 
+  eleventyConfig.setLiquidOptions({
+    strictVariables: true,
+    lenientIf: true,
+    dynamicPartials: false,
+  });
+  eleventyConfig.setLiquidParameterParsing("builtin");
+
   const imageOptions: Image.PluginOptions = {
     outputDir: `${outputDir}/assets`,
     urlPath: "/assets/",
@@ -57,27 +64,82 @@ export default defineConfig((eleventyConfig) => {
     ...imageOptions,
     transformOnRequest: process.env.NODE_ENV !== "production",
   });
-  eleventyConfig.setLiquidParameterParsing("builtin");
+  const playGifButton = (id: string) =>
+    `<button class="play-gif" data-target-id="${id}" aria-pressed="false" onclick="playGifToggle(event)">
+      <span class="visually-hidden">play gif</span>
+    </button>`;
   eleventyConfig.addShortcode(
     "retina_image",
-    async function ({ src, alt, width, style, ...props }) {
-      const source = path.join(this.eleventy.directories.input, src);
+    async function ({ src, alt, width, style, play_gif = true, ...props }) {
+      const source = path.join(eleventyConfig.dir.input, src);
+      const sourceName = path.basename(source, path.extname(source));
+      const isGif = path.extname(source) === ".gif";
+      const widths = width ? [width, width * 2] : ["auto"];
       const metadata = await Image(source, {
-        widths: [width, width * 2],
+        widths,
         ...imageOptions,
       });
 
-      return Image.generateHTML(metadata, {
+      const htmlStyle = [
+        width ? `width: ${width}px; height: auto;` : "",
+        style ?? "",
+      ]
+        .join(" ")
+        .trim();
+      const htmlProps = {
         alt,
-        style: `width: ${width}px; height: auto; ${style ?? ""}`,
+        style: htmlStyle,
         sizes: `(min-resolution: 2x) ${width * 2}px, ${width}px`,
         "eleventy:ignore": "",
         ...props,
-      });
+      };
+
+      if (isGif) {
+        const stillMetadata = await Image(source, {
+          widths,
+          ...imageOptions,
+          formats: ["png"],
+          sharpOptions: { animated: false },
+        });
+
+        const gifId = `gif-${sourceName}`;
+        const markup = Image.generateObject(
+          { ...metadata, ...stillMetadata },
+          { id: gifId, ...htmlProps },
+        );
+        if ("picture" in markup) {
+          markup.picture[CHILDREN_OBJECT_KEY].forEach((child) => {
+            if ("source" in child && child.source.type === "image/gif") {
+              child.source.media = "(prefers-reduced-motion: no-preference)";
+            }
+          });
+          return (
+            pictureObjectToHTML(markup) + (play_gif ? playGifButton(gifId) : "")
+          );
+        } else {
+          throw new Error("no <picture> found in generated object");
+        }
+      } else {
+        return Image.generateHTML(metadata, htmlProps);
+      }
+    },
+  );
+  eleventyConfig.addShortcode(
+    "play_gif",
+    async function (src: string, id?: string) {
+      const isGif = path.extname(src) === ".gif";
+      if (id) {
+        return playGifButton(id);
+      } else if (isGif) {
+        const sourceName = path.basename(src, path.extname(src));
+        return playGifButton(`gif-${sourceName}`);
+      } else {
+        return "";
+      }
     },
   );
   eleventyConfig.addShortcode("image_src", async function (src) {
-    const source = path.join(this.eleventy.directories.input, src);
+    const source = path.join(eleventyConfig.dir.input, src);
     const metadata = await Image(source, imageOptions);
 
     const formats = Object.keys(metadata) as Image.ImageFormat[]; // TODO
@@ -105,9 +167,6 @@ export default defineConfig((eleventyConfig) => {
   });
 
   eleventyConfig.addPlugin(consolePlus);
-  eleventyConfig.setLiquidOptions({
-    dynamicPartials: false,
-  });
 
   eleventyConfig.addGlobalData("webscapeDimensions", webscapeDimensions);
 
@@ -290,3 +349,47 @@ export default defineConfig((eleventyConfig) => {
     },
   };
 });
+
+import { escapeAttribute } from "entities";
+
+const CHILDREN_OBJECT_KEY = "@children";
+
+function mapObjectToHTML(tagName, attrs = {}) {
+  let attrHtml = Object.entries(attrs)
+    .map((entry) => {
+      let [key, value] = entry;
+      if (key === CHILDREN_OBJECT_KEY) {
+        return false;
+      }
+
+      // Issue #82
+      if (key === "alt") {
+        return `${key}="${value ? escapeAttribute(value) : ""}"`;
+      }
+
+      return `${key}="${value}"`;
+    })
+    .filter((keyPair) => Boolean(keyPair))
+    .join(" ");
+
+  return `<${tagName}${attrHtml ? ` ${attrHtml}` : ""}>`;
+}
+
+function pictureObjectToHTML(obj) {
+  let markup = [];
+
+  for (let tag in obj) {
+    markup.push(mapObjectToHTML(tag, obj[tag]));
+
+    // <picture>
+    if (Array.isArray(obj[tag]?.[CHILDREN_OBJECT_KEY])) {
+      for (let child of obj[tag][CHILDREN_OBJECT_KEY]) {
+        let childTagName = Object.keys(child)[0];
+        markup.push("  " + mapObjectToHTML(childTagName, child[childTagName]));
+      }
+
+      markup.push(`</${tag}>`);
+    }
+  }
+  return markup.join("\n");
+}

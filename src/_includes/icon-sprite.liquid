@@ -17,9 +17,26 @@
     "suitcase-git",
     "suitcase",
     "scrapbook",
-    "globe"
+    "globe",
+    "pause",
+    "play"
   ]
 {%- endcapture -%}
 {%- assign sprites = sprites | json_parse -%}
 {%- assign sprite_index = sprites | find_index_value: id -%}
-<img src="/assets/icons.png" class="sprite" alt="{{ alt }}" style="object-position: {{ sprite_index | times: -16 }}px 0; {{ style }}" role="{{ role }}" eleventy:ignore />
+{%- if position_only -%}
+{{ sprite_index | times: -16 }}px 0
+{%- else -%}
+<img 
+  src="/assets/icons.png"
+  {% if role != "presentation" -%}
+  alt="{{ alt }}"
+  {%- endif %}
+  class="sprite"
+  style="object-position: {{ sprite_index | times: -16 }}px 0; {{ style | default: "" }}"
+  {% if role -%}
+  role="{{ role }}"
+  {%- endif %}
+  eleventy:ignore 
+/>
+{% endif %}

@@ -1,0 +1,6 @@
+{%- assign slug = value | slugify -%}
+{%- capture tag %}h{{ level }}{% endcapture -%}
+<{{tag}} id="{{ slug }}" class="linkable {{ class | default: "" }}">
+  {{ value }}
+  <a href="#{{ slug }}">#</a>
+</{{tag}}>
