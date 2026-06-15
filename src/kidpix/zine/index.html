@@ -1,6 +1,7 @@
 ---
 title: kid pix 1.0 zine
 tags: [kid-pix]
+date: 2014-03-04
 
 preview:
   src: /kidpix/zine/00.png
@@ -25,14 +26,26 @@ preview:
   <div class="zine">
     {% for i in (0..14) -%}
       <div class="zine-page">
-        <img src="./{{ i | prepend: '00' | slice: -2, 2 }}.png" alt="page {{ i | plus: 1 }}" width="{{ pageWidth }}">
+        {%- assign src = i | prepend: '00' | slice: -2, 2 | append: ".png" | prepend: "/kidpix/zine/" -%}
+        {%- assign alt = i | plus: 1 | prepend: "page " -%}
+        {% include retina-image, src: src, alt: alt, width: pageWidth %}
       </div>
     {%- endfor %}
   </div>
+</div>
 
-  <div class="page">
-    <p>this is a zine i wrote in 2014, created entirely in kid pix 1.0.</p>
-    <p>for an early history of kid pix, see craig hickman's post <a href="http://red-green-blue.com/kid-pix-the-early-years/" target="_blank" rel="noopener noreferrer nofollow">kid pix: the early years</a>.</p>
+<div class="window page">
+  <div class="window-titlebar">
+    <span class="window-titlebar-title">{{ title }}</span>
+  </div>
+  <div class="window-contents">
+    <div class="page-content">
+      <p>this is a zine i wrote in 2014, created entirely in kid pix 1.0.</p>
+      <p>for an early history of kid pix, see craig hickman's post <a
+          href="http://red-green-blue.com/kid-pix-the-early-years/" target="_blank"
+          rel="noopener noreferrer nofollow">kid pix: the early years</a>.</p>
+    </div>
+    <div class="window-notepad-footer"><span></span></div>
   </div>
 </div>
 
@@ -44,7 +57,10 @@ preview:
   .zine-container {
     container: zine / inline-size;
     max-width: {{ zineWidth }};
-    margin: 1rem auto 0;
+    margin: 1rem auto 3rem;
+  }
+  .window {
+    max-width: {{ zineWidth }};
   }
 
   .zine {

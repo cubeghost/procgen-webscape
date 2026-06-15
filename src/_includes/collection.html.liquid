@@ -1,9 +1,9 @@
 <ul class="collection">
-  {%- for page in collection -%}
+  {%- for page in collection reversed -%}
   <li class="window">
     <div class="window-titlebar">
       <button class="window-titlebar-button left-button"></button>
-      <a href="{{ page.url }}"><span class="window-titlebar-title">{{ page.data.title }}</span></a>
+      {% comment %} {% pagelink page %}<span class="window-titlebar-title">{{ page.data.title }}</span>{% endpagelink %} {% endcomment %}
     </div>
     <div class="window-contents">
       <div class="window-meta">
@@ -15,6 +15,7 @@
       </a>
       {%- else -%}
       <div class="excerpt page-content">{% excerpt page %}</div>
+      <div class="window-notepad-footer"><span></span></div>
       {%- endif -%}
     </div>
   </li>

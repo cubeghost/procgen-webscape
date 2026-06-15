@@ -3,7 +3,16 @@ import { defineConfig } from "11ty.ts";
 import type { EleventyScope, EleventySuppliedData } from "11ty.ts";
 import { hierarchy, type HierarchyNode } from "d3-hierarchy";
 // import { InputPathToUrlTransformPlugin } from "@11ty/eleventy";
-import type { Tag } from "liquidjs";
+import type {
+  Context,
+  Emitter,
+  Liquid,
+  Tag,
+  TagToken,
+  Template,
+  TopLevelToken,
+} from "liquidjs";
+import { Value } from "liquidjs";
 
 import Image, { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { consolePlus } from "eleventy-plugin-console-plus";
@@ -154,16 +163,18 @@ export default defineConfig((eleventyConfig) => {
   });
   eleventyConfig.addFilter(
     "flatten_tree",
+    // @ts-expect-error
     function (tree: HierarchyNode<TreeNode>) {
       return tree.descendants().map((node) => node.data.data);
     },
   );
-  // @ts-expect-error
-  eleventyConfig.addFilter("directory_tree", directoryTreeFilter);
   eleventyConfig.addLiquidTag("tree", treeTag);
 
   eleventyConfig.addFilter("breadcrumbs", function (permalink: string) {
     const all: EleventyScope[] = this.context.environments.collections.all;
+    const breadcrumbUrls = new Map(
+      Object.entries(this.context.environments.breadcrumbs),
+    );
     const parts: string[] = permalink.split("/").filter(Boolean);
     const paths = parts.reduce((acc, value) => {
       const prev = acc[acc.length - 1] ?? "/";
@@ -177,6 +188,11 @@ export default defineConfig((eleventyConfig) => {
         return {
           label,
           url: path,
+        };
+      } else if (breadcrumbUrls.has(path)) {
+        return {
+          label,
+          url: breadcrumbUrls.get(path),
         };
       } else {
         return {
@@ -217,6 +233,55 @@ export default defineConfig((eleventyConfig) => {
 
     return excerpt;
   });
+
+  interface LinkTag extends Tag {
+    templates: Template[];
+    variable: string;
+    value: Value;
+  }
+  eleventyConfig.addLiquidTag(
+    "pagelink",
+    function treeTag(liquidEngine: Liquid) {
+      return {
+        parse(
+          this: LinkTag,
+          tagToken: TagToken,
+          remainTokens: TopLevelToken[],
+        ) {
+          this.templates = [];
+          this.variable = tagToken.tokenizer.readIdentifier().content;
+          this.value = new Value(tagToken.args, liquidEngine);
+
+          this.liquid.parser
+            .parseStream(remainTokens)
+            // @ts-expect-error
+            .on("template", (template) => this.templates.push(template))
+            .on("tag:endpagelink", function () {
+              this.stop();
+            })
+            .on("end", () => {
+              throw new Error(`tag ${tagToken.getText()} not closed`);
+            })
+            .start();
+        },
+        *render(this: LinkTag, context: Context, emitter: Emitter) {
+          const page: EleventySuppliedData = yield this.value.value(context);
+          const liquid = this.liquid;
+          const templates = this.templates;
+
+          if (page.data.url && page.url === false) {
+            emitter.write(`<a href="${page.data.url}" target="_blank">`);
+          } else {
+            emitter.write(`<a href="${page.url}"`);
+          }
+
+          yield liquid.renderer.renderTemplates(templates, context, emitter);
+
+          emitter.write("</a>");
+        },
+      };
+    },
+  );
 
   return {
     dir: {

@@ -8,7 +8,11 @@
 {% endblock %}
 
 {% block menubar %}
-{% include breadcrumbs.html.liquid %}
+<div class="menubar-breadcrumbs">
+  <a href="/" class="menubar-breadcrumb" title="home">~</a>
+  <span>/</span>
+  <h1>#{{ tag }}</h1>
+</div>
 {% endblock %}
 
 {% block content %}

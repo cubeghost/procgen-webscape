@@ -18,7 +18,8 @@
 	</head>
 	<body>
 		<div class="sticky-top">
-			{%- if page.url == "/" -%}
+			{%- assign url_start = page.url | slice: 0, 6 -%}
+			{%- if page.url == "/" or url_start == "/tags/" -%}
 				{% render donation-links.html.liquid, class: "donation-banner", marquee: true %}
 			{%- endif -%}
 			<div class="menubar">

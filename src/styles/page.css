@@ -1,3 +1,8 @@
+.page {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
 .page-content {
   padding: 1rem;
   font-family: var(--sans-serif);

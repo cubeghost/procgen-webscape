@@ -4,7 +4,7 @@
   {%- assign filtered_tags = tags | reject_value: "portfolio" -%}
   {%- for tag in filtered_tags -%}
     <a href="/tags/{{ tag }}">#{{ tag }}</a>
-    {%- if forloop.first == false -%},{%- endif -%}
+    {%- if forloop.last == false -%}&nbsp;{%- endif -%}
   {%- endfor -%}
   {% endif %}
 </span>

@@ -1,8 +1,8 @@
 ---
-layout: layouts/webscape-page.html
 tags: code
 title: afffirmations generator
 date: 2021-07-24
+permalink: false
 
 url: https://afffirmations.netlify.app/
 ---

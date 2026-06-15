@@ -29,7 +29,7 @@ title: cubegho.st
 <div class="menubar-menu" style="margin-left: auto;">
   <button popovertarget="webscape-dialog" class="menu-trigger" title="webscape">
     {% render happy-mac.svg.liquid, width: 14 %}
-    {% comment %} webscape {% endcomment %}
+    {% comment %} TODO a11y {% endcomment %}
   </button>
   <dialog id="webscape-dialog" class="menu-popover" popover>
     <button id="replay">replay webscape<span class="spinner hidden"></span></button>
@@ -56,9 +56,8 @@ title: cubegho.st
         <button class="node-button"></button>
         {% if node -%}
         <div class="node-content">
-          {% assign title = node.name | default: node.data.title -%}
-          <a href="{{ node.data.url | default: node.url }}">{{ title }}</a>
-          {%- if node.data.portfolio.years %}&nbsp;{{ node.data.portfolio.years | join: "~" }}{% endif -%}
+          {% pagelink node %}<span>{{ node.name | default: node.data.title }}</span>{% endpagelink %}
+          {%- if node.meta %}&nbsp;{{ node.meta }}{% endif -%}
         </div>
         {%- else -%}
           <div class="node-content">

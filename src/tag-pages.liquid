@@ -9,6 +9,8 @@ pagination:
 permalink: /tags/{{ tag }}/
 ---
 
+{% assign title = tag | prepend: "#" %}
+
 {% layout layouts/webscape-collection.html %}
 
 {% block content %}

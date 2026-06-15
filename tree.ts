@@ -76,17 +76,6 @@ export function treeTag(liquidEngine: Liquid) {
         nodes: HierarchyNode<EleventyScope>[],
       ): Generator<any> {
         emitter.write("<ul>");
-        // const sorted = sort(
-        //   nodes,
-        //   (d) => {
-        //     if (d.data) {
-        //       return d.data.data.portfolio?.sort ?? Infinity;
-        //     } else {
-        //       return directories[d.id]?.sort ?? Infinity;
-        //     }
-        //   },
-        //   (d) => d.id,
-        // );
         for (const node of nodes) {
           yield* renderNode(node);
         }

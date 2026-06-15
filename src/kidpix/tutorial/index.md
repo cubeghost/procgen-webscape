@@ -1,12 +1,9 @@
 ---
 layout: layouts/webscape-page.html
 tags: kid-pix
-# date:
+date: 2020-07-06
 
 title: Kid Pix Studio Deluxe on macOS
-portfolio:
-  title: studio deluxe emulation tutorial
-  sort: 1
 ---
 
 <!-- excerpt -->
@@ -33,7 +30,7 @@ The emulator we'll use to imitate Mac OS 9 is called SheepShaver. It's got a cut
 
 {% include retina-image, src: "/kidpix/tutorial/sheepshaver_icon.png", alt: "cute SheepShaver icon", width: 64 %}
 
-### 💾 Downloads
+{% render linkable-heading, level: 3, value: "💾 Downloads" %}
 
 - [SheepShaver](https://www.emaculation.com/forum/viewtopic.php?f=20&t=7360) ([February 2024 build](https://www.emaculation.com/sheepshaver/SheepShaver_universal_20240228.zip))
 - [SheepShaver folder](https://www.emaculation.com/forum/viewtopic.php?f=20&t=7360) ([February 2024 build](https://www.emaculation.com/sheepshaver/SheepShaver_folder_20240213.zip))
@@ -46,7 +43,7 @@ _Big props to [Redundant Robot](http://www.redundantrobot.com/#/sheepshaver) for
 
 You'll also need to have a way to open `.sit` (StuffIt) archives. I like [The Unarchiver](https://theunarchiver.com/) for this, but you might already have something else installed.
 
-### 📺 Setting up the emulator
+{% render linkable-heading, level: 3, value: "📺 Setting up the emulator" %}
 
 Start by downloading everything in the above Downloads section, and unarchiving anything that's zipped or stuffed or whatever.
 
@@ -71,7 +68,7 @@ Once you're done configuring SheepShaver, you can quit (`Ctrl-Esc`) and open it 
 
 During start up you'll be asked to initialize a new volume (the virtual hard disk created earlier). Give it a name (I'll call it `System`) and choose `Mac OS Extended` for the format.
 
-### 📀 Installing Kid Pix
+{% render linkable-heading, level: 3, value: "📀 Installing Kid Pix" %}
 
 You're now using Mac OS 9 inside of macOS. That's pretty cool by itself! 🎉
 
@@ -89,7 +86,7 @@ Launch SheepShaver again and you'll be able to open Kid Pix!
 
 {% include retina-image, src: "/kidpix/tutorial/splash.png", alt: "iconic Kid Pix Studio Deluxe splash screen", width: 800 %}
 
-### 🎷 Tips
+{% render linkable-heading, level: 3, value: "🎷 Tips" %}
 
 - Make sure to enable sound effects (under the Toolbox menu) when in Kid Pix mode! {% include retina-image, src: "/kidpix/tutorial/tool_sounds.png", alt: "Toolbox > Tool Sounds are ON", width: 662 %}
 
@@ -97,7 +94,7 @@ Launch SheepShaver again and you'll be able to open Kid Pix!
 
 - Leave `Kid Pix Studio Deluxe.toast` mounted as a disk within SheepShaver, as some of the features rely on files that don't get copied over during install 🤔
 
-### 🛠 Caveats
+{% render linkable-heading, level: 3, value: "🛠 Caveats" %}
 
 While this is the most complete copy of Kid Pix Studio Deluxe I've been able to find online so far, it's not perfect. Neither is the emulator!
 
@@ -117,6 +114,6 @@ While this is the most complete copy of Kid Pix Studio Deluxe I've been able to 
 
 ---
 
-Did these instructions work? Show me what you made! Did they not work? Tell me what broke. I'm [@cubeghost](https://twitter.com/cubeghost) on Twitter, and the source of this article [is on Github](https://github.com/cubeghost/personal-static-site/blob/development/src/kidPix/assets/tutorial/tutorial.md).
+Did these instructions work? Show me what you made! Did they not work? Tell me what broke. I'm [@cubegho.st](https://bsky.app/profile/cubegho.st) on Bluesky, and the source of this article [is on Github](https://github.com/cubeghost/personal-static-site/blob/development/src/kidPix/assets/tutorial/tutorial.md).
 
 {% include retina-image, src: "/kidpix/tutorial/kitties.gif", alt: "a picture of my cats I edited in Kid Pix", width: 1280 %}
