@@ -1,7 +1,8 @@
 /* browser-only */
 
 import { parseGIF, decompressFrames, ParsedFrame } from "gifuct-js";
-import { DEEP_FRY_ITERATIONS, type Context2DFunc } from "./generate.mts";
+import { DEEP_FRY_ITERATIONS } from "./constants.mjs";
+import { type Context2DFunc } from "./generate.mts";
 
 export async function replay(
   container: HTMLElement,

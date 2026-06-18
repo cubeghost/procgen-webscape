@@ -7,8 +7,7 @@ import { deepFryFactory, type ToJpegFunc } from "./deep-fry.mts";
 import { drawLoopedSquare } from "./looped-square.mts";
 import { sparkles, cumulativeSparkleWeights } from "./sparkles.mts";
 import { drawHappyMac } from "./happy-mac.mts";
-
-export const DEEP_FRY_ITERATIONS = 100;
+import { DEEP_FRY_ITERATIONS } from "./constants.mts";
 
 export type Context2DFunc<
   C extends CanvasRenderingContext2D = CanvasRenderingContext2D,
