@@ -28,7 +28,7 @@ preview:
       <div class="zine-page">
         {%- assign src = i | prepend: '00' | slice: -2, 2 | append: ".png" | prepend: "/kidpix/zine/" -%}
         {%- assign alt = i | plus: 1 | prepend: "page " -%}
-        {% include retina-image, src: src, alt: alt, width: pageWidth %}
+        {% include retina-image, src: src, alt: alt, width: pageWidth, style: "width: 100%;" %}
       </div>
     {%- endfor %}
   </div>
@@ -49,6 +49,8 @@ preview:
   </div>
 </div>
 
+{%- include page-footer.html.liquid, class: "page", show_source: true, show_date: true -%}
+
 <style type="text/css">
   {% capture zineWidth -%}
     calc(({{ pageWidth }}px + 2rem + 1px) * 2 + 1px)
@@ -57,9 +59,9 @@ preview:
   .zine-container {
     container: zine / inline-size;
     max-width: {{ zineWidth }};
-    margin: 1rem auto 3rem;
+    margin: 1rem auto 2rem;
   }
-  .window {
+  .window, .page {
     max-width: {{ zineWidth }};
   }
 

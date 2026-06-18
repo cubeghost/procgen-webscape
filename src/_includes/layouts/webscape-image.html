@@ -5,7 +5,10 @@
 .image-page {
   max-width: 60rem;
   margin: 0 auto;
+}
+.window.image-page {
   width: fit-content;
+  margin-bottom: 2rem;
 }
 
 .image-page img {
@@ -37,11 +40,14 @@
 {% block content %}
 <div class="window image-page">
   <div class="window-titlebar">
+    <span class="window-button button-left"></span>
     <span class="window-titlebar-title">{{ title }}</span>
+    <span class="window-button button-right button-zoom"></span>
+    <span class="window-button button-right button-minimize"></span>
   </div>
   <div class="window-contents">
     <div class="window-meta">
-      {%- capture extra_meta -%}{{ images.length }} images{%- endcapture -%}
+      {%- capture extra_meta -%}{{ images.length }} image{% if images.length != 1 %}s{% endif %}{%- endcapture -%}
       {%- assign date_param = date | default: nil -%}
       {%- render post-meta.html.liquid, date: date_param, tags: tags, extra: extra_meta -%}
     </div>
@@ -57,4 +63,6 @@
     </div>
   </div>
 </div>
+
+{%- include page-footer.html.liquid, class: "image-page" -%}
 {% endblock %}

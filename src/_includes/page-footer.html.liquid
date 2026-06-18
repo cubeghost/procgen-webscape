@@ -1,0 +1,58 @@
+{% block head %}
+<link rel="stylesheet" href="/styles/page-footer.css">
+{% endblock %}
+
+<div class="page-footer {{ class | default: "" }}">
+  <article class="window window-utility" id="footer-metadata">
+    <div class="window-handle">
+      <span class="window-button button-left"></span>
+    </div>
+    <div class="window-contents">
+      <table class="page-metadata">
+        <caption>Metadata</caption>
+        {%- if show_source -%}
+        <tr>
+          <td>Source</td>
+          <td><a href="https://github.com/cubeghost/procgen-webscape/blob/main/{{ page.inputPath }}"
+              target="_blank">GitHub</a></td>
+        </tr>
+        {%- endif -%}
+        {%- if show_date -%}
+        <tr>
+          <td>Date</td>
+          <td>{{ date | date: "%b %d, %Y", "UTC" }}</td>
+        </tr>
+        {%- endif -%}
+        <tr>
+          <td>Tags</td>
+          <td>
+            {% if tags %}
+            {%- for tag in tags -%}
+            <a href="/tags/{{ tag }}">#{{ tag }}</a>
+            {%- if forloop.last == false -%}&nbsp;{%- endif -%}
+            {%- endfor -%}
+            {% endif %}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </article>
+  <article class="window window-utility window-utility-side" id="footer-donation">
+    <div class="window-handle">
+      <span class="window-button button-top"></span>
+      <span class="window-button button-bottom button-minimize"></span>
+    </div>
+    <div class="window-contents">
+      <div class="window-alert-icon">{% render icon-sprite, id: "alert", role: "presentation" %}</div>
+      <div class="donation-alert">
+        <h3>Donate to a survival fund</h3>
+        <p>These are campaigns and collectives I trust that provide direct aid to people surviving genocides. If you
+          can, I recommend setting up a weekly or monthly donation- consistency is a big help.</p>
+        <div class="scrollbox">
+          {% render donation-links.html.liquid %}
+          <div class="scrollbox-scroll"></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>

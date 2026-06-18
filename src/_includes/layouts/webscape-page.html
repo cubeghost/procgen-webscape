@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<article class="window page" style="margin-bottom: 2rem;">
+<article class="window page">
   <div class="window-titlebar">
     <span class="window-button button-left"></span>
     <span class="window-titlebar-title">{{ title }}</span>
@@ -29,53 +29,5 @@
   </div>
 </article>
 
-<div class="page page-footer">
-  <article class="window">
-    <div class="window-titlebar">
-      <!-- <span class="window-titlebar-title">Info</span> -->
-      <span class="window-button button-left"></span>
-    </div>
-    <div class="window-contents">
-      <div class="window-meta">
-
-      </div>
-      <table>
-        <tr>
-          <td>Source</td>
-          <td><a href="https://github.com/cubeghost/procgen-webscape/blob/main/{{ page.inputPath }}"
-              target="_blank">GitHub</a></td>
-        </tr>
-        <tr>
-          <td>Tags</td>
-          <td>
-            {% if tags %}
-            {%- for tag in tags -%}
-            <a href="/tags/{{ tag }}">#{{ tag }}</a>
-            {%- endfor -%}
-            {% endif %}
-          </td>
-        </tr>
-      </table>
-
-    </div>
-  </article>
-  <article class="window window-utility window-utility-side">
-    <div class="window-handle">
-      <span class="window-button button-top"></span>
-      <span class="window-button button-bottom button-minimize"></span>
-    </div>
-    <div class="window-contents">
-      <div class="window-alert-icon">{% render icon-sprite, id: "alert", role: "presentation" %}</div>
-      <div class="donation-alert">
-        <h3>Donate to a survival fund</h3>
-        <p>These are campaigns and collectives I trust that provide direct aid to people surviving genocides. If you
-          can, I recommend setting up a weekly or monthly donation- consistency is a big help.</p>
-        <div class="scrollbox">
-          {% render donation-links.html.liquid %}
-          <div class="scrollbox-scroll"></div>
-        </div>
-      </div>
-    </div>
-  </article>
-</div>
+{%- include page-footer.html.liquid, class: "page", show_source: true -%}
 {% endblock %}

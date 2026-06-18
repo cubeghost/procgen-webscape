@@ -4,8 +4,9 @@ import farmhash from "farmhash";
 import { Buffer } from "buffer";
 import { createCanvas, Image } from "canvas";
 import type { CanvasRenderingContext2D } from "canvas";
-import GIFEncoder from "gifenc/src/index";
-import { applyPalette } from "gifenc/src/palettize";
+// @ts-expect-error
+import gifenc from "gifenc";
+const { GIFEncoder, applyPalette } = gifenc;
 
 import dimensions from "../../src/lib/webscape/dimensions.mts";
 import { generatorFactory } from "../../src/lib/webscape/generate.mts";
