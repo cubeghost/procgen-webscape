@@ -9,10 +9,8 @@
   height: calc(20px * var(--ui-scale));
   position: relative;
   display: grid;
-  grid-template-columns: 20px 1fr 20px;
+  grid-template-columns: calc(20px * var(--ui-scale)) 1fr 16px calc(11px * var(--ui-scale));
   margin: 0 calc(4px * var(--ui-scale));
-  /* system 7 */
-  /* border-bottom: var(--border-width) solid black; */
 }
 
 .window .window-titlebar:before {
@@ -37,19 +35,50 @@
   line-height: 1.5;
 }
 
-.window .window-titlebar .window-titlebar-button {
-  position: relative;
-  width: calc(11px * var(--ui-scale));
-  height: calc(11px * var(--ui-scale));
+.window-button {
   padding: 0;
   border: var(--border-width) solid black;
   background-color: white;
 }
 
-.window .window-titlebar .window-titlebar-button.left-button {
+.window .window-titlebar .window-button {
+  position: relative;
+  width: calc(11px * var(--ui-scale));
+  height: calc(11px * var(--ui-scale));
+}
+
+.window .window-titlebar .window-button.button-left,
+.window .window-titlebar .window-button.button-right {
   margin: calc(4px * var(--ui-scale));
   margin-left: 0;
+}
+
+.window .window-titlebar .window-button.button-left {
   box-shadow: calc(6px * var(--ui-scale)) 0 0 white;
+}
+
+.window .window-titlebar .window-button.button-right {
+  box-shadow: calc(-5px * var(--ui-scale)) 0 0 white;
+}
+
+.window-button.button-minimize:before {
+  content: "";
+  display: block;
+  height: calc(3px * var(--ui-scale));
+  width: 100%;
+  border: var(--border-width) solid black;
+  border-width: var(--border-width) 0 var(--border-width) 0;
+  margin: calc(3px * var(--ui-scale)) 0 0 0;
+}
+
+
+.window-button.button-zoom:before {
+  content: "";
+  display: block;
+  height: calc(6px * var(--ui-scale));
+  width: calc(6px * var(--ui-scale));
+  border: var(--border-width) solid black;
+  border-width: 0 var(--border-width) var(--border-width) 0;
 }
 
 .window .window-contents {
@@ -125,4 +154,142 @@
 .window .window-notepad-footer:after {
   content: "";
   border-bottom: var(--border-width) solid black;
+}
+
+/* 
+ * utility windows 
+ * https://dev.os9.ca/techpubs/mac/HIGuidelines/HIGuidelines-112.html
+ */
+
+.window-utility {}
+
+.window-utility-side {
+  display: flex;
+  min-height: calc(45px * var(--ui-scale));
+}
+
+.window-utility .window-contents {
+  margin: calc(2px * var(--ui-scale));
+  flex: 1;
+  padding: 0.75rem;
+}
+
+.window-utility:not(.window-utility-side) .window-contents {
+  margin-top: 0;
+}
+
+.window-utility.window-utility-side .window-contents {
+  margin-left: 0;
+}
+
+.window-utility .window-contents:has(.window-alert-icon) {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.window-alert-icon {
+  flex-shrink: 0;
+}
+
+.window-utility .window-handle {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.window-utility-side .window-handle {
+  width: calc(12px * var(--ui-scale));
+  flex-direction: column;
+}
+
+.window-utility .window-handle:before {
+  content: '';
+  position: absolute;
+  inset: calc(3px * var(--ui-scale)) calc(2px * var(--ui-scale));
+  display: block;
+  image-rendering: pixelated;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Crect width='1' height='1' x='0' y='0' fill='black'%3E%3C/rect%3E%3C/svg%3E");
+  background-size: calc(3px * var(--ui-scale));
+  /* background-position-x: calc(-2px * var(--ui-scale)); */
+  background-position-y: calc(-2px * var(--ui-scale));
+}
+
+.window-utility.window-utility-side .window-handle:before {
+  inset: calc(2px * var(--ui-scale));
+  background-position-x: calc(-2px * var(--ui-scale));
+}
+
+.window-utility .window-handle .window-button {
+  position: relative;
+  width: calc(8px * var(--ui-scale));
+  height: calc(8px * var(--ui-scale));
+}
+
+.window-utility .window-handle .window-button.button-top,
+.window-utility .window-handle .window-button.button-bottom {
+  margin: calc(2px * var(--ui-scale));
+}
+
+.window-utility .window-handle .window-button.button-top {
+  box-shadow: 0 calc(4px * var(--ui-scale)) 0 white;
+}
+
+.window-utility .window-handle .window-button.button-bottom {
+  box-shadow: 0 calc(-2px * var(--ui-scale)) 0 white;
+}
+
+.window-utility .window-handle .window-button.button-left,
+.window-utility .window-handle .window-button.button-right {
+  margin: calc(3px * var(--ui-scale)) calc(2px * var(--ui-scale));
+}
+
+.window-utility .window-handle .window-button.button-left {
+  box-shadow: calc(4px * var(--ui-scale)) 0 0 white;
+}
+
+.window-utility .window-handle .window-button.button-right {
+  box-shadow: calc(-4px * var(--ui-scale)) 0 0 white;
+}
+
+
+.window-utility .window-handle .window-button.button-minimize:before {
+  margin: calc(1px * var(--ui-scale)) 0 0 0;
+}
+
+.window-utility-side .window-handle .window-button.button-minimize:before {
+  height: 100%;
+  width: calc(3px * var(--ui-scale));
+  border-width: 0 var(--border-width) 0 var(--border-width);
+  margin: 0 0 0 calc(1px * var(--ui-scale));
+}
+
+/* stickies */
+
+.window-note {
+  box-shadow: none;
+}
+
+.window-note .window-handle {
+  height: calc(9px * var(--ui-scale));
+  position: relative;
+  display: flex;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 2'%3E%3Crect width='1' height='1' x='0' y='0' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='1' y='1' fill='black'%3E%3C/rect%3E%3C/svg%3E");
+  background-size: calc(2px * var(--ui-scale));
+}
+
+.window-note .window-contents {
+  border: 0;
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+}
+
+.window-note .window-handle .window-button {
+  width: calc(6px * var(--ui-scale));
+  height: calc(6px * var(--ui-scale));
+  box-shadow: inset var(--border-width) var(--border-width) black, var(--border-width) var(--border-width) 0 black;
+  border: var(--border-width) solid white;
+}
+
+.window-note .window-handle .window-button.button-left {
+  margin: calc(1px * var(--ui-scale)) calc(4px * var(--ui-scale))
 }

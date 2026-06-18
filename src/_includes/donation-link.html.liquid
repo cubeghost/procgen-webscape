@@ -1,7 +1,9 @@
 <li>
-  {%- assign flag_array = flags | split: " " -%}
-  {%- for flag in flag_array -%}
-    <span role="img" aria-label="Flag of {{ flag_labels[flag] }}">{{ flag }}</span>
-  {%- endfor -%}
-  <a href="{{ href }}" target="_blank" rel="noopener">{{ label }}</a>
+  <a href="{{ href }}" target="_blank" rel="noopener">
+    {%- assign flag_array = flags | split: " " -%}
+    {%- for flag in flag_array -%}
+    <span role="img" aria-label="Flag of {{ flag_labels[flag] }}" class="flag">{{ flag }}</span>
+    {%- endfor -%}
+    <span>{{ label }}</span>
+  </a>
 </li>

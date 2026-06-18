@@ -88,7 +88,7 @@ title: cubegho.st
       {%- assign id = page.url | slugify -%}
       <div id="{{ id }}" class="preview window" popover="hint">
         <div class="window-titlebar">
-          <span class="window-titlebar-button left-button"></span>
+          <span class="window-button left-button"></span>
           <span class="window-titlebar-title">{{ page.data.title }}</span>
         </div>
         {%- include retina-image, src: page.data.preview.src, alt: page.data.preview.alt, width: 500 -%}

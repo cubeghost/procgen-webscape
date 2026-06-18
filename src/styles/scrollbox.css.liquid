@@ -1,0 +1,34 @@
+---
+permalink: styles/scrollbox.css
+---
+
+.scrollbox {
+  display: flex;
+}
+
+.scrollbox-scroll {
+  flex: 0 0 calc(16px * var(--ui-scale));
+  border: var(--border-width) solid black;
+  border-left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.scrollbox-scroll:before,
+.scrollbox-scroll:after {
+  content: "";
+  height: calc(15px * var(--ui-scale));
+  image-rendering: pixelated;
+  background-color: white;
+  background-image: url(/assets/icons.png);
+}
+
+.scrollbox-scroll:before {
+  border-bottom: var(--border-width) solid black;
+  background-position: {% render icon-sprite, id: "arrow-up", position_only: true %};
+}
+.scrollbox-scroll:after {
+  border-top: var(--border-width) solid black;
+  background-position: {% render icon-sprite, id: "arrow-down", position_only: true %};
+}
