@@ -211,8 +211,11 @@ export default defineConfig((eleventyConfig) => {
   };
   eleventyConfig.addCollection("portfolio", function (collectionsApi) {
     const all = collectionsApi.getAll();
-    const postsByUrl = new Map(all.map((p) => [p.url, p]));
+    const postsByUrl = new Map(
+      all.map((p) => [p.url || p.filePathStem + "/", p]),
+    );
     const portfolio = all[0].data.portfolio;
+
     function addNodeContent(node: TreeNode): TreeNode {
       const children = node.children?.map(addNodeContent);
       if (node.url && postsByUrl.has(node.url)) {
@@ -306,7 +309,7 @@ export default defineConfig((eleventyConfig) => {
   }
   eleventyConfig.addLiquidTag(
     "pagelink",
-    function treeTag(liquidEngine: Liquid) {
+    function pagelinkTag(liquidEngine: Liquid) {
       return {
         parse(
           this: LinkTag,

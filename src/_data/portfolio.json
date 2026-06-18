@@ -10,7 +10,7 @@
       "name": "kid pix",
       "tag": "kid-pix",
       "icon": {
-        "src": "/kidpix/tutorial/icon.png",
+        "src": "/kidpix/kidpix_icon_alt.png",
         "alt": "kid pix icon",
         "width": 32,
         "style": "image-rendering: pixelated"

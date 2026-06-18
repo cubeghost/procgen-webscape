@@ -112,6 +112,13 @@
   flex-shrink: 0;
 }
 
+@media screen and (max-width: 420px) {
+  .tree {
+    font-size: 0.8rem;
+    --node-height: 1.55rem;
+  }
+}
+
 .tree li {
   position: relative;
 }

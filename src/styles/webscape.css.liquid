@@ -59,7 +59,7 @@ permalink: styles/webscape.css
   {% for multiplier in (2..4) %}
     @media (min-width: {{ dimension.width | times: multiplier }}px) and ({{ dimension.mediaQuery }}) {
       .webscape {
-        --scale: {{ multiplier | plus: 1 }};
+        --scale: {{ multiplier }};
       }
     }
   {% endfor %}

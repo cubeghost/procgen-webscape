@@ -10,7 +10,7 @@ title: Kid Pix Studio Deluxe on macOS
 
 # Kid Pix Studio Deluxe on macOS
 
-{% include retina-image, src: "/kidpix/tutorial/icon.png", alt: "Kid Pix Studio Deluxe icon, but huge", width: 149 %}
+{% include retina-image, src: "/kidpix/kidpix_icon_alt.png", alt: "Kid Pix Studio Deluxe icon, but huge", width: 160, style: "image-rendering: pixelated" %}
 
 _**Kid Pix Studio Deluxe**_ 🎨, released in 1998, is something I grew up using on school computers and on my mom's Mac. At its core, it's a paint program, but packed with a surprise and delight that's missing from a lot of modern software design. Regardless, it's fucking fun and I want everyone to be able to experience it.
 
