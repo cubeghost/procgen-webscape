@@ -36,6 +36,7 @@ export async function replay(
   // }
 
   // queuedFrames.push(...frames.slice(deepFryFrames, chunkFramesStart - 1));
+  queuedFrames.push(...frames.slice(0, chunkFramesStart - 1));
 
   for (let cy = yChunks - 1, i = chunkFramesStart - 1; cy >= 0; --cy) {
     for (let cx = xChunks - 1; cx >= 0; --cx, i++) {
@@ -59,13 +60,15 @@ export async function replay(
   return new Promise((resolve, reject) => {
     let currentFrame = 0;
     const delay = 60;
-    function drawFrame() {
+    async function drawFrame() {
       const frame = queuedFrames[currentFrame];
       const start = new Date().getTime();
 
       const image = context.createImageData(width, height);
       image.data.set(frame.patch);
-      context.putImageData(image, 0, 0);
+      const bitmap = await createImageBitmap(image);
+      context.drawImage(bitmap, 0, 0);
+      bitmap.close();
 
       currentFrame++;
       if (currentFrame >= queuedFrames.length) {

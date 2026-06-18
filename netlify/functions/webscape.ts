@@ -4,7 +4,8 @@ import farmhash from "farmhash";
 import { Buffer } from "buffer";
 import { createCanvas, Image } from "canvas";
 import type { CanvasRenderingContext2D } from "canvas";
-import GifEncoder from "gif-encoder";
+import GIFEncoder from "gifenc/src/index";
+import { applyPalette } from "gifenc/src/palettize";
 
 import dimensions from "../../src/lib/webscape/dimensions.mts";
 import { generatorFactory } from "../../src/lib/webscape/generate.mts";
@@ -76,18 +77,53 @@ export default async function (request: Request, context: Context) {
   } else if (format === "gif") {
     const body = new ReadableStream<Buffer<ArrayBufferLike>>({
       async start(controller) {
-        const encoder = new GifEncoder(size.width, size.height);
-        encoder.setRepeat(-1);
-        encoder.setDelay(0);
-        encoder.on("data", (data) => controller.enqueue(data));
-        encoder.writeHeader();
+        const encoder = GIFEncoder({ auto: false });
+        const format = "rgba4444";
+        const palette = [
+          [0, 0, 0, 0],
+          [0, 0, 0, 255],
+          [255, 255, 255, 255],
+        ]; // rgba4444: transparent, black, white
+        const options = {
+          transparent: true,
+          dispose: 1,
+          repeat: -1,
+        };
 
+        // write gif chunk-by-chunk into readable stream
+        let cursor = 0;
+        function enqueueBytes() {
+          const bytesView = encoder.bytesView();
+          controller.enqueue(bytesView.slice(cursor));
+          cursor = bytesView.length;
+        }
+
+        encoder.writeHeader();
+        enqueueBytes();
+
+        let first = true;
         while (true) {
           const { done, value: context } = await generate.next();
           const { data } = context.getImageData(0, 0, size.width, size.height);
-          encoder.addFrame(data);
+          const pixels = applyPalette(data, palette, format);
+          encoder.writeFrame(
+            pixels,
+            size.width,
+            size.height,
+            first
+              ? {
+                  palette,
+                  first,
+                  ...options,
+                }
+              : options,
+          );
+          enqueueBytes();
+          first = false;
+
           if (done) {
             encoder.finish();
+            enqueueBytes();
             controller.close();
             break;
           }

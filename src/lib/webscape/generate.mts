@@ -161,7 +161,7 @@ export function generatorFactory<
     const lightestLayer = context2d(width, height, 1);
     lightestLayer.putImageData(CanvasDither.atkinson(lightestImage), 0, 0);
     context.drawImage(lightestLayer.canvas, 0, 0);
-    // if (animate) yield await delay(100, lightestLayer);
+    if (animate) yield await delay(100, lightestLayer);
 
     // reset blending
     context.globalCompositeOperation = "source-over";
@@ -215,6 +215,7 @@ export function generatorFactory<
     const random2Rank = shuffleRank(categoryRanks.get(2)!.ranks)[0];
 
     // render chunks
+    const frameContext = context2d(width, height, 1);
     const layersByCategory = new Map<ChunkMeta["category"], C>([
       [0, lighterLayer],
       [1, lighterLayer],
@@ -230,7 +231,11 @@ export function generatorFactory<
       const fromCtx = layersByCategory.get(category)!;
       context.drawImage(fromCtx.canvas, x, y, cs, cs, x, y, cs, cs);
 
-      if (animate) yield delay(0, context);
+      if (animate) {
+        frameContext.clearRect(0, 0, width, height);
+        frameContext.putImageData(context.getImageData(x, y, cs, cs), x, y);
+        yield delay(0, frameContext);
+      }
     });
     yield* chunkReverseLoop(function* (i) {
       const { x, y, value, rank, category } = categorizedChunks[i];
@@ -283,7 +288,11 @@ export function generatorFactory<
         }
       }
 
-      if (animate) yield delay(0, context);
+      if (animate) {
+        frameContext.clearRect(0, 0, width, height);
+        frameContext.putImageData(context.getImageData(x, y, cs, cs), x, y);
+        yield delay(0, frameContext);
+      }
     });
 
     yield context;
