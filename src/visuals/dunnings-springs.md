@@ -10,5 +10,3 @@ images:
   - src: /visuals/dunnings-springs-alternate.png
     alt: TODO
 ---
-
-content??

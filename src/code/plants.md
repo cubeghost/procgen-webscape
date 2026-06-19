@@ -1,12 +1,12 @@
 ---
 layout: layouts/webscape-page.html
-tags: [code-art, procgen]
+tags: [code, procgen, visuals]
 date: 2016-10-13
 
 title: plants.exe
 url: https://codepen.io/cubeghost/full/xEJVex
 preview:
-  src: /code-art/plants.gif
+  src: /code/plants.gif
   alt: TODO
 ---
 

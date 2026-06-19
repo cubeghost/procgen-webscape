@@ -21,9 +21,9 @@
         endif
       -%}
       {%- if preview -%}
-      <a href="{{ page.url | default }}">
+      {% pagelink page %}
         {% include retina-image.liquid, src: preview.src, alt: preview.alt, width: 500, play_gif: false %}
-      </a>
+      {% endpagelink %}
       {% play_gif preview.src %}
       {%- else -%}
       <div class="excerpt page-content">{% excerpt page %}</div>

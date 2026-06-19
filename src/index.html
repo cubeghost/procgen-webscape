@@ -86,15 +86,24 @@ title: cubegho.st
   </div>
   <div class="preview-container">
     {%- assign portfolio_flat = collections.portfolio | flatten_tree -%}
-    {%- for page in portfolio_flat -%}
-      {%- if page.data.preview -%}
-      {%- assign id = page.url | slugify -%}
+    {%- for node in portfolio_flat -%}
+      {%- liquid
+        if node.data.portfolio_preview
+          assign preview = node.data.portfolio_preview
+        elsif node.data.preview
+          assign preview = node.data.preview
+        else
+          assign preview = nil
+        endif
+      -%}
+      {%- if preview -%}
+      {%- assign id = node.url | slugify -%}
       <div id="{{ id }}" class="preview window" popover="hint">
         <div class="window-titlebar">
-          <span class="window-button left-button"></span>
-          <span class="window-titlebar-title">{{ page.data.title }}</span>
+          <span class="window-button button-left"></span>
+          <span class="window-titlebar-title">{{ node.data.title }}</span>
         </div>
-        {%- include retina-image, src: page.data.preview.src, alt: page.data.preview.alt, width: 500 -%}
+        {%- include retina-image, src: preview.src, alt: preview.alt, width: 500 -%}
       </div>
       {%- endif -%}
     {%- endfor -%}

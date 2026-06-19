@@ -4,6 +4,9 @@ tags: kid-pix
 date: 2020-07-06
 
 title: Kid Pix Studio Deluxe on macOS
+portfolio_preview:
+  src: /kidpix/tutorial/splash.png
+  alt: iconic Kid Pix Studio Deluxe splash screen
 ---
 
 <!-- excerpt -->
@@ -116,4 +119,4 @@ While this is the most complete copy of Kid Pix Studio Deluxe I've been able to 
 
 Did these instructions work? Show me what you made! Did they not work? Tell me what broke. I'm [@cubegho.st](https://bsky.app/profile/cubegho.st) on Bluesky, and the source of this article [is on Github](https://github.com/cubeghost/personal-static-site/blob/development/src/kidPix/assets/tutorial/tutorial.md).
 
-{% include retina-image, src: "/kidpix/tutorial/kitties.gif", alt: "a picture of my cats I edited in Kid Pix", width: 1280 %}
+{% include retina-image, src: "/kidpix/tutorial/kitties.png", alt: "a picture of my cats I edited in Kid Pix", width: 1280 %}

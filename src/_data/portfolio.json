@@ -23,8 +23,33 @@
       ]
     },
     {
-      "name": "code art",
-      "tag": "code-art"
+      "name": "#code",
+      "tag": "code",
+      "icon": {
+        "src": "/assets/code.png",
+        "alt": "code document icon",
+        "width": 26,
+        "style": "image-rendering: pixelated",
+        "retina": false
+      },
+      "children": [
+        {
+          "name": "ephemeral web presence space",
+          "url": "/code/ephemeral-presence/",
+          "meta": "2019"
+        }
+      ]
+    },
+    {
+      "name": "#visuals",
+      "tag": "visuals",
+      "icon": {
+        "src": "/assets/macpaint.png",
+        "alt": "macpaint document icon",
+        "width": 25,
+        "style": "image-rendering: pixelated",
+        "retina": false
+      }
     },
     {
       "name": "tumblr",
@@ -49,17 +74,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "#visuals",
-      "tag": "visuals",
-      "icon": {
-        "src": "/assets/macpaint.png",
-        "alt": "macpaint icon",
-        "width": 25,
-        "style": "image-rendering: pixelated",
-        "retina": false
-      }
     }
   ]
 }

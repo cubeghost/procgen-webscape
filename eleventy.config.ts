@@ -340,7 +340,7 @@ export default defineConfig((eleventyConfig) => {
           if (page.data.url && page.url === false) {
             emitter.write(`<a href="${page.data.url}" target="_blank">`);
           } else {
-            emitter.write(`<a href="${page.url}"`);
+            emitter.write(`<a href="${page.url}">`);
           }
 
           yield liquid.renderer.renderTemplates(templates, context, emitter);
