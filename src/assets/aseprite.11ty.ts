@@ -11,6 +11,7 @@ const entryPoints = readdirSync(dir, { withFileTypes: true })
   .map((file) => path.basename(file.name, path.extname(file.name)));
 
 const ChunkTypeEnum = Aseprite.Frame.Chunk.ChunkTypeEnum;
+const CelTypeEnum = Aseprite.Frame.Chunk.CelChunk.CelTypeEnum;
 // https://github.com/aseprite/aseprite/blob/main/src/doc/color_mode.h#L22
 const ColorModeEnum = {
   RGB: 4,
@@ -44,10 +45,12 @@ export default class {
     }
     const frame = ase.frames[0];
 
-    const cel = frame.chunks.find((chunk) => chunk.type === ChunkTypeEnum.CEL);
-    const palette = frame.chunks.find(
-      (chunk) => chunk.type === ChunkTypeEnum.PALETTE_OLD_1,
-    );
+    const cel = frame.chunks.find((c) => c.type === ChunkTypeEnum.CEL);
+    if (!cel) throw new Error(`missing cel chunk in ${entrypoint}`);
+    if (cel.data.type !== CelTypeEnum.COMPRESSED)
+      throw new Error(
+        `unsupported cel type in ${entrypoint}: ${cel.data.type}`,
+      );
 
     const depth = ase.header?.pixelFormat;
     // https://github.com/aseprite/aseprite/blob/main/src/dio/aseprite_decoder.cpp#L60
@@ -58,8 +61,12 @@ export default class {
           ? ColorModeEnum.GRAYSCALE
           : ColorModeEnum.INDEXED;
 
-    let buffer = cel.data.pixels;
+    let buffer: Buffer | Uint8Array = cel.data.pixels;
     if (mode === ColorModeEnum.INDEXED) {
+      const palette = frame.chunks.find(
+        (c) => c.type === ChunkTypeEnum.PALETTE_OLD_1,
+      );
+      if (!palette) throw new Error(`missing palette chunk in ${entrypoint}`);
       const originalBuffer = buffer;
       buffer = new Uint8Array(originalBuffer.length * 4);
 
