@@ -1,9 +1,6 @@
----
-permalink: styles/scrollbox.css
----
-
 .scrollbox {
   display: flex;
+  font-family: var(--monospace);
 }
 
 .scrollbox-scroll {
@@ -20,15 +17,17 @@ permalink: styles/scrollbox.css
   content: "";
   height: calc(15px * var(--ui-scale));
   image-rendering: pixelated;
-  background-color: white;
-  background-image: url(/assets/icons.png);
+  background-image: url(/assets/ui.png);
+  background-size: calc(128px * var(--ui-scale));
 }
 
 .scrollbox-scroll:before {
-  border-bottom: var(--border-width) solid black;
-  background-position: {% render icon-sprite, id: "arrow-up", position_only: true %};
+  /* border causes antialiasing in safari */
+  box-shadow: 0 var(--border-width) 0 black;
+  background-position: calc(-64px * var(--ui-scale)) 0;
 }
+
 .scrollbox-scroll:after {
-  border-top: var(--border-width) solid black;
-  background-position: {% render icon-sprite, id: "arrow-down", position_only: true %};
+  box-shadow: 0 calc(-1 * var(--border-width)) 0 black;
+  background-position: calc(-48px * var(--ui-scale)) 0;
 }

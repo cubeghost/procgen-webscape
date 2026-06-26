@@ -1,10 +1,6 @@
----
-permalink: styles/play-gif.css
----
-
 .play-gif {
   position: absolute;
-  transform: translateY(-2rem) translateX(1rem);
+  transform: translateY(calc(-1rem - (1rem * var(--ui-scale)))) translateX(1rem);
   width: calc(16px * var(--ui-scale));
   height: calc(16px * var(--ui-scale));
   border: 0;
@@ -12,8 +8,9 @@ permalink: styles/play-gif.css
   outline: var(--border-width) solid black;
   image-rendering: pixelated;
   background-color: white;
-  background-image: url(/assets/icons.png);
-  background-position: {% render icon-sprite, id: "play", position_only: true %};
+  background-image: url(/assets/ui.png);
+  background-size: var(--ui-sprite-size);
+  background-position: calc(-32px * var(--ui-scale)) 0;
 }
 
 .play-gif:before {
@@ -28,7 +25,7 @@ permalink: styles/play-gif.css
 }
 
 .play-gif[aria-pressed=true] {
-  background-position: {% render icon-sprite, id: "pause", position_only: true %};
+  background-position: calc(-16px * var(--ui-scale)) 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {

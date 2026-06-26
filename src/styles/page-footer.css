@@ -11,6 +11,7 @@
 }
 
 .page-metadata {
+  font-family: var(--monospace);
   font-size: 0.875rem;
   margin-top: 0.5rem;
   border: var(--border-width) dotted black;
@@ -32,7 +33,7 @@
 .page-metadata caption {
   position: absolute;
   top: 0;
-  transform: translateY(calc(-10px * var(--ui-scale)));
+  transform: translateY(-10px);
   background-color: white;
   padding: 0 0.5rem;
   z-index: 1
@@ -46,7 +47,7 @@
   pointer-events: none;
   border-image-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' width='6'%3E%3Crect width='1' height='1' x='2' y='0' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='3' y='0' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='1' y='1' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='4' y='1' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='0' y='2' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='5' y='2' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='0' y='3' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='5' y='3' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='1' y='4' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='4' y='4' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='2' y='5' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='3' y='5' fill='black'%3E%3C/rect%3E%3C/svg%3E");
   border-image-slice: 2;
-  border-image-width: 2px;
+  border-image-width: calc(2px * var(--ui-scale));
   border-image-repeat: stretch;
 }
 

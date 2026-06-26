@@ -2,14 +2,16 @@
   background-color: white;
   border: var(--border-width) solid black;
   box-shadow: var(--border-width) var(--border-width) 0 black;
+  padding: 0;
 }
 
 .window .window-titlebar {
+  font-family: var(--monospace);
   background-color: white;
   height: calc(20px * var(--ui-scale));
   position: relative;
   display: grid;
-  grid-template-columns: calc(20px * var(--ui-scale)) 1fr 16px calc(11px * var(--ui-scale));
+  grid-template-columns: calc(20px * var(--ui-scale)) 1fr calc(16px * var(--ui-scale)) calc(11px * var(--ui-scale));
   margin: 0 calc(4px * var(--ui-scale));
 }
 
@@ -121,8 +123,8 @@
 
 .window .window-notepad-footer {
   display: grid;
-  grid-template-columns: 1.5rem 1fr 1.5rem;
-  height: 1.5rem;
+  grid-template-columns: calc(24px * var(--ui-scale)) 1fr calc(24px * var(--ui-scale));
+  height: calc(24px * var(--ui-scale));
   text-align: center;
   margin-bottom: 0.3125rem;
   box-shadow:
@@ -138,11 +140,12 @@
   width: calc(24px * var(--ui-scale));
   border-top: var(--border-width) solid black;
   border-right: var(--border-width) solid black;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' %3E%3Crect width='1' height='1' x='0' y='0' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='1' y='1' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='2' y='2' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='3' y='3' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='4' y='4' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='5' y='5' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='6' y='6' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='7' y='7' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='8' y='8' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='9' y='9' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='10' y='10' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='11' y='11' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='12' y='12' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='13' y='13' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='14' y='14' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='15' y='15' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='16' y='16' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='17' y='17' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='18' y='18' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='19' y='19' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='20' y='20' fill='black' %3E%3C/rect%3E%3Crect width='1' height='1' x='21' y='21' fill='black' %3E%3C/rect%3E%3C/svg%3E");
-  background-size: calc(22px * var(--ui-scale));
+  background-image: url(/assets/ui.png);
   background-repeat: no-repeat;
-  background-position: calc(1px * var(--ui-scale)) 0px;
+  background-size: var(--ui-sprite-size);
+  background-position: 0 calc(-16px * var(--ui-scale));
   transform: translateY(calc(-1px * var(--ui-scale)));
+  image-rendering: pixelated;
 }
 
 .window .window-notepad-footer span {
@@ -275,6 +278,11 @@
   display: flex;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 2'%3E%3Crect width='1' height='1' x='0' y='0' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='1' y='1' fill='black'%3E%3C/rect%3E%3C/svg%3E");
   background-size: calc(2px * var(--ui-scale));
+}
+
+.window-note:not(:has(.window-handle)) {
+  padding-top: calc(9px * var(--ui-scale));
+  border: var(--border-width) dotted black;
 }
 
 .window-note .window-contents {

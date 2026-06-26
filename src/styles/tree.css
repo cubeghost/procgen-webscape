@@ -4,6 +4,7 @@
   --node-height: 1.8rem;
   --stroke: 0.5rem;
   --stroke-color: white;
+  font-family: var(--monospace);
 }
 
 .tree li {
@@ -19,12 +20,16 @@
 }
 
 .tree li:first-child {
-  padding-top: 0.75rem;
+  padding-top: 1rem;
 }
 
 .tree li:last-child {
   border-left: 0;
   padding-top: 0;
+}
+
+.tree li:only-child {
+  padding-top: 1rem;
 }
 
 .tree li .tree-marker {
@@ -49,12 +54,12 @@
   border-bottom: var(--border-width) solid black;
 }
 
-.tree li:last-child .tree-marker {
+.tree li:last-child>.tree-marker {
   border-left: var(--border-width) solid black;
   height: calc((var(--node-height) / 2) + 0.5rem);
 }
 
-.tree li:last-child .node {
+.tree li:last-child:not(:only-child)>.node {
   margin-top: 0.5rem;
 }
 
@@ -62,17 +67,13 @@
   border-left: 0;
 }
 
-.tree li:not(:last-child) .node {
+.tree li:not(:last-child)>.node {
   margin-left: calc(-1 * var(--border-width));
 }
 
 .tree li:only-child .tree-marker {
-  height: calc(var(--node-height) / 2 + 0.75rem);
-  transform: translateY(-0.75rem);
-}
-
-.tree li:only-child {
-  padding-top: 0.75rem;
+  height: calc(var(--node-height) / 2 + 1rem);
+  transform: translateY(-1rem);
 }
 
 .tree .node {
@@ -151,7 +152,7 @@
 .tree li .tree-marker:before {
   top: var(--stroke);
   border-bottom: calc(var(--stroke) * 2 + 1px) solid var(--stroke-color);
-  width: calc(100% - 2px);
+  width: calc(100% - (2px * var(--ui-scale)));
   left: 1px;
 }
 
