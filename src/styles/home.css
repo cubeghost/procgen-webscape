@@ -41,28 +41,11 @@ body {
   flex-direction: column;
 }
 
-/* h1 {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  background-color: white;
-  display: table;
-}
-
-h2 {
-  font-size: 1rem;
-  background-color: white;
-  display: inline-block;
-} */
-
 .root {
   padding: clamp(1.5rem, 5vw, 4rem);
 }
 
 footer {
-  /* padding: 0.5rem;
-  background-color: white;
-  border-top: var(--border-width) solid black; */
   margin-top: auto;
 }
 
@@ -76,6 +59,10 @@ footer {
 
 a {
   color: blue;
+}
+
+a:active {
+  color: red;
 }
 
 a.external:after {
@@ -103,7 +90,6 @@ img.sprite {
   object-position: 0 0;
 }
 
-
 .meta-tags a {
   color: currentColor;
   text-decoration: none;
@@ -120,4 +106,21 @@ img.sprite {
 .linkable:hover a,
 .linkable a:focus {
   opacity: 1;
+}
+
+button.button-link {
+  appearance: none;
+  text-decoration: underline;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+button.button-link:hover {
+  color: blue;
+}
+
+button.button-link:active {
+  color: red;
 }
