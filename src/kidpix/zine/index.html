@@ -1,4 +1,5 @@
 ---
+layout: layouts/webscape-page-windowless.html
 title: kid pix 1.0 zine
 tags: [kid-pix]
 date: 2014-03-04
@@ -8,18 +9,6 @@ preview:
   alt: page 1
 ---
 
-{% layout layouts/webscape.html %}
-
-{% block head %}
-<link rel="stylesheet" href="/styles/page.css">
-{% endblock %}
-
-{% block menubar %}
-  {% include breadcrumbs.html.liquid %}
-{% endblock %}
-
-{% block content %}
-
 {% assign pageWidth = 473 %}
 
 <div class="zine-container">
@@ -28,13 +17,13 @@ preview:
       <div class="zine-page">
         {%- assign src = i | prepend: '00' | slice: -2, 2 | append: ".png" | prepend: "/kidpix/zine/" -%}
         {%- assign alt = i | plus: 1 | prepend: "page " -%}
-        {% include retina-image, src: src, alt: alt, width: pageWidth, style: "width: 100%;" %}
+        <img src="{{ src }}" alt="{{ alt }}" />
       </div>
     {%- endfor %}
   </div>
 </div>
 
-<div class="window page">
+<div class="window content-container">
   <div class="window-titlebar">
     <span class="window-titlebar-title">{{ title }}</span>
   </div>
@@ -49,8 +38,6 @@ preview:
   </div>
 </div>
 
-{%- include page-footer.html.liquid, class: "page", show_source: true, show_date: true -%}
-
 <style type="text/css">
   {% capture zineWidth -%}
     calc(({{ pageWidth }}px + 2rem + 1px) * 2 + 1px)
@@ -61,7 +48,10 @@ preview:
     max-width: {{ zineWidth }};
     margin: 1rem auto 2rem;
   }
-  .window, .page {
+  .content-container {
+    margin-bottom: 2rem;
+  }
+  .page {
     max-width: {{ zineWidth }};
   }
 
@@ -81,9 +71,11 @@ preview:
     border-bottom-width: 1px;
   }
 
-  .zine picture {
+  .zine-page img {
     image-rendering: pixelated;
-    width: {{ pageWidth }}px;
+    width: 100%; 
+    max-width: {{ pageWidth }}px; 
+    height: auto;
   }
 
   @container zine (min-width: {{ zineWidth }}) {
@@ -101,5 +93,3 @@ preview:
     }
   }
 </style>
-
-{% endblock %}

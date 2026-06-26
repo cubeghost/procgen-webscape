@@ -1,0 +1,19 @@
+{% layout layouts/webscape.html %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap"
+  rel="stylesheet">
+<link rel="stylesheet" href="/styles/page.css">
+{% endblock %}
+
+{% block menubar %}
+{% include breadcrumbs.html.liquid %}
+{% endblock %}
+
+{% block content %}
+<article class="page">
+  {{ content }}
+</article>
+
+{%- include page-footer.html.liquid, class: "page", show_source: true, show_date: true -%}
+{% endblock %}
