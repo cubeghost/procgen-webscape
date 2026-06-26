@@ -1,128 +1,57 @@
 ---
-eleventyImport:
-  collections: ["portfolio"]
 eleventyExcludeFromCollections: true
+# eleventyImport:
+#   collections: ["portfolio"]
 
 title: cubegho.st
 ---
-{% layout layouts/webscape.html %}
+{% layout layouts/webscape-portfolio.html %}
 
-{%- block head %}
-<link rel="stylesheet" href="/styles/tree.css">
-{% endblock -%}
+{% block right %}
 
-{%- block menubar %}
-
-<div class="menubar-menu">
-  <button popovertarget="cubeghost-dialog" class="menu-trigger" title="elsewhere online" style="display: flex; padding: 0 0.75rem">
-    {% include icon-sprite, id: "globe", style: "align-self: center", alt: "globe" %}
-    <span class="visually-hidden">elsewhere online</span>
-  </button>
-  <dialog id="cubeghost-dialog" class="menu-popover" popover>
-    <a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", role: "presentation" %} github</a>
-    <a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", role: "presentation" %} observable</a>
-    <a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", role: "presentation" %} codepen</a>
-    <a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", role: "presentation" %} bluesky</a>
-    <a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail3", role: "presentation" %} e-mail</a>
-  </dialog>
-</div>
-
-<h1 style="margin-left: 0.25rem">cubegho.st</h1>
-
-<div class="menubar-menu" style="margin-left: auto;">
-  <button popovertarget="webscape-dialog" class="menu-trigger" title="webscape controls">
-    {% render happy-mac.svg.liquid, width: 14 %}
-    <span class="visually-hidden">webscape controls</span>
-  </button>
-  <dialog id="webscape-dialog" class="menu-popover" popover>
-    <button id="replay-webscape">replay webscape<span class="spinner hidden"></span></button>
-    <button id="cancel-replay-webscape" class="hidden">cancel replay</button>
-    <button id="hide-webscape">hide webscape</button>
-    <hr />
-    {% for dimension in webscapeDimensions -%}
-    <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}" class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">notebook</a>  
-    {%- endfor %}
-  </dialog>
-</div>
-{%- endblock %}
-
-{% block content %}
-
-<div style="display: flex; justify-content: space-between; gap: 2rem;">
-  <div class="tree">
-    <div class="node">
-      <button class="node-button"></button>
-      <div class="node-content">~</div>
-    </div>
-    {% tree collections.portfolio %}
-      {% assign id = node.url | slugify -%}
-      <div class="node" {% if node.data.preview %}popovertarget="{{ id }}" popovertargetaction="toggle"{% endif %}>
-        <button class="node-button"></button>
-        {% if node -%}
-        <div class="node-content">
-          {% pagelink node %}<span>{{ node.name | default: node.data.title }}</span>{% endpagelink %}
-          {%- if node.meta %}&nbsp;{{ node.meta }}{% endif -%}
-        </div>
-        {%- else -%}
-          <div class="node-content">
-          {%- if directory.url -%}
-            <a href="{{ directory.url }}">{{ directory.name }}</a>
-          {% else %}
-            {{ directory.name }}
-          {%- endif -%}
-          </div>
-          {% if directory.icon -%}
-          <div class="node-icon">
-            {%- assign icon = directory.icon -%}
-            {%- if icon.retina != false -%}
-              {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style | default: "", class: icon.class | default: "" -%}
-            {%- else -%}
-              <img src="{{ icon.src }}" alt="{{ icon.alt }}" width="{{ icon.width }}" style="{{ icon.style | default: "" }}" eleventy:ignore />
-            {%- endif -%}
-          </div>
-          {%- endif %}
-        {%- endif %}
-      </div>
-    {% endtree %}
+{%- assign portfolio_flat = collections.portfolio | flatten_tree -%}
+{%- for page in portfolio_flat -%}
+{%- liquid
+  if page.data.portfolio_preview
+    assign preview = page.data.portfolio_preview
+  elsif page.data.preview
+    assign preview = page.data.preview
+  else
+    assign preview = nil
+  endif 
+-%}
+{%- if preview and page.use_preview -%}
+{%- assign id = page.url | default: page.filePathStem | slugify -%}
+<div id="{{ id }}" class="preview window window-animated window-animated-out" popover="hint">
+  <div class="window-titlebar">
+    <span class="window-button button-left"></span>
+    <span class="window-titlebar-title">{{ page.data.title }}</span>
   </div>
-  <div class="preview-container">
-    {%- assign portfolio_flat = collections.portfolio | flatten_tree -%}
-    {%- for node in portfolio_flat -%}
-      {%- liquid
-        if node.data.portfolio_preview
-          assign preview = node.data.portfolio_preview
-        elsif node.data.preview
-          assign preview = node.data.preview
-        else
-          assign preview = nil
-        endif
-      -%}
-      {%- if preview -%}
-      {%- assign id = node.url | slugify -%}
-      <div id="{{ id }}" class="preview window" popover="hint">
-        <div class="window-titlebar">
-          <span class="window-button button-left"></span>
-          <span class="window-titlebar-title">{{ node.data.title }}</span>
-        </div>
-        {%- include retina-image, src: preview.src, alt: preview.alt, width: 500 -%}
-      </div>
-      {%- endif -%}
-    {%- endfor -%}
-  </div>
+  {%- include retina-image, src: preview.src, alt: preview.alt, width: 500 -%}
 </div>
+{%- endif -%}
+{%- endfor -%}
 
 {% endblock %}
 
 {% block scripts %}
+
+{{ block.super }}
+
 <script type="text/javascript">
   if (window.matchMedia("(pointer: fine)").matches) {
     const nodesWithPreviews = document.querySelectorAll(".node[popovertarget]");
-    nodesWithPreviews.forEach((node) => {
+    nodesWithPreviews.forEach((node, i) => {
       const target = document.getElementById(node.getAttribute("popovertarget"));
       const button = node.querySelector(".node-button");
       const link = node.querySelector(".node-content a");
       
-      node.addEventListener("mouseenter", (event) => target.showPopover());
+      node.style.setProperty("anchor-name", `--preview-trigger-${i + 1}`);
+      target.style.setProperty("--popover-anchor", `--preview-trigger-${i + 1}`);
+
+      node.addEventListener("mouseenter", (event) => target.showPopover({
+        source: node
+      }));
       node.addEventListener("mouseleave", (event) => target.hidePopover());
 
       button.addEventListener("focus", (event) => target.showPopover());
@@ -133,97 +62,4 @@ title: cubegho.st
   }
 </script>
 
-{% capture global_dimensions %}
-  globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
-{% endcapture %}
-<script type="text/javascript">
-  {{ global_dimensions }}
-  const replayButton = document.getElementById("replay-webscape");
-  const cancelButton = document.getElementById("cancel-replay-webscape");
-
-  (async () => {
-    function setWebscapeSeed(seed) {
-      const notebookLinks = document.querySelectorAll("#webscape-dialog .webscape-link");
-      notebookLinks.forEach((notebookLink) => {
-        const url = new URL(notebookLink.href);
-        url.searchParams.set("seed", seed);
-        notebookLink.href = url.toString();
-      });
-
-      cookieStore.removeEventListener("change", onCookieChange);
-    }
-    function onCookieChange(event) {
-      const change = event.changed.find(cookie => cookie.name === "webscape_seed");
-      if (change && change.value) {
-        setWebscapeSeed(change.value);
-      }
-    }
-
-    const initialCookie = await cookieStore.get("webscape_seed");
-    if (initialCookie) {
-      setWebscapeSeed(initialCookie.value);
-    } else {
-      // wait for cookie to be set by loading background image
-      cookieStore.addEventListener("change", onCookieChange);
-    }
-  })();
-
-  replayButton.addEventListener("click", (event) => {
-    initialize();
-  });
-  cancelButton.addEventListener("click", (event) => {
-    replayButton.disabled = false;
-    replayButton.querySelector(".spinner").classList.add("hidden");
-    cancelButton.classList.add("hidden");
-    const canvasContainer = document.getElementById("webscape-canvas");
-    if (canvasContainer) canvasContainer.innerHTML = "";
-  });
-
-  async function initialize() {
-    const webscape = document.querySelector(".webscape");
-    const orientation = getComputedStyle(webscape).getPropertyValue("--orientation");
-    const scale = parseInt(getComputedStyle(webscape).getPropertyValue("--scale"));
-
-    try {
-      replayButton.disabled = true;
-      replayButton.querySelector(".spinner").classList.remove("hidden");
-      cancelButton.classList.remove("hidden");
-
-      const response = await fetch(`/webscape.gif?orientation=${orientation}`);
-
-      const buffer = await response.arrayBuffer();
-      const chunkSize = parseInt(response.headers.get("x-webscape-chunk-size"));
-
-      let canvasContainer = document.getElementById("webscape-canvas");
-      if (!canvasContainer) {
-        canvasContainer = document.createElement("div");
-        canvasContainer.id = "webscape-canvas";
-        document.querySelector(".webscape").appendChild(canvasContainer);
-      }
-
-      const { replay } = await import("/replay.js");
-      replayButton.querySelector(".spinner").classList.add("hidden");
-
-      await replay(canvasContainer, context2d, buffer, chunkSize, scale);
-      
-      replayButton.disabled = false;
-      cancelButton.classList.add("hidden");
-      canvasContainer.innerHTML = "";
-    } catch (err) {
-      replayButton.disabled = false;
-      replayButton.querySelector(".spinner").classList.add("hidden");
-      cancelButton.classList.add("hidden");
-    }
-  }
-
-  function context2d(width, height, dpi = 1) {
-    const canvas = document.createElement("canvas");
-    canvas.width = width * dpi;
-    canvas.height = height * dpi;
-    canvas.style.setProperty("image-rendering", "pixelated");
-    const context = canvas.getContext("2d", { willReadFrequently: true });
-    context.scale(dpi, dpi);
-    return context;
-  }
-</script>
 {% endblock %}

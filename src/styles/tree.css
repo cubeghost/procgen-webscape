@@ -201,48 +201,5 @@
   transform: translateX(100%) translateY(-50%);
   background: white;
   outline: var(--stroke) solid var(--stroke-color);
-}
-
-/* preview popovers */
-
-.preview-container {
-  container-name: preview-container;
-  container-type: inline-size;
-  width: 100%;
-  max-width: 500px;
-}
-
-@container preview-container (max-width: 250px) {
-  .preview {
-    display: none;
-  }
-}
-
-.preview[popover] {
-  position: fixed;
-  right: clamp(1.5rem, 5vw, 4rem);
-  top: clamp(1.5rem, 5vw, 4rem);
-  margin: 0;
-  margin-top: 44px;
-  left: auto;
-  max-width: clamp(calc(50vw - (1.5rem * 2) - 2rem), calc(40vw - 2rem), calc(50vw - (4rem * 2) - 2rem));
-  padding: 0;
-}
-
-.preview img {
-  max-width: 100%;
-}
-
-@supports (anchor-name: --anchor) {
-  .preview-container {
-    flex: 1;
-    anchor-name: --preview-container;
-  }
-
-  .preview[popover] {
-    position-anchor: --preview-container;
-    inset: anchor(inside);
-    max-width: unset;
-    margin-top: 0;
-  }
+  pointer-events: none;
 }

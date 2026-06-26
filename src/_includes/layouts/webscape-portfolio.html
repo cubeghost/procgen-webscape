@@ -1,0 +1,228 @@
+{% assign show_donation_banner = true %}
+{% layout layouts/webscape.html %}
+
+{%- block head %}
+<link rel="stylesheet" href="/styles/portfolio.css">
+{% endblock -%}
+
+{%- block menubar %}
+
+<a href="/" class="menubar-button menubar-home-icon">
+  {% include icon-sprite, id: "globe", style: "align-self: center", alt: "globe" %}
+</a>
+
+<div class="menubar-menu">
+  <button popovertarget="dialog-cubeghost" class="trigger-menu" style="display: flex; padding: 0 0.75rem">
+    home
+  </button>
+  <dialog id="dialog-cubeghost" class="popover-menu" popover>
+    <a href="/about">about</a>
+
+    <button popovertarget="dialog-elsewhere" class="trigger-menu trigger-submenu">elsewhere</button>
+    <dialog id="dialog-elsewhere" class="popover-menu popover-submenu" popover>
+      <a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", role: "presentation" %} github</a>
+      <a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", role: "presentation" %} observable</a>
+      <a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", role: "presentation" %} codepen</a>
+      <a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", role: "presentation" %} bluesky</a>
+      <a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", role: "presentation" %} e-mail</a>
+    </dialog>
+  </dialog>
+</div>
+
+<div class="menubar-menu">
+  <button popovertarget="dialog-tags" class="trigger-menu" style="display: flex; padding: 0 0.75rem">
+    tags
+  </button>
+  <dialog id="dialog-tags" class="popover-menu" popover>
+    {% for collection in collections %}
+    {%- assign tag_name = collection[0] -%}
+    {%- if tag_name != "all" and tag_name != "portfolio" -%}
+    <a href="/tags/{{ tag_name }}">#{{ tag_name }}</a>
+    {%- endif -%}
+    {% endfor %}
+  </dialog>
+</div>
+
+<div class="menubar-menu" style="margin-left: auto;">
+  <button popovertarget="dialog-webscape" class="trigger-menu" title="webscape controls">
+    {% render happy-mac.svg.liquid, width: 14 %}
+    <span class="visually-hidden">webscape controls</span>
+  </button>
+  <dialog id="dialog-webscape" class="popover-menu" popover>
+    <button id="replay-webscape">replay webscape<span class="spinner hidden"></span></button>
+    <button id="cancel-replay-webscape" class="hidden">cancel replay</button>
+    <button id="hide-webscape">hide webscape</button>
+    <hr />
+    {% for dimension in webscapeDimensions -%}
+    <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
+      class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">notebook</a>
+    {%- endfor %}
+  </dialog>
+</div>
+{%- endblock %}
+
+{% assign right_first = right_first | default: false %}
+{% block content %}
+
+<div class="portfolio-container">
+  {%- if right_first %}
+  <div class="portfolio-right">
+    {%- block right -%}{%- endblock-%}
+  </div>
+  {% endif -%}
+
+  <div class="tree">
+    <div class="node">
+      <button class="node-button"></button>
+      <div class="node-content">~</div>
+    </div>
+    {% tree collections.portfolio %}
+    {% if node -%}
+    {% assign id = node.url | default: node.filePathStem | slugify -%}
+    {%- liquid
+      if node.data.portfolio_preview
+        assign preview = node.data.portfolio_preview
+      elsif node.data.preview
+        assign preview = node.data.preview
+      else
+        assign preview = nil
+      endif
+    -%}
+    <div class="node" {% if preview and node.use_preview %}popovertarget="{{ id }}" popovertargetaction="toggle" {%endif %}>
+      <button class="node-button"></button>
+      <div class="node-content">
+        {% pagelink node %}<span>{{ node.name | default: node.data.title }}</span>{% endpagelink %}
+        {%- if node.meta %}&nbsp;{{ node.meta }}{% endif -%}
+      </div>
+    </div>
+    {%- else -%}
+    {%- assign id = nil -%}
+    <div class="node">
+      <button class="node-button"></button>
+      <div class="node-content">
+        {%- if directory.url -%}
+        <a href="{{ directory.url }}">{{ directory.name }}</a>
+        {% else %}
+        {{ directory.name }}
+        {%- endif -%}
+      </div>
+      {% if directory.icon -%}
+      <div class="node-icon">
+        {%- assign icon = directory.icon -%}
+        {%- if icon.retina != false -%}
+        {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style | default: "", class: icon.class | default: "" -%}
+        {%- else -%}
+        <img src="{{ icon.src }}" alt="{{ icon.alt }}" width="{{ icon.width }}" style="{{ icon.style | default: "" }}" eleventy:ignore />
+        {%- endif -%}
+      </div>
+      {%- endif %}
+    </div>
+    {%- endif %}
+    {% endtree %}
+  </div>
+
+  {%- if not right_first %}
+  <div class="portfolio-right">
+    {%- block right -%}{%- endblock-%}
+  </div>
+  {% endif -%}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{% capture global_dimensions %}
+globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
+{% endcapture %}
+<script type="text/javascript">
+  {{ global_dimensions }}
+  const replayButton = document.getElementById("replay-webscape");
+  const cancelButton = document.getElementById("cancel-replay-webscape");
+
+  (async () => {
+    function setWebscapeSeed(seed) {
+      const notebookLinks = document.querySelectorAll("#dialog-webscape .webscape-link");
+      notebookLinks.forEach((notebookLink) => {
+        const url = new URL(notebookLink.href);
+        url.searchParams.set("seed", seed);
+        notebookLink.href = url.toString();
+      });
+
+      cookieStore.removeEventListener("change", onCookieChange);
+    }
+    function onCookieChange(event) {
+      const change = event.changed.find(cookie => cookie.name === "webscape_seed");
+      if (change && change.value) {
+        setWebscapeSeed(change.value);
+      }
+    }
+
+    const initialCookie = await cookieStore.get("webscape_seed");
+    if (initialCookie) {
+      setWebscapeSeed(initialCookie.value);
+    } else {
+      // wait for cookie to be set by loading background image
+      cookieStore.addEventListener("change", onCookieChange);
+    }
+  })();
+
+  replayButton.addEventListener("click", (event) => {
+    initialize();
+  });
+  cancelButton.addEventListener("click", (event) => {
+    replayButton.disabled = false;
+    replayButton.querySelector(".spinner").classList.add("hidden");
+    cancelButton.classList.add("hidden");
+    const canvasContainer = document.getElementById("webscape-canvas");
+    if (canvasContainer) canvasContainer.innerHTML = "";
+  });
+
+  async function initialize() {
+    const webscape = document.querySelector(".webscape");
+    const orientation = getComputedStyle(webscape).getPropertyValue("--orientation");
+    const scale = parseInt(getComputedStyle(webscape).getPropertyValue("--scale"));
+
+    try {
+      replayButton.disabled = true;
+      replayButton.querySelector(".spinner").classList.remove("hidden");
+      cancelButton.classList.remove("hidden");
+
+      const response = await fetch(`/webscape.gif?orientation=${orientation}`);
+
+      const buffer = await response.arrayBuffer();
+      const chunkSize = parseInt(response.headers.get("x-webscape-chunk-size"));
+
+      let canvasContainer = document.getElementById("webscape-canvas");
+      if (!canvasContainer) {
+        canvasContainer = document.createElement("div");
+        canvasContainer.id = "webscape-canvas";
+        document.querySelector(".webscape").appendChild(canvasContainer);
+      }
+
+      const { replay } = await import("/replay.js");
+      replayButton.querySelector(".spinner").classList.add("hidden");
+
+      await replay(canvasContainer, context2d, buffer, chunkSize, scale);
+
+      replayButton.disabled = false;
+      cancelButton.classList.add("hidden");
+      canvasContainer.innerHTML = "";
+    } catch (err) {
+      replayButton.disabled = false;
+      replayButton.querySelector(".spinner").classList.add("hidden");
+      cancelButton.classList.add("hidden");
+    }
+  }
+
+  function context2d(width, height, dpi = 1) {
+    const canvas = document.createElement("canvas");
+    canvas.width = width * dpi;
+    canvas.height = height * dpi;
+    canvas.style.setProperty("image-rendering", "pixelated");
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    context.scale(dpi, dpi);
+    return context;
+  }
+</script>
+{% endblock %}

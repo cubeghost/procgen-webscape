@@ -4,7 +4,8 @@
     {
       "name": "maintenance dinners",
       "url": "/maintenance/",
-      "meta": "2025"
+      "meta": "2025",
+      "use_preview": true
     },
     {
       "name": "kid pix",
@@ -18,7 +19,8 @@
       "children": [
         {
           "name": "studio deluxe emulation tutorial",
-          "url": "/kidpix/tutorial/"
+          "url": "/kidpix/tutorial/",
+          "use_preview": true
         }
       ]
     },
@@ -34,9 +36,14 @@
       },
       "children": [
         {
+          "name": "deep web transmissions",
+          "url": "/code/deep-web-transmissions/"
+        },
+        {
           "name": "ephemeral web presence space",
           "url": "/code/ephemeral-presence/",
-          "meta": "2019"
+          "meta": "2019",
+          "use_preview": true
         }
       ]
     },

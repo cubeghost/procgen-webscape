@@ -31,3 +31,12 @@
   box-shadow: 0 calc(-1 * var(--border-width)) 0 black;
   background-position: calc(-48px * var(--ui-scale)) 0;
 }
+
+.scrollbox-finder .scrollbox-scroll {
+  border: 0;
+}
+
+.scrollbox-finder .scrollbox-scroll:before {
+  margin-top: auto;
+  box-shadow: 0 calc(-1 * var(--border-width)) 0 black;
+}
