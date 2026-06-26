@@ -15,6 +15,7 @@ import type {
 import { Value } from "liquidjs";
 
 import Image, { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+import pluginRss from "@11ty/eleventy-plugin-rss";
 import { consolePlus } from "eleventy-plugin-console-plus";
 import esbuild from "esbuild";
 import * as importMap from "esbuild-plugin-import-map";
@@ -233,7 +234,16 @@ export default defineConfig((eleventyConfig) => {
     "flatten_tree",
     // @ts-expect-error
     function (tree: HierarchyNode<TreeNode>) {
-      return tree.descendants().map((node) => node.data.data);
+      return tree.descendants().map((node) => {
+        const {
+          data: { data, ...rest },
+        } = node;
+        // merge so we can access properties from the tree like use_preview
+        return {
+          ...rest,
+          ...data,
+        };
+      });
     },
   );
   eleventyConfig.addLiquidTag("tree", treeTag);
@@ -350,6 +360,8 @@ export default defineConfig((eleventyConfig) => {
       };
     },
   );
+
+  eleventyConfig.addPlugin(pluginRss);
 
   return {
     dir: {
