@@ -33,7 +33,7 @@ type ChunkMeta = {
   value: number;
   rank: number;
   indicies: SurroundingChunkIndicies;
-  category: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  category: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 };
 
 export function generatorFactory<
@@ -79,6 +79,39 @@ export function generatorFactory<
 
     context.putImageData(noiseImageData(context, seed, 1), 0, 0);
 
+    // fade top and right edges into background
+    const cornerFade = context.createRadialGradient(
+      width,
+      0,
+      0,
+      width - Math.min(width, height),
+      Math.min(width, height),
+      Math.min(width, height),
+    );
+    cornerFade.addColorStop(0, "white");
+    cornerFade.addColorStop(0.55, "rgba(255, 255, 255, 0)");
+    context.fillStyle = cornerFade;
+    context.globalCompositeOperation = "source-over";
+    context.fillRect(0, 0, width, height);
+    const topFade = context.createLinearGradient(width / 2, 0, width / 2, height); // prettier-ignore
+    topFade.addColorStop(0, "rgba(255, 255, 255, 0.75)");
+    topFade.addColorStop(
+      Math.round((1 / yChunks) * 100) / 100,
+      "rgba(255, 255, 255, 0)",
+    );
+    context.fillStyle = topFade;
+    context.globalCompositeOperation = "source-over";
+    context.fillRect(0, 0, width, height);
+    const rightFade = context.createLinearGradient(width, height / 2, 0, height / 2); // prettier-ignore
+    rightFade.addColorStop(0, "rgba(255, 255, 255, 0.75)");
+    rightFade.addColorStop(
+      Math.round((1 / xChunks) * 100) / 100,
+      "rgba(255, 255, 255, 0)",
+    );
+    context.fillStyle = rightFade;
+    context.globalCompositeOperation = "source-over";
+    context.fillRect(0, 0, width, height);
+
     // if (animate) yield context.canvas;
 
     // mean darkness in chunks
@@ -97,13 +130,8 @@ export function generatorFactory<
     // EFFECTS
 
     // fade white from top
-    const gradient = context.createLinearGradient(
-      width / 2,
-      0,
-      width / 2,
-      height,
-    );
-    gradient.addColorStop(0, "white");
+    const gradient = context.createLinearGradient(width, 0, 0, height);
+    gradient.addColorStop(0, "rgba(255, 255, 255, 0.9)");
     gradient.addColorStop(1, "rgba(255, 255, 255, 0.1)");
     context.fillStyle = gradient;
     context.globalCompositeOperation = "overlay";
@@ -195,8 +223,14 @@ export function generatorFactory<
           category = 4;
         } else if (value < 128) {
           category = 5;
-        } else {
+        } else if (
+          indicies.north === undefined ||
+          indicies.east === undefined ||
+          (cx >= xChunks - 3 && cy < 3) // top right corner
+        ) {
           category = 6;
+        } else {
+          category = 7;
         }
 
         yield { i, x, y, value, rank, indicies, category };
@@ -212,7 +246,7 @@ export function generatorFactory<
       }),
       (d) => d.category,
     );
-    const random2Rank = shuffleRank(categoryRanks.get(2)!.ranks)[0];
+    const random2Ranks = shuffleRank(categoryRanks.get(2)?.ranks ?? []);
 
     // render chunks
     const frameContext = context2d(width, height, 1);
@@ -224,6 +258,7 @@ export function generatorFactory<
       [4, lighterLayer],
       [5, lightestLayer],
       [6, lighterLayer],
+      [7, lighterLayer],
     ]);
     yield* chunkReverseLoop(function* (i) {
       const { x, y, category } = categorizedChunks[i];
@@ -237,7 +272,7 @@ export function generatorFactory<
         yield delay(0, frameContext);
       }
     });
-    yield* chunkReverseLoop(function* (i) {
+    yield* chunkReverseLoop(function* (i, cx, cy) {
       const { x, y, value, rank, category } = categorizedChunks[i];
       const cr = categoryRanks.get(category)!;
       const categoryRank = cr.ranks[cr.indicies.get(i)!];
@@ -256,7 +291,7 @@ export function generatorFactory<
           break;
         }
         case 2: {
-          if (categoryRank === random2Rank) {
+          if (categoryRank === random2Ranks[0]) {
             const offset = Math.ceil((cs - 9) / 2);
             drawHappyMac(context, x + offset, y + offset);
           } else {
@@ -278,10 +313,12 @@ export function generatorFactory<
           break;
         }
         case 5: // no decorations
+        case 6: // no decorations on faded edges
           break;
-        case 6: {
+        case 7: {
           const scatter = random();
           if ((value > 200 && scatter > 0.4) || scatter > 0.95) {
+            console.log("scattered sparke at", cx, cy);
             fillChunkSparkles(context, x, y, 1);
           }
           break;

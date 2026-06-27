@@ -27,11 +27,11 @@ export function deepFryFactory<
     jitterY = jitterX,
   ) {
     const { width, height } = context.canvas;
-    const context2 = await context2d(
-      width + jitterX * 2,
-      height + jitterY * 2,
-      1,
-    );
+    const jitterWidth = width + jitterX * 2;
+    const jitterHeight = height + jitterY * 2;
+    const context2 = await context2d(jitterWidth, jitterHeight, 1);
+    context2.fillStyle = "white";
+    context2.fillRect(0, 0, jitterWidth, jitterHeight);
     const random = randomUniform.source(randomLcg(seed))(0, 1);
 
     for (let i = 0; i < iterations; i++) {
