@@ -419,6 +419,23 @@
     animation: none;
   }
 
+  .window-animated-delay[popover]:not(:popover-open) {
+    transition-delay: 600ms;
+  }
+
+  .window-animated.window-animated-delay {
+    animation-delay: 200ms;
+  }
+
+  .window-animated.window-animated-delay>* {
+    opacity: 1;
+    animation-delay: 200ms;
+  }
+
+  .window-animated.window-animated-delay:after {
+    animation-delay: 200ms;
+  }
+
   /* @supports (anchor-name: --anchor) {
     .window-animated[popover] {
       position-anchor: var(--popover-anchor);

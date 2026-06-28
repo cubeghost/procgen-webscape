@@ -22,7 +22,7 @@ title: cubegho.st
 -%}
 {%- if preview and page.use_preview -%}
 {%- assign id = page.url | default: page.filePathStem | slugify -%}
-<div id="{{ id }}" class="preview window window-animated window-animated-out" popover="hint">
+<div id="{{ id }}" class="preview window window-animated window-animated-out window-animated-delay" popover="hint">
   <div class="window-titlebar">
     <span class="window-button button-left"></span>
     <span class="window-titlebar-title">{{ page.data.title }}</span>
@@ -46,13 +46,16 @@ title: cubegho.st
       const button = node.querySelector(".node-button");
       const link = node.querySelector(".node-content a");
       
-      node.style.setProperty("anchor-name", `--preview-trigger-${i + 1}`);
-      target.style.setProperty("--popover-anchor", `--preview-trigger-${i + 1}`);
-
-      node.addEventListener("mouseenter", (event) => target.showPopover({
-        source: node
-      }));
-      node.addEventListener("mouseleave", (event) => target.hidePopover());
+      let timeout;
+      node.addEventListener("mouseenter", (event) => {
+        timeout = setTimeout(() => {
+          target.showPopover({ source: node });
+        }, 200);
+      });
+      node.addEventListener("mouseleave", (event) => {
+        if (timeout) clearTimeout(timeout);
+        target.hidePopover();
+      });
 
       button.addEventListener("focus", (event) => target.showPopover());
       button.addEventListener("blur", (event) => target.hidePopover());

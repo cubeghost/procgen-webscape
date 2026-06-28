@@ -246,7 +246,8 @@ export function generatorFactory<
       }),
       (d) => d.category,
     );
-    const random2Ranks = shuffleRank(categoryRanks.get(2)?.ranks ?? []);
+    const category2Ranks = categoryRanks.get(2)?.ranks;
+    const random2Ranks = category2Ranks ? shuffleRank(category2Ranks) : [];
 
     // render chunks
     const frameContext = context2d(width, height, 1);
