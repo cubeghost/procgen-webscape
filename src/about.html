@@ -4,6 +4,11 @@ title: about
 ---
 {% layout layouts/webscape-portfolio.html %}
 
+{% block menubar %}
+{{ block.super }}
+<h1><a href="{{ page.url }}" aria-current="page">about</a></h1>
+{% endblock %}
+
 {% assign right_first = true %}
 {% block right %}
   <style type="text/css">

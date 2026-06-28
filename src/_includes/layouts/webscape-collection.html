@@ -8,11 +8,7 @@
 {% endblock %}
 
 {% block menubar %}
-<div class="menubar-breadcrumbs">
-  <a href="/" class="menubar-breadcrumb" title="home">~</a>
-  <span>/</span>
-  <h1>#{{ tag }}</h1>
-</div>
+<h1><a href="{{ page.url }}" aria-current="page">#{{ tag }}</a></h1>
 {% endblock %}
 
 {% block content %}

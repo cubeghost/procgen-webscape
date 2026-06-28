@@ -14,9 +14,17 @@
 
 
 .menubar h1 {
-  margin: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0 auto;
   font-size: inherit;
   font-weight: normal;
+}
+
+.menubar h1 a {
+  color: currentColor;
+  text-decoration: none;
 }
 
 .menubar-menu {
