@@ -52,6 +52,7 @@ title: about
 
     #dialog-about-notes {
       margin-top: 4rem;
+      max-width: 420px;
     }
 
     /* dice */
@@ -110,7 +111,7 @@ title: about
 
       #dialog-about-icons[popover] {
         position-anchor: --dialog-about-notes;
-        top: calc(anchor(bottom) - 1rem);
+        top: calc(anchor(top) + 4rem);
         left: max(1.5rem, calc(anchor(left) - 24rem));
         right: auto;
         margin-top: 0;
@@ -128,7 +129,22 @@ title: about
       padding: 0.125rem 0.5rem;
     }
     table.finder-list {
-      padding-right: calc(16px * var(--ui-scale));
+      display: grid;
+      grid-template-rows: repeat(1fr, 2);
+      grid-template-columns: 1fr calc(16px * var(--ui-scale));
+    }
+    table.finder-list thead tr,
+    table.finder-list tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+    table.finder-list td:nth-of-type(1),
+    table.finder-list th:nth-of-type(1) {
+      width: 15%;
+    }
+    table.finder-list td:nth-of-type(1) img {
+      margin: 0 auto;
     }
     table.window-contents {
       border-spacing: 0;
@@ -136,21 +152,28 @@ title: about
       border-collapse: collapse;
     }
     .window thead.window-meta {
-      display: table-header-group;
+      display: block;
+      grid-column: 1 / -1;
       text-align: left;
     }
-    tbody.scrollbox-finder {
-      display: table-row-group;
-      position: relative;
+    thead.window-meta th {
+      text-align: left;
+      padding-left: 0.5rem;
     }
-    td.scrollbox-scroll {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: calc(16px * var(--ui-scale));
-      height: 100%;
-      padding: 0;
+    tbody.scrollbox-finder {
+      display: block;
+      position: relative;
+      max-height: calc(1.375rem * 6);
+      overflow-y: scroll;
+      margin-right: -1rem;
+    }
+    .scrollbox-finder + .scrollbox-scroll {
+      border: 0;
       box-shadow: calc(-1px * var(--ui-scale)) 0 0 black;
+    }
+    .scrollbox-finder + .scrollbox-scroll:before {
+      margin-top: auto;
+      box-shadow: 0 calc(-1 * var(--border-width)) 0 black;
     }
     .finder-item {
       margin: 0;
@@ -172,37 +195,80 @@ title: about
 
     @media (prefers-reduced-motion: no-preference) {
       #dialog-about-icons {
+        --duration: 400ms;
         transition-behavior: allow-discrete; 
       }
       #dialog-about-icons:not(:popover-open) {
-        transition-delay: 400ms;
+        transition-delay: var(--duration);
       }
+
       #dialog-about-icons .window {
-        animation: window-appear 400ms steps(1) reverse forwards;
+        will-change: border-color, background-color, box-shadow, display, position;
+        transition: display 0s allow-discrete var(--duration),
+          position 0s allow-discrete var(--duration),
+          border-color 0s steps(1, jump-end),
+          background-color 0s steps(1, jump-end),
+          box-shadow 0s steps(1, jump-end);
+        border-color: transparent;
+        background-color: transparent;
+        box-shadow: none;
       }
+
       #dialog-about-icons:popover-open .window {
-        animation-direction: normal;
+        transition-delay: var(--duration), var(--duration), var(--duration), var(--duration), var(--duration);
+        border-color: black;
+        background-color: white;
+        box-shadow: var(--border-width) var(--border-width) 0 black;
       }
-      #dialog-about-icons .window > * {
+
+      @starting-style {
+        #dialog-about-icons:popover-open .window {
+          border-color: transparent;
+          background-color: transparent;
+          box-shadow: none;
+        }
+      }
+
+      #dialog-about-icons .window>* {
+        will-change: opacity;
         opacity: 0;
-        animation: window-children-appear 400ms steps(1) reverse forwards;
+        transition: opacity 0s steps(1, jump-end);
       }
-      #dialog-about-icons:popover-open .window > * {
-        animation-direction: normal;
+
+      #dialog-about-icons:popover-open .window>* {
+        opacity: 1;
+        transition-delay: var(--duration);
       }
+
+      @starting-style {
+        #dialog-about-icons:popover-open .window>* {
+          opacity: 0;
+        }
+      }
+
       #dialog-about-icons .window:after {
         content: "";
         position: absolute;
-        border: 1px dotted black;
-        inset: 0;
+        outline: 1px dotted black;
         opacity: 0;
+        inset: 50%;
         pointer-events: none;
+        will-change: opacity, inset;
+        transition: opacity 0s steps(1, jump-start) var(--duration),
+          inset var(--duration) steps(10, jump-end) 0s;
       }
+
       #dialog-about-icons:popover-open .window:after {
-        animation: window-pseduo-appear 400ms steps(10);
+        opacity: 1;
+        inset: 0%;
+        transition-delay: 0s, 0s;
       }
-      #dialog-about-icons:not(:popover-open) .window:after {
-        animation: window-pseduo-disappear 400ms steps(10);
+
+      @starting-style {
+        #dialog-about-icons:popover-open .window:after {
+          opacity: 0;
+          inset: 50%;
+        }
       }
     }
   </style>
@@ -242,8 +308,14 @@ title: about
       <button class="window-button button-left" popovertarget="dialog-about-notes" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
     </div>
     <div class="window-contents" style="padding: 1rem; font-size: 0.875rem;">
-      <h3 style="font-size: inherit; margin-top: 0">notes on this website</h3>
-      <button popovertarget="dialog-about-icons">icons</button>
+      <h3 style="margin-top: 0">notes on this website</h3>
+      <h4>technologies</h4>
+      <p>this website's visual language is based on Mac OS 9 and System 7's <a href="https://archive.org/details/applehumaninterf00appl" target="_blank" rel="noopener noreferrer nofollow" class="external">user interfaces</a> in black and white.</p>
+      <p>
+        many of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> are pulled 
+        from classic Mac apps, system software, and fonts.
+      </p>
+      <p>it is built using eleventy and netlify functions.</p>
     </div>
   </dialog>
 
@@ -280,7 +352,7 @@ title: about
       <table class="window-contents finder finder-list">
         <thead class="window-meta">
           <tr>
-            <th scope="col"></th>
+            <th scope="col">&nbsp;</th>
             <th scope="col">Application</th>
             <th scope="col">Status</th>
           </tr>
@@ -317,14 +389,12 @@ title: about
             <td></td>
           </tr>
           <tr class="finder-item">
-            <td><div class="icon-dice" style="margin-left: 3px"></div></td>
+            <td><div class="icon-dice" style="margin-left: 13px"></div></td>
             <td>Cairo.ttf</td>
             <td>Modified</td>
           </tr>
-          <tr class="finder-scrollbar">
-            <td class="scrollbox-scroll"></td>
-          </tr>
         </tbody>
+        <tbody class="scrollbox-scroll"></tbody>
       </table>
     </div>
   </dialog>

@@ -45,6 +45,12 @@ body {
   padding: clamp(1.5rem, 5vw, 4rem);
 }
 
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 footer {
   margin-top: auto;
 }
@@ -53,33 +59,9 @@ footer {
   display: none !important;
 }
 
+/* TODO move */
 .webscape-controls {
   margin-left: auto;
-}
-
-a {
-  color: blue;
-}
-
-a:active {
-  color: red;
-}
-
-a.external:after {
-  content: "";
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M 4 16 L 18 2 Z M 6.5 2 L 18 2 L 18 13.5' stroke='currentColor' fill='transparent' stroke-width='2' /%3E%3C/svg%3E");
-  background-color: currentColor;
-  width: 0.75rem;
-  height: 0.75rem;
-  display: inline-block;
-  vertical-align: -0.125rem;
-  margin-left: 0.125rem;
-}
-
-.sticky-top {
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 img.sprite {
@@ -90,6 +72,48 @@ img.sprite {
   object-position: 0 0;
 }
 
+/* links */
+
+a {
+  color: blue;
+}
+
+a:active {
+  color: red;
+}
+
+button.button-link {
+  appearance: none;
+  text-decoration: underline;
+  color: blue;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+button.button-link:hover {}
+
+button.button-link:active {
+  color: red;
+}
+
+a.external:after {
+  content: "";
+  image-rendering: pixelated;
+  mask-image: url(/assets/ui.png);
+  mask-size: var(--ui-sprite-size);
+  mask-position: calc(-80px * var(--ui-scale)) 0;
+  background-color: currentColor;
+  width: calc(7px * var(--ui-scale));
+  height: calc(7px * var(--ui-scale));
+  display: inline-block;
+  vertical-align: 0.1rem;
+  margin-left: 0.25rem;
+}
+
+
+/* should this go in windows.css? */
 .meta-tags a {
   color: currentColor;
   text-decoration: none;
@@ -99,31 +123,18 @@ img.sprite {
   text-decoration: underline;
 }
 
-.linkable a {
+/* linkable headings */
+
+.linkable:is(h1, h2, h3, h4, h5, h6) a {
   opacity: 0;
 }
 
-.linkable:hover a,
-.linkable a:focus {
+.linkable:is(h1, h2, h3, h4, h5, h6):hover a,
+.linkable:is(h1, h2, h3, h4, h5, h6) a:focus {
   opacity: 1;
 }
 
-button.button-link {
-  appearance: none;
-  text-decoration: underline;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-}
-
-button.button-link:hover {
-  color: blue;
-}
-
-button.button-link:active {
-  color: red;
-}
+/* skip to content link */
 
 .skip-link {
   background: white;

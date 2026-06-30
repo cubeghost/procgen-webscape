@@ -22,7 +22,7 @@ title: cubegho.st
 -%}
 {%- if preview and page.use_preview -%}
 {%- assign id = page.url | default: page.filePathStem | slugify -%}
-<div id="{{ id }}" class="preview window window-animated window-animated-out window-animated-delay" popover="hint">
+<div id="{{ id }}" class="preview window window-animated window-animated-out" popover="hint">
   <div class="window-titlebar">
     <span class="window-button button-left"></span>
     <span class="window-titlebar-title">{{ page.data.title }}</span>
