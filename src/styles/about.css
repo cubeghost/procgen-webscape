@@ -1,0 +1,559 @@
+.portfolio-container {
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  /* max-width: 1200px; */
+  justify-content: center;
+}
+
+.portfolio-right {
+  flex: 1 1 320px;
+  min-width: 320px;
+  max-width: unset;
+  margin: 0 auto;
+}
+
+dialog[popover] {
+  z-index: 1;
+}
+
+.portfolio-right dialog[popover] {
+  position: relative;
+}
+
+.select-word {
+  appearance: none;
+  border: 0;
+  border-bottom: var(--border-width) dotted black;
+}
+
+/* desktop */
+
+.desktop-container {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+}
+
+.desktop-icons {
+  margin-left: auto;
+}
+
+.finder-icons.desktop-icons {
+  grid-template-columns: 1fr;
+  padding: 0;
+  padding-bottom: 0.5rem;
+}
+
+/* 500px (dialog) + 144px (finder icon item, 112px + 2rem) */
+@container portfolio-right (max-width: 644px) {
+  .finder-icons.desktop-icons {
+    display: flex;
+    align-items: flex-start;
+  }
+}
+
+.desktop-icons button {
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.desktop-icons .finder-item img {
+  object-fit: cover;
+  width: calc((32px + 0.25rem) * var(--ui-scale));
+  height: calc((32px + 0.25rem) * var(--ui-scale));
+  padding: calc(0.125rem * var(--ui-scale));
+}
+
+.desktop-icons .finder-item img,
+.desktop-icons .finder-item figcaption {
+  background-color: white;
+}
+
+.desktop-icons button:active .finder-item img,
+.desktop-icons button:active .finder-item figcaption {
+  filter: invert(1);
+}
+
+#dialog-about {
+  box-shadow: 0 0 0 calc(1px * var(--ui-scale)) black,
+    0 0 0 calc(3px * var(--ui-scale)) white,
+    0 0 0 calc(4px * var(--ui-scale)) black;
+  z-index: 1;
+  height: fit-content;
+  flex-basis: 500px;
+  margin-left: auto;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+#dialog-about .window-contents {
+  margin: 0;
+  border: 0;
+}
+
+#dialog-about-elsewhere a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#dialog-about-picture {
+  position: absolute;
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+}
+
+#dialog-about-elsewhere {
+  position: absolute;
+  top: 14rem;
+  right: 2rem;
+  left: auto;
+  margin: 0;
+}
+
+@supports (anchor-name: --anchor) {
+  #dialog-about {
+    anchor-name: --dialog-about;
+  }
+
+  #dialog-about-picture[popover] {
+    position-anchor: --dialog-about;
+    top: calc(anchor(top) + 4rem);
+    left: max(0.5rem, calc(anchor(left) - 2rem));
+    transform: none;
+  }
+
+  #dialog-about-elsewhere[popover] {
+    position-anchor: --dialog-about;
+    top: calc(anchor(bottom) - 4rem);
+    right: max(0.5rem, calc(anchor(right) - 2rem));
+  }
+}
+
+/* dice */
+
+.button-dice {
+  appearance: none;
+  border: 0;
+  background-color: transparent;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.icon-dice {
+  display: block;
+  image-rendering: pixelated;
+  background-image: url(/assets/dice.png);
+  width: calc(13px * var(--ui-scale));
+  height: calc(21px * var(--ui-scale));
+  background-position: 0px 0px;
+  background-size: calc(39px * var(--ui-scale));
+}
+
+@keyframes dice-roll {
+  0% {
+    background-position: 0px 0px;
+  }
+
+  50%,
+  100% {
+    background-position: calc(-26px * var(--ui-scale)) 0px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button-dice.dice-rolling .icon-dice {
+    animation: dice-roll 600ms steps(2) forwards;
+  }
+
+  .finder-item .icon-dice:hover {
+    animation: dice-roll 600ms steps(2) forwards;
+  }
+}
+
+/* notes dialog */
+#dialog-about-notes {
+  top: 22rem;
+  right: calc(1.5rem + 5vw);
+  left: auto;
+  max-width: 420px;
+  margin: 0;
+}
+
+@supports (anchor-name: --anchor) {
+  #dialog-about-notes[popover] {
+    position-anchor: --dialog-about;
+    top: calc(anchor(bottom) + 3rem);
+    right: calc(anchor(right) - 3rem);
+  }
+}
+
+/* icon credit popovers */
+
+#dialog-about-icons {
+  position: fixed;
+  left: 32rem;
+  top: 22rem;
+  margin: 0;
+  margin-top: 44px;
+  /* left: auto; */
+  padding: 0;
+  max-width: 360px;
+  border: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+@supports (anchor-name: --anchor) {
+  #dialog-about-notes {
+    anchor-name: --dialog-about-notes;
+  }
+
+  #dialog-about-icons[popover] {
+    position-anchor: --dialog-about-notes;
+    top: calc(anchor(top) + 4rem);
+    left: max(1.5rem, calc(anchor(left) - 24rem));
+    right: auto;
+    margin-top: 0;
+  }
+}
+
+/* FINDER */
+
+.finder {
+  font-size: 0.75rem;
+}
+
+.finder-list {
+  border-right: var(--border-width) solid black;
+  flex: 1;
+}
+
+.finder-list td {
+  padding: 0.125rem 0.5rem;
+}
+
+table.finder-list {
+  display: grid;
+  grid-template-rows: repeat(1fr, 2);
+  grid-template-columns: 1fr calc(16px * var(--ui-scale));
+}
+
+table.finder-list thead tr,
+table.finder-list tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table.finder-list tbody tr {
+  padding-right: 1rem;
+}
+
+table.finder-list *:first-child:is(td, th) {
+  width: 15%;
+}
+
+table.finder-list *:last-child:is(td, th) {
+  width: 25%;
+}
+
+table.finder-list td:nth-of-type(1) img {
+  margin: 0 auto;
+}
+
+table.window-contents {
+  border-spacing: 0;
+  width: stretch;
+  border-collapse: collapse;
+}
+
+.window thead.window-meta {
+  display: block;
+  grid-column: 1 / -1;
+  text-align: left;
+  padding: 0;
+  padding-right: calc(16px * var(--ui-scale));
+}
+
+thead.window-meta th {
+  text-align: left;
+  padding-left: 0.5rem;
+}
+
+tbody.scrollbox-finder {
+  display: block;
+  position: relative;
+  max-height: calc(1.375rem * 6);
+  overflow-y: scroll;
+  margin-right: calc(-16px * var(--ui-scale));
+}
+
+.scrollbox-finder {
+  overflow-y: scroll;
+}
+
+.scrollbox-finder+.scrollbox-scroll {
+  border: 0;
+  box-shadow: calc(-1px * var(--ui-scale)) 0 0 black;
+}
+
+.scrollbox-finder+.scrollbox-scroll:before {
+  margin-top: auto;
+  box-shadow: 0 calc(-1 * var(--border-width)) 0 black;
+}
+
+.finder-item {
+  margin: 0;
+}
+
+.finder-icons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.finder-icons .finder-item {
+  width: 80px;
+  flex: 0 0 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.finder-icons .finder-item img {
+  image-rendering: pixelated;
+}
+
+.finder-icons .finder-item figcaption {
+  padding: 0.125rem 0.25rem;
+}
+
+.finder-icons a:after {
+  display: none !important;
+}
+
+/* custom scrollbar */
+@supports selector(::-webkit-scrollbar-thumb) {
+  .scrollbox-finder+.scrollbox-scroll {
+    display: none;
+  }
+
+  .scrollbox-finder::-webkit-scrollbar {
+    display: block;
+    width: calc(16px * var(--ui-scale));
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-thumb {
+    background-color: white;
+    border: var(--border-width) solid black;
+    border-right: 0;
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-track-piece {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 2' width='4'%3E%3Crect width='1' height='1' x='0' y='0' fill='black' /%3E%3Crect width='1' height='1' x='2' y='1' fill='black' /%3E%3C/svg%3E");
+    border: var(--border-width) solid black;
+    border-right: 0;
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-track-piece:end {
+    background-position: bottom left;
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-track-piece:disabled {
+    background-image: none;
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-button:start:decrement,
+  .scrollbox-finder::-webkit-scrollbar-button:end:increment {
+    display: block;
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-button:vertical:start:increment,
+  .scrollbox-finder::-webkit-scrollbar-button:vertical:end:decrement {
+    display: none;
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-button:vertical {
+    height: calc(15px * var(--ui-scale));
+    border-left: var(--border-width) solid black;
+    image-rendering: pixelated;
+    background-image: url(/assets/ui.png);
+    background-size: var(--ui-sprite-size);
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-button:vertical:decrement {
+    background-position: calc(-64px * var(--ui-scale)) 0;
+  }
+
+  .scrollbox-finder::-webkit-scrollbar-button:vertical:increment {
+    background-position: calc(-48px * var(--ui-scale)) 0;
+  }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  #dialog-about-icons {
+    --duration: 400ms;
+    transition-behavior: allow-discrete;
+  }
+
+  #dialog-about-icons:not(:popover-open) {
+    transition-delay: var(--duration);
+  }
+
+  #dialog-about-icons .window {
+    will-change: border-color, background-color, box-shadow, display, position;
+    transition: display 0s allow-discrete var(--duration),
+      position 0s allow-discrete var(--duration),
+      border-color 0s steps(1, jump-end),
+      background-color 0s steps(1, jump-end),
+      box-shadow 0s steps(1, jump-end);
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  #dialog-about-icons:popover-open .window {
+    transition-delay: var(--duration), var(--duration), var(--duration), var(--duration), var(--duration);
+    border-color: black;
+    background-color: white;
+    box-shadow: var(--border-width) var(--border-width) 0 black;
+  }
+
+  @starting-style {
+    #dialog-about-icons:popover-open .window {
+      border-color: transparent;
+      background-color: transparent;
+      box-shadow: none;
+    }
+  }
+
+  #dialog-about-icons .window>* {
+    will-change: opacity;
+    opacity: 0;
+    transition: opacity 0s steps(1, jump-end);
+  }
+
+  #dialog-about-icons:popover-open .window>* {
+    opacity: 1;
+    transition-delay: var(--duration);
+  }
+
+  @starting-style {
+    #dialog-about-icons:popover-open .window>* {
+      opacity: 0;
+    }
+  }
+
+  #dialog-about-icons .window:after {
+    content: "";
+    position: absolute;
+    outline: 1px dotted black;
+    opacity: 0;
+    inset: 50%;
+    pointer-events: none;
+    will-change: opacity, inset;
+    transition: opacity 0s steps(1, jump-start) var(--duration),
+      inset var(--duration) steps(10, jump-end) 0s;
+  }
+
+  #dialog-about-icons:popover-open .window:after {
+    opacity: 1;
+    inset: 0%;
+    transition-delay: 0s, 0s;
+  }
+
+  @starting-style {
+    #dialog-about-icons:popover-open .window:after {
+      opacity: 0;
+      inset: 50%;
+    }
+  }
+}
+
+footer {
+  display: flex;
+  align-items: center;
+}
+
+.visitors {
+  background-color: white;
+  padding: 1rem;
+  display: flex;
+}
+
+.visitors-label {
+  width: 85px;
+  height: 19px;
+  object-fit: cover;
+  object-position: 0 0;
+  image-rendering: pixelated;
+  margin-right: 6px;
+}
+
+.visitors-number {
+  display: inline-block;
+  text-indent: -9999px;
+  image-rendering: pixelated;
+  background-image: url(/assets/visitors1.png);
+  height: 19px;
+}
+
+.visitors-number[data-number="0"] {
+  background-position: -85px 0;
+  width: 14px;
+}
+
+.visitors-number[data-number="1"] {
+  background-position: -98px 0;
+  width: 8px;
+}
+
+.visitors-number[data-number="2"] {
+  background-position: -106px 0;
+  width: 11px;
+}
+
+.visitors-number[data-number="3"] {
+  background-position: -117px 0;
+  width: 7px;
+}
+
+.visitors-number[data-number="4"] {
+  background-position: -124px 0;
+  width: 13px;
+}
+
+.visitors-number[data-number="5"] {
+  background-position: -137px 0;
+  width: 15px;
+}
+
+.visitors-number[data-number="6"] {
+  background-position: -152px 0;
+  width: 10px;
+}
+
+.visitors-number[data-number="7"] {
+  background-position: -162px 0;
+  width: 10px;
+}
+
+.visitors-number[data-number="8"] {
+  background-position: -172px 0;
+  width: 12px;
+}
+
+.visitors-number[data-number="9"] {
+  background-position: -184px 0;
+  width: 10px;
+}

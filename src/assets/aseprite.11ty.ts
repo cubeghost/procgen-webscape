@@ -53,13 +53,17 @@ export default class {
     if (!ase.frames) throw new Error(`missing frames in ${entrypoint}`);
 
     const palette = ase.frames[0].chunks.find(
-      (c) => c.type === ChunkTypeEnum.PALETTE_OLD_1,
+      (c) =>
+        c.type === ChunkTypeEnum.PALETTE_OLD_1 ||
+        c.type === ChunkTypeEnum.PALETTE,
     );
-    if (!palette)
+    if (!palette) {
       throw new Error(`missing palette chunk in first frame of ${entrypoint}`);
+    }
 
     const frames = await Promise.all(
       ase.frames.map(async (frame) => {
+        // TODO multiple layers
         const cel = frame.chunks.find((c) => c.type === ChunkTypeEnum.CEL);
         if (!cel) throw new Error(`missing cel chunk in ${entrypoint}`);
         if (cel.data.type !== CelTypeEnum.COMPRESSED)
@@ -73,7 +77,10 @@ export default class {
           buffer = new Uint8Array(originalBuffer.length * 4);
 
           const transparentIndex = ase.header.transparentIndex;
-          const colors = palette.data.packets[0].colors;
+          const colors =
+            palette.type === ChunkTypeEnum.PALETTE_OLD_1
+              ? palette.data.packets[0].colors
+              : palette.data.entries;
 
           for (let i = 0; i < originalBuffer.length; i++) {
             const colorIndex = originalBuffer[i];

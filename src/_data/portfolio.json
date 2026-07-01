@@ -28,11 +28,8 @@
       "name": "#code",
       "tag": "code",
       "icon": {
-        "src": "/assets/code.png",
-        "alt": "code document icon",
-        "width": 26,
-        "style": "image-rendering: pixelated",
-        "retina": false
+        "sprite": "document-code",
+        "alt": "code document icon"
       },
       "children": [
         {
@@ -51,11 +48,8 @@
       "name": "#visuals",
       "tag": "visuals",
       "icon": {
-        "src": "/assets/macpaint.png",
-        "alt": "macpaint document icon",
-        "width": 25,
-        "style": "image-rendering: pixelated",
-        "retina": false
+        "sprite": "document-macpaint",
+        "alt": "MacPaint document icon"
       }
     },
     {

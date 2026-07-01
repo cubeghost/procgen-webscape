@@ -38,11 +38,11 @@
 {{ sprite_index | times: -16 }}px 0
 {%- else -%}
 <img 
-  src="/assets/icons.png"
+  src="/assets/icons-16.png"
   {% if role != "presentation" -%}
   alt="{{ alt }}"
   {%- endif %}
-  class="sprite"
+  class="sprite sprite-16"
   style="object-position: {{ sprite_index | times: -16 }}px 0; {{ style | default: "" }}"
   {% if role -%}
   role="{{ role }}"

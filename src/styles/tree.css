@@ -203,3 +203,7 @@
   outline: var(--stroke) solid var(--stroke-color);
   pointer-events: none;
 }
+
+.tree .node .node-content>a:after {
+  display: none !important;
+}

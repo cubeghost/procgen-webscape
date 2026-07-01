@@ -4,6 +4,11 @@ title: about
 ---
 {% layout layouts/webscape-portfolio.html %}
 
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="/styles/about.css">
+{% endblock %}
+
 {% block menubar %}
 {{ block.super }}
 <h1><a href="{{ page.url }}" aria-current="page">about</a></h1>
@@ -11,280 +16,20 @@ title: about
 
 {% assign right_first = true %}
 {% block right %}
-  <style type="text/css">
-    .portfolio-container {
-      flex-direction: row-reverse;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      justify-content: center;
-    }
-    .portfolio-right {
-      flex: 1 1 320px;
-      min-width: 320px;
-      margin: 0 auto;
-    }
+<div class="desktop-container">
 
-    dialog[popover] {
-      z-index: 1;
-    }
-    .portfolio-right dialog[popover] {
-      position: relative;
-    }
-
-    #dialog-about {
-      box-shadow: 0 0 0 calc(1px * var(--ui-scale)) black,
-                  0 0 0 calc(3px * var(--ui-scale)) white,
-                  0 0 0 calc(4px * var(--ui-scale)) black;
-      z-index: 1;
-      height: fit-content;
-    }
-
-    #dialog-about .window-contents {
-      margin: 0;
-      border: 0;
-    }
-
-    #dialog-about-elsewhere a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem
-    }
-
-    #dialog-about-notes {
-      margin-top: 4rem;
-      max-width: 420px;
-    }
-
-    /* dice */
-
-    .button-dice {
-      appearance: none;
-      border: 0;
-      background-color: transparent;
-      padding: 0.25rem;
-      cursor: pointer;
-    }
-
-    .icon-dice {
-      display: block;
-      image-rendering: pixelated;
-      background-image: url(/assets/dice.png);
-      width: calc(13px * var(--ui-scale));
-      height: calc(21px * var(--ui-scale));
-      background-position: 0px 0px;
-      background-size: calc(39px * var(--ui-scale));
-    }
-
-    @keyframes dice-roll {
-      0% { background-position: 0px 0px; }
-      50%, 100% { background-position: calc(-26px * var(--ui-scale)) 0px; }
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .button-dice.dice-rolling .icon-dice {
-        animation: dice-roll 600ms steps(2) forwards;
-      }
-      .finder-item .icon-dice:hover {
-        animation: dice-roll 600ms steps(2) forwards;
-      }
-    }
-
-    /* icon credit popovers */
-
-    #dialog-about-icons {
-      position: fixed;
-      left: 32rem;
-      top: 22rem;
-      margin: 0;
-      margin-top: 44px;
-      /* left: auto; */
-      padding: 0;
-      max-width: 360px;
-      border: 0;
-      overflow: visible;
-      background: transparent;
-    }
-    @supports (anchor-name: --anchor) {
-      #dialog-about-notes {
-        anchor-name: --dialog-about-notes;
-      }
-
-      #dialog-about-icons[popover] {
-        position-anchor: --dialog-about-notes;
-        top: calc(anchor(top) + 4rem);
-        left: max(1.5rem, calc(anchor(left) - 24rem));
-        right: auto;
-        margin-top: 0;
-      }
-    }
-
-    .finder {
-      font-size: 0.75rem;
-    }
-    .finder-list {
-      border-right: var(--border-width) solid black;
-      flex: 1;
-    }
-    .finder-list td {
-      padding: 0.125rem 0.5rem;
-    }
-    table.finder-list {
-      display: grid;
-      grid-template-rows: repeat(1fr, 2);
-      grid-template-columns: 1fr calc(16px * var(--ui-scale));
-    }
-    table.finder-list thead tr,
-    table.finder-list tbody tr {
-      display: table;
-      width: 100%;
-      table-layout: fixed;
-    }
-    table.finder-list td:nth-of-type(1),
-    table.finder-list th:nth-of-type(1) {
-      width: 15%;
-    }
-    table.finder-list td:nth-of-type(1) img {
-      margin: 0 auto;
-    }
-    table.window-contents {
-      border-spacing: 0;
-      width: stretch;
-      border-collapse: collapse;
-    }
-    .window thead.window-meta {
-      display: block;
-      grid-column: 1 / -1;
-      text-align: left;
-    }
-    thead.window-meta th {
-      text-align: left;
-      padding-left: 0.5rem;
-    }
-    tbody.scrollbox-finder {
-      display: block;
-      position: relative;
-      max-height: calc(1.375rem * 6);
-      overflow-y: scroll;
-      margin-right: -1rem;
-    }
-    .scrollbox-finder + .scrollbox-scroll {
-      border: 0;
-      box-shadow: calc(-1px * var(--ui-scale)) 0 0 black;
-    }
-    .scrollbox-finder + .scrollbox-scroll:before {
-      margin-top: auto;
-      box-shadow: 0 calc(-1 * var(--border-width)) 0 black;
-    }
-    .finder-item {
-      margin: 0;
-    }
-    .finder-icons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-    }
-    .finder-icons > .finder-item {
-      flex: 0 0 112px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      text-wrap: balance;
-      margin: 1rem;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      #dialog-about-icons {
-        --duration: 400ms;
-        transition-behavior: allow-discrete; 
-      }
-      #dialog-about-icons:not(:popover-open) {
-        transition-delay: var(--duration);
-      }
-
-      #dialog-about-icons .window {
-        will-change: border-color, background-color, box-shadow, display, position;
-        transition: display 0s allow-discrete var(--duration),
-          position 0s allow-discrete var(--duration),
-          border-color 0s steps(1, jump-end),
-          background-color 0s steps(1, jump-end),
-          box-shadow 0s steps(1, jump-end);
-        border-color: transparent;
-        background-color: transparent;
-        box-shadow: none;
-      }
-
-      #dialog-about-icons:popover-open .window {
-        transition-delay: var(--duration), var(--duration), var(--duration), var(--duration), var(--duration);
-        border-color: black;
-        background-color: white;
-        box-shadow: var(--border-width) var(--border-width) 0 black;
-      }
-
-      @starting-style {
-        #dialog-about-icons:popover-open .window {
-          border-color: transparent;
-          background-color: transparent;
-          box-shadow: none;
-        }
-      }
-
-      #dialog-about-icons .window>* {
-        will-change: opacity;
-        opacity: 0;
-        transition: opacity 0s steps(1, jump-end);
-      }
-
-      #dialog-about-icons:popover-open .window>* {
-        opacity: 1;
-        transition-delay: var(--duration);
-      }
-
-      @starting-style {
-        #dialog-about-icons:popover-open .window>* {
-          opacity: 0;
-        }
-      }
-
-      #dialog-about-icons .window:after {
-        content: "";
-        position: absolute;
-        outline: 1px dotted black;
-        opacity: 0;
-        inset: 50%;
-        pointer-events: none;
-        will-change: opacity, inset;
-        transition: opacity 0s steps(1, jump-start) var(--duration),
-          inset var(--duration) steps(10, jump-end) 0s;
-      }
-
-      #dialog-about-icons:popover-open .window:after {
-        opacity: 1;
-        inset: 0%;
-        transition-delay: 0s, 0s;
-      }
-
-      @starting-style {
-        #dialog-about-icons:popover-open .window:after {
-          opacity: 0;
-          inset: 50%;
-        }
-      }
-    }
-  </style>
-
-  <div id="dialog-about" class="window dialog-about">
+  <div id="dialog-about" class="window" style="flex-basis: 500px">
     <div class="window-contents" style="display: flex; padding: 1rem; gap: 1rem">
       <div style="flex-shrink: 0; padding: 0.5rem 1rem;">
-        <img src="/assets/resedit.png" width="23" style="image-rendering: pixelated;" eleventy:ignore />
+        {%- include icon-sprite-32, id: "resedit", alt: "ResEdit icon" -%}
       </div>
       <div>
         <h2 style="font-size: 1.25rem; font-family: var(--monospace)">cubegho.st</h2>
         <p>
           <button popovertarget="dialog-about-picture" class="button-link"><strong>alex baldwin</strong></button> is a 
           <span style="display: inline-flex; align-items: center">
-            <select id="about-title" value="code wizard">
-              <option>code wizard</option>
+            <select id="about-title" class="select-word" style="width: 162px">
+              <option selected>code wizard</option>
               <option>level 3000 cyberwitch</option>
               <option>computer artist</option>
               <option>software engineer</option>
@@ -298,135 +43,193 @@ title: about
         </p>
         {% comment %} <p>logging on from Brooklyn, NY</p> {% endcomment %}
         <p>who has been writing code since ~2006</p>
-        <p><button popovertarget="dialog-about-elsewhere" class="button-link">elsewhere on the world wide web</button></p>
+        <p>find them <button popovertarget="dialog-about-elsewhere" class="button-link">elsewhere on the world wide web</button></p>
       </div>
     </div>
   </div>
-  
-  <dialog id="dialog-about-notes" class="window window-note" popover="manual" open>
-    <div class="window-handle">
-      <button class="window-button button-left" popovertarget="dialog-about-notes" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
-    </div>
-    <div class="window-contents" style="padding: 1rem; font-size: 0.875rem;">
-      <h3 style="margin-top: 0">notes on this website</h3>
-      <h4>technologies</h4>
-      <p>this website's visual language is based on Mac OS 9 and System 7's <a href="https://archive.org/details/applehumaninterf00appl" target="_blank" rel="noopener noreferrer nofollow" class="external">user interfaces</a> in black and white.</p>
-      <p>
-        many of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> are pulled 
-        from classic Mac apps, system software, and fonts.
-      </p>
-      <p>it is built using eleventy and netlify functions.</p>
-    </div>
-  </dialog>
 
-  <dialog id="dialog-about-icons" popover="manual">
-    <div class="window" style="position: relative; z-index: 1;">
-      <div class="window-titlebar">
-        <button class="window-button button-left" popovertarget="dialog-about-icons" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
-        <span class="window-titlebar-title">Icons</span>
-      </div>
-      <div class="window-contents">
-        <div class="window-meta"><span>4 items</span></div>
-        <div class="finder finder-icons">
-          <figure class="finder-item">
-            <img src="/assets/macpaint.png" alt="macpaint document icon" width="25" style="image-rendering: pixelated" eleventy:ignore />
-            <figcaption>MacPaint</figcaption>
-          </figure>
-          <figure class="finder-item">
-            <img src="/assets/code.png" alt="code document icon" width="26" style="image-rendering: pixelated" eleventy:ignore />
-            <figcaption>THINK C</figcaption>
-          </figure>
-          <figure class="finder-item">
-            <img src="/kidpix/kidpix_icon_alt.png" alt="kid pix studio deluxe icon" width="32" style="image-rendering: pixelated" />
-            <figcaption>Kid Pix Studio Deluxe</figcaption>
-          </figure>
-          <figure class="finder-item">
-            <img src="/assets/resedit.png" alt="resedit icon" width="23" style="image-rendering: pixelated" eleventy:ignore />
-            <figcaption>ResEdit</figcaption>
-          </figure>
-        </div>
-      </div>
-    </div>
-    <div class="window" style="transform: translate(3rem, -1.5rem);">
-      <div class="window-titlebar"></div>
-      <table class="window-contents finder finder-list">
-        <thead class="window-meta">
-          <tr>
-            <th scope="col">&nbsp;</th>
-            <th scope="col">Application</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody class="scrollbox scrollbox-finder">
-          <tr class="finder-item">
-            <td>{% include icon-sprite, id: "scrapbook", role: "presentation" %}</td>
-            <td>Scrapbook</td>
-            <td></td>
-          </tr>
-          <tr class="finder-item">
-            <td>{% include icon-sprite, id: "users", role: "presentation" %}</td>
-            <td>System</td>
-            <td></td>
-          </tr>
-          <tr class="finder-item">
-            <td>{% include icon-sprite, id: "suitcase-git", role: "presentation" %}</td>
-            <td>System 7</td>
-            <td>Modified</td>
-          </tr>
-          <tr class="finder-item">
-            <td>{% include icon-sprite, id: "globe", role: "presentation" %}</td>
-            <td>System</td>
-            <td>Modified</td>
-          </tr>
-          <tr class="finder-item">
-            <td>{% include icon-sprite, id: "document-code", role: "presentation" %}</td>
-            <td>THINK C</td>
-            <td></td>
-          </tr>
-          <tr class="finder-item">
-            <td>{% include icon-sprite, id: "mail4", role: "presentation" %}</td>
-            <td>Microsoft Outlook</td>
-            <td></td>
-          </tr>
-          <tr class="finder-item">
-            <td><div class="icon-dice" style="margin-left: 13px"></div></td>
-            <td>Cairo.ttf</td>
-            <td>Modified</td>
-          </tr>
-        </tbody>
-        <tbody class="scrollbox-scroll"></tbody>
-      </table>
-    </div>
-  </dialog>
-  
-  <dialog id="dialog-about-elsewhere" class="window window-utility window-animated" popover="manual">
-    <div class="window-handle">
-      <button class="window-button button-left" popovertarget="dialog-about-elsewhere" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
-      <span class="window-button button-right button-minimize"></span>
+  <div class="finder finder-icons desktop-icons">
+    <figure class="finder-item">
+      {%- include icon-sprite-32, id: "resedit-open", alt: "ResEdit icon in open state" -%}
+      <figcaption>cubegho.st</figcaption>
+    </figure>
+    <button popovertarget="dialog-about-notes">
+      <figure class="finder-item">
+        {%- include icon-sprite-32, id: "notepad", alt: "notepad" -%}
+        <figcaption>about this website</figcaption>
+      </figure>
+    </button>
+    <button popovertarget="dialog-about-elsewhere">
+      <figure class="finder-item">
+        {%- include icon-sprite-32, id: "globe", alt: "globe" -%}
+        <figcaption>elsewhere</figcaption>
+      </figure>
+    </button>
+  </div>
+
+</div>
+
+<dialog id="dialog-about-elsewhere" class="window window-utility window-animated" popover="manual">
+  <div class="window-handle">
+    <button class="window-button button-left" popovertarget="dialog-about-elsewhere" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
+    <span class="window-button button-right button-minimize"></span>
+  </div>
+  <div class="window-contents">
+    <a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", role: "presentation" %} github</a>
+    <a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", role: "presentation" %} observable</a>
+    <a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", role: "presentation" %} codepen</a>
+    <a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", role: "presentation" %} bluesky</a>
+    <a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", role: "presentation" %} e-mail</a>
+  </div>
+</dialog>
+
+<dialog id="dialog-about-picture" popover="manual" class="window window-utility window-animated">
+  <div class="window-handle">
+    <button class="window-button button-left" popovertarget="dialog-about-picture" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
+    <span class="window-button button-right button-minimize"></span>
+  </div>
+  <div class="window-contents" style="padding: 0">
+    {% include retina-image, src: "/assets/20190406.png", alt: 'me', width: 128 %}
+  </div>
+</dialog>
+
+<dialog id="dialog-about-notes" class="window window-note window-animated" popover="manual">
+  <div class="window-handle">
+    <button class="window-button button-left" popovertarget="dialog-about-notes" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
+  </div>
+  <div class="window-contents" style="padding: 1rem; font-size: 0.875rem;">
+    <h3 style="margin-top: 0">about this website</h3>
+    <h4>technologies</h4>
+    <p>this is a mostly-static site built using <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a> and serverless functions. it is currently hosted on <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>.</p>
+    <p>
+      the background 
+      <select id="scape" class="select-word" style="width: 79px">
+        <option>landscape</option>
+        <option selected>webscape</option>
+        <option>dreamscape</option>
+        <option>bitscape</option>
+      </select>
+      is procedurally generated for the current date using perlin noise and JPEG artifacts. today's seed is <small><code class="webscape-seed">?</code></small>.
+      {% for dimension in webscapeDimensions -%}
+      <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
+        class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">try it for yourself!</a>
+      {%- endfor %}
+    </p>
+    <h4>visuals</h4>
+    <p>this website's visual language is based on the <a href="https://archive.org/details/applehumaninterf00appl" target="_blank" rel="noopener"
+      class="external">user interfaces</a> of Macintosh System 7 and OS 9.</p>
+    <p>
+      many of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> are 
+      pulled from classic Mac system software, apps, and fonts.
+    </p>
+  </div>
+</dialog>
+
+<dialog id="dialog-about-icons" popover="manual">
+  <div class="window" style="position: relative; z-index: 1;">
+    <div class="window-titlebar">
+      <button class="window-button button-left" popovertarget="dialog-about-icons" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
+      <span class="window-titlebar-title">Icons</span>
     </div>
     <div class="window-contents">
-      <a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", role: "presentation" %} github</a>
-      <a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", role: "presentation" %} observable</a>
-      <a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", role: "presentation" %} codepen</a>
-      <a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", role: "presentation" %} bluesky</a>
-      <a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", role: "presentation" %} e-mail</a>
+      <div class="window-meta"><span>4 items</span></div>
+      <div class="finder finder-icons scrollbox-finder" style="max-height: 190px">
+        <figure class="finder-item">
+          {%- include icon-sprite-32, id: "document-macpaint", alt: "MacPaint document icon" -%}
+          <figcaption>MacPaint</figcaption>
+        </figure>
+        <figure class="finder-item">
+          {%- include icon-sprite-32, id: "document-code", alt: "THINK C document icon" -%}
+          <figcaption>THINK C</figcaption>
+        </figure>
+        <figure class="finder-item">
+          <img src="/kidpix/kidpix_icon_alt.png" alt="kid pix studio deluxe icon" width="32" />
+          <figcaption>Kid Pix Studio Deluxe</figcaption>
+        </figure>
+        <figure class="finder-item">
+          {%- include icon-sprite-32, id: "resedit", alt: "ResEdit icon" -%}
+          <figcaption>ResEdit</figcaption>
+        </figure>
+        <figure class="finder-item">
+          {%- include icon-sprite-32, id: "notepad", alt: "notepad icon" -%}
+          <figcaption>Notepad</figcaption>
+        </figure>
+        <a href="https://web.archive.org/web/20210321230610/https://twitter.com/SusanKare/status/1373772909651529728" target="_blank" rel="noopener">
+          <figure class="finder-item">
+            {%- include icon-sprite-32, id: "globe", alt: "globe icon" -%}
+            <figcaption>AppleLink</figcaption>
+          </figure>
+        </a>
+      </div>
     </div>
-  </dialog>
-
-  <dialog id="dialog-about-picture" popover="manual" class="window window-utility window-animated" style="margin-left: 8rem;">
-    <div class="window-handle">
-      <button class="window-button button-left" popovertarget="dialog-about-picture" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
-      <span class="window-button button-right button-minimize"></span>
-    </div>
-    <div class="window-contents" style="padding: 0">
-      {% include retina-image, src: "/assets/20190406.png", alt: 'me', width: 128 %}
-    </div>
-  </dialog>
-
+  </div>
+  <div class="window" style="transform: translate(3rem, -1.5rem);">
+    <div class="window-titlebar"></div>
+    <table class="window-contents finder finder-list">
+      <thead class="window-meta">
+        <tr>
+          <th scope="col">&nbsp;</th>
+          <th scope="col">Source</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody class="scrollbox scrollbox-finder">
+        {%- capture icon_sources %}
+          [
+            {"sprite": "scrapbook", "source": "Scrapbook"},
+            {"sprite": "users", "source": "System 7"},
+            {"sprite": "suitcase-git", "source": "System 7", "status": "Modified"},
+            {"sprite": "globe", "source": "OS 9", "status": "Modified"},
+            {"sprite": "document-code", "source": "THINK C"},
+            {"sprite": "mail4", "source": "Microsoft Outlook"},
+            {
+              "icon": "<div class=\"icon-dice\" style=\"margin-left: 12px\"><span class=\"visually-hidden\">dice</span></div>", 
+              "source": "Cairo font", 
+              "status": "Modified", 
+              "icon_style": "padding-top: 0; padding-bottom: 0;"
+            }
+          ]
+        {% endcapture -%}
+        {%- assign icon_sources = icon_sources | json_parse -%}
+        {%- for icon_source in icon_sources -%}
+        <tr class="finder-item">
+          <td {% if icon_source.icon_style %}style="{{ icon_source.icon_style}}"{% endif  %}>
+          {%- if icon_source.sprite -%}
+            {%- include icon-sprite, id: icon_source.sprite, role: "presentation" -%}
+          {%- else -%}
+            {{ icon_source.icon }}
+          {%-endif-%}
+          </td>
+          <td>{{ icon_source.source }}</td>
+          <td>{{ icon_source.status | default: "" }}</td>
+        </tr>
+        {%- endfor -%}
+      </tbody>
+      <tbody class="scrollbox-scroll"></tbody>
+    </table>
+  </div>
+</dialog>
+  
 {% endblock %}
 
 {% block footer %}
-<img src="http://www.slimes.ca/WebButtons//sithappens.gif" eleventy:ignore />
+<img src="http://www.slimes.ca/WebButtons//sithappens.gif" eleventy:ignore style="image-rendering: pixelated" />
+
+{% comment %} USE IFRAME? {% endcomment %}
+<div class="visitors" style="margin-left: auto">
+  <img src="/assets/visitors1.png" alt="visitors" class="visitors-label" eleventy:ignore />
+
+  <span class="visitors-number" data-number="1">1</span>
+  <span class="visitors-number" data-number="2">2</span>
+  <span class="visitors-number" data-number="3">3</span>
+  <span class="visitors-number" data-number="4">4</span>
+  <span class="visitors-number" data-number="5">5</span>
+  <span class="visitors-number" data-number="6">6</span>
+  <span class="visitors-number" data-number="7">7</span>
+  <span class="visitors-number" data-number="8">8</span>
+  <span class="visitors-number" data-number="9">9</span>
+  <span class="visitors-number" data-number="0">0</span>
+</div>
 {% endblock %}
 
 {% block scripts %}

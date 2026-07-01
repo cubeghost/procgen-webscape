@@ -158,6 +158,10 @@ declare module "aseprite" {
     numPackets: number;
     packets: Packet[];
   } & KaitaiProperties<C, PaletteOld1Chunk<C, I>, Aseprite<C, I>>;
+  type PaletteChunkData<C, I> = {
+    numEntries: number;
+    entries: (Color & { a: number })[];
+  } & KaitaiProperties<C, PaletteOld1Chunk<C, I>, Aseprite<C, I>>;
 
   type ColorProfileChunk = { type: ChunkType.COLOR_PROFILE; size: number };
   type PaletteOld1Chunk<C, I> = {
@@ -173,7 +177,10 @@ declare module "aseprite" {
   type UserdataChunk = { type: ChunkType.USERDATA };
   type LayerChunk = { type: ChunkType.LAYER };
   type TagsChunk = { type: ChunkType.TAGS };
-  type PaletteChunk = { type: ChunkType.PALETTE };
+  type PaletteChunk<C, I> = {
+    type: ChunkType.PALETTE;
+    data: PaletteChunkData<C, I>;
+  };
   type MaskChunk = { type: ChunkType.MASK };
   type Chunk<C, I> = { size: number } & (
     | ColorProfileChunk
@@ -184,7 +191,7 @@ declare module "aseprite" {
     | UserdataChunk
     | LayerChunk
     | TagsChunk
-    | PaletteChunk
+    | PaletteChunk<C, I>
     | MaskChunk
   ) &
     KaitaiProperties<C, Frame<C, I>, Aseprite<C, I>>;

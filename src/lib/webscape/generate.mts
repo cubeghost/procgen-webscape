@@ -319,7 +319,6 @@ export function generatorFactory<
         case 7: {
           const scatter = random();
           if ((value > 200 && scatter > 0.4) || scatter > 0.95) {
-            console.log("scattered sparke at", cx, cy);
             fillChunkSparkles(context, x, y, 1);
           }
           break;

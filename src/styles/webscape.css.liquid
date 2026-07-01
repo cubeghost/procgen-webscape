@@ -41,7 +41,7 @@ permalink: styles/webscape.css
   left: 0;
 }
 
-.webscape-link.webscape-link-landscape {display: block}
+.webscape-link.webscape-link-landscape {display: inline-block}
 .webscape-link.webscape-link-portrait {display: none}
 
 @media (orientation: portrait) {
@@ -53,7 +53,7 @@ permalink: styles/webscape.css
     --scale: 2;
   }
   .webscape-link.webscape-link-landscape {display: none}
-  .webscape-link.webscape-link-portrait {display: block}
+  .webscape-link.webscape-link-portrait {display: inline-block}
 }
 
 {% for dimension in webscapeDimensions %}

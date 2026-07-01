@@ -8,8 +8,9 @@
 {%- block menubar %}
 <div class="menubar-menu" style="margin-left: auto;">
   <button popovertarget="dialog-webscape" class="trigger-menu" title="webscape controls">
-    {% render happy-mac.svg.liquid, width: 14 %}
-    <span class="visually-hidden">webscape controls</span>
+    {% comment %} {% render happy-mac.svg.liquid, width: 14 %} {% endcomment %}
+    {% comment %} <span class="visually-hidden">webscape controls</span> {% endcomment %}
+    <img src="/assets/happy-mac.png" class="sprite happy-mac-sprite" eleventy:ignore />
   </button>
   <dialog id="dialog-webscape" class="popover-menu" popover>
     <button id="replay-webscape">replay webscape<span class="spinner hidden"></span></button>
@@ -72,7 +73,9 @@
       {% if directory.icon -%}
       <div class="node-icon">
         {%- assign icon = directory.icon -%}
-        {%- if icon.retina != false -%}
+        {%- if icon.sprite -%}
+        {%- include icon-sprite-32, id: icon.sprite, alt: icon.alt -%}
+        {%- elsif icon.retina != false -%}
         {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style | default: "", class: icon.class | default: "" -%}
         {%- else -%}
         <img src="{{ icon.src }}" alt="{{ icon.alt }}" width="{{ icon.width }}" style="{{ icon.style | default: "" }}" eleventy:ignore />
@@ -105,11 +108,15 @@ globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
 
   (async () => {
     function setWebscapeSeed(seed) {
-      const notebookLinks = document.querySelectorAll("#dialog-webscape .webscape-link");
+      const notebookLinks = document.querySelectorAll(".webscape-link");
       notebookLinks.forEach((notebookLink) => {
         const url = new URL(notebookLink.href);
         url.searchParams.set("seed", seed);
         notebookLink.href = url.toString();
+      });
+      const seedPlaceholders = document.querySelectorAll(".webscape-seed");
+      seedPlaceholders.forEach((placeholder) => {
+        placeholder.innerText = seed;
       });
 
       cookieStore.removeEventListener("change", onCookieChange);
