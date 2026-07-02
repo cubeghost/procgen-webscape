@@ -214,6 +214,21 @@
   padding: 1px 6px;
 }
 
+.menubar-menu>.trigger-menu {
+  display: flex;
+  padding: 0 0.75rem
+}
+
+@media (max-width: 480px) {
+  .menubar-menu>.trigger-menu {
+    padding: 0 0.5rem;
+  }
+}
+
+.trigger-menu[popovertarget=dialog-webscape] {
+  display: block;
+}
+
 .trigger-menu.trigger-submenu:after {
   content: "";
   width: calc(16px * var(--ui-scale));

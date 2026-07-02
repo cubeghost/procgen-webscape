@@ -29,7 +29,8 @@
       "tag": "code",
       "icon": {
         "sprite": "document-code",
-        "alt": "code document icon"
+        "alt": "code document icon",
+        "size": 32
       },
       "children": [
         {
@@ -49,7 +50,8 @@
       "tag": "visuals",
       "icon": {
         "sprite": "document-macpaint",
-        "alt": "MacPaint document icon"
+        "alt": "MacPaint document icon",
+        "size": 32
       }
     },
     {

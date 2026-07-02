@@ -42,7 +42,7 @@ export default defineConfig((eleventyConfig) => {
 
   eleventyConfig.addTemplateFormats("11ty.ts");
   eleventyConfig.addPassthroughCopy("src/assets/*.(ttf|woff2)");
-  eleventyConfig.addPassthroughCopy("src/assets/icons.png");
+  eleventyConfig.addPassthroughCopy("src/assets/*.(png|jpg)");
   eleventyConfig.addPassthroughCopy("src/**/*.css");
   eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 

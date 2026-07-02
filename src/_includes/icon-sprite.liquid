@@ -1,49 +1,22 @@
-{%- capture sprites -%}
-  [
-    "looped-square-large",
-    "looped-square",
-    "sheep",
-    "baby-sheep",
-    "nodepad",
-    "help",
-    "hypercard-stack",
-    "hypercard",
-    "alert-text",
-    "alert",
-    "alert-question",
-    "document-preferences",
-    "document-code",
-    "document-text",
-    "simpletext",
-    "mail1",
-    "mail2",
-    "mail3",
-    "mail4",
-    "git",
-    "suitcase-git",
-    "suitcase",
-    "scrapbook",
-    "scrapbook_file",
-    "globe",
-    "users",
-    "pause",
-    "play",
-    "arrow-down",
-    "arrow-up"
-  ]
-{%- endcapture -%}
-{%- assign sprites = sprites | json_parse -%}
+{%- liquid
+  if size == 16
+    assign sprites = icons16
+  elsif size == 32
+    assign sprites = icons32
+  endif
+-%}
 {%- assign sprite_index = sprites | find_index_value: id -%}
+{%- assign multiplier = size | times: -1 -%}
 {%- if position_only -%}
-{{ sprite_index | times: -16 }}px 0
+{{ sprite_index | times: multiplier }}px 0
 {%- else -%}
 <img 
-  src="/assets/icons-16.png"
+  src="/assets/icons-{{ size }}.png"
   {% if role != "presentation" -%}
   alt="{{ alt }}"
   {%- endif %}
-  class="sprite sprite-16"
-  style="object-position: {{ sprite_index | times: -16 }}px 0; {{ style | default: "" }}"
+  class="sprite sprite-{{ size }}"
+  style="object-position: {{ sprite_index | times: multiplier }}px 0; {{ style | default: "" }}"
   {% if role -%}
   role="{{ role }}"
   {%- endif %}

@@ -15,11 +15,12 @@ title: about
 {% endblock %}
 
 {% block content %}
+
 <div class="desktop-container">
   <div class="finder finder-icons desktop-icons">
     <a href="/">
       <figure class="finder-item">
-        {%- include icon-sprite-32, id: "folder", alt: "folder" -%}
+        {%- include icon-sprite, id: "folder", size: 32, alt: "folder" -%}
         <figcaption>portfolio</figcaption>
       </figure>
     </a>
@@ -28,7 +29,7 @@ title: about
   <div id="dialog-about" class="window" style="flex-basis: 500px">
     <div class="window-contents" style="display: flex; padding: 1rem; gap: 1rem">
       <div style="flex-shrink: 0; padding: 0.5rem 1rem;">
-        {%- include icon-sprite-32, id: "resedit", alt: "ResEdit icon" -%}
+        {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
       </div>
       <div>
         <h2 style="font-size: 1.25rem; font-family: var(--monospace)">cubegho.st</h2>
@@ -57,18 +58,18 @@ title: about
 
   <div class="finder finder-icons desktop-icons">
     <figure class="finder-item">
-      {%- include icon-sprite-32, id: "resedit-open", alt: "ResEdit icon in open state" -%}
+      {%- include icon-sprite, id: "resedit-open", size: 32, alt: "ResEdit icon in open state" -%}
       <figcaption>cubegho.st</figcaption>
     </figure>
     <button popovertarget="dialog-about-notes">
       <figure class="finder-item">
-        {%- include icon-sprite-32, id: "notepad", alt: "notepad" -%}
+        {%- include icon-sprite, id: "notepad", size: 32, alt: "notepad" -%}
         <figcaption>about this website</figcaption>
       </figure>
     </button>
     <button popovertarget="dialog-about-elsewhere">
       <figure class="finder-item">
-        {%- include icon-sprite-32, id: "globe", alt: "globe" -%}
+        {%- include icon-sprite, id: "globe", size: 32, alt: "globe" -%}
         <figcaption>elsewhere</figcaption>
       </figure>
     </button>
@@ -82,11 +83,11 @@ title: about
     <span class="window-button button-right button-minimize"></span>
   </div>
   <div class="window-contents">
-    <a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", role: "presentation" %} github</a>
-    <a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", role: "presentation" %} observable</a>
-    <a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", role: "presentation" %} codepen</a>
-    <a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", role: "presentation" %} bluesky</a>
-    <a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", role: "presentation" %} e-mail</a>
+    <a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", size: 16, role: "presentation" %} github</a>
+    <a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", size: 16, role: "presentation" %} observable</a>
+    <a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", size: 16, role: "presentation" %} codepen</a>
+    <a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", size: 16, role: "presentation" %} bluesky</a>
+    <a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", size: 16, role: "presentation" %} e-mail</a>
   </div>
 </dialog>
 
@@ -142,11 +143,11 @@ title: about
       <div class="window-meta"><span>4 items</span></div>
       <div class="finder finder-icons scrollbox-finder" style="max-height: 190px">
         <figure class="finder-item">
-          {%- include icon-sprite-32, id: "document-macpaint", alt: "MacPaint document icon" -%}
+          {%- include icon-sprite, id: "document-macpaint", size: 32, alt: "MacPaint document icon" -%}
           <figcaption>MacPaint</figcaption>
         </figure>
         <figure class="finder-item">
-          {%- include icon-sprite-32, id: "document-code", alt: "THINK C document icon" -%}
+          {%- include icon-sprite, id: "document-code", size: 32, alt: "THINK C document icon" -%}
           <figcaption>THINK C</figcaption>
         </figure>
         <figure class="finder-item">
@@ -154,16 +155,16 @@ title: about
           <figcaption>Kid Pix Studio Deluxe</figcaption>
         </figure>
         <figure class="finder-item">
-          {%- include icon-sprite-32, id: "resedit", alt: "ResEdit icon" -%}
+          {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
           <figcaption>ResEdit</figcaption>
         </figure>
         <figure class="finder-item">
-          {%- include icon-sprite-32, id: "notepad", alt: "notepad icon" -%}
+          {%- include icon-sprite, id: "notepad", size: 32, alt: "notepad icon" -%}
           <figcaption>Notepad</figcaption>
         </figure>
         <a href="https://web.archive.org/web/20210321230610/https://twitter.com/SusanKare/status/1373772909651529728" target="_blank" rel="noopener">
           <figure class="finder-item">
-            {%- include icon-sprite-32, id: "globe", alt: "globe icon" -%}
+            {%- include icon-sprite, id: "globe", size: 32, alt: "globe icon" -%}
             <figcaption>AppleLink</figcaption>
           </figure>
         </a>
@@ -203,7 +204,7 @@ title: about
         <tr class="finder-item">
           <td {% if icon_source.icon_style %}style="{{ icon_source.icon_style}}"{% endif  %}>
           {%- if icon_source.sprite -%}
-            {%- include icon-sprite, id: icon_source.sprite, role: "presentation" -%}
+            {%- include icon-sprite, id: icon_source.sprite, size: 16, role: "presentation" -%}
           {%- else -%}
             {{ icon_source.icon }}
           {%-endif-%}
@@ -221,7 +222,7 @@ title: about
 {% endblock %}
 
 {% block footer %}
-<img src="http://www.slimes.ca/WebButtons//sithappens.gif" eleventy:ignore style="image-rendering: pixelated" />
+<img src="/assets/sit-happens.png" style="image-rendering: pixelated" eleventy:ignore />
 
 {% comment %} USE IFRAME? {% endcomment %}
 <div class="visitors" style="margin-left: auto">

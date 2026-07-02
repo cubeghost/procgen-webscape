@@ -91,7 +91,7 @@ dialog[popover] {
     0 0 0 calc(4px * var(--ui-scale)) black;
   z-index: 1;
   height: fit-content;
-  margin: 1rem auto 2rem auto;
+  margin: 1rem auto 0;
 }
 
 #dialog-about .window-contents {
@@ -182,6 +182,7 @@ dialog[popover] {
 }
 
 /* notes dialog */
+
 #dialog-about-notes {
   top: 22rem;
   right: calc(1.5rem + 5vw);
@@ -194,7 +195,8 @@ dialog[popover] {
   #dialog-about-notes[popover] {
     position-anchor: --dialog-about;
     top: calc(anchor(bottom) + 3rem);
-    right: calc(anchor(right) - 3rem);
+    right: max(0.5rem, calc(anchor(right) - 3rem));
+    margin-left: 0.5rem;
   }
 }
 
