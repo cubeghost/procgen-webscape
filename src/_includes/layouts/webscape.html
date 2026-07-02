@@ -90,6 +90,38 @@
 
 		<div class="webscape"></div>
 
+		<script type="text/javascript">
+			(async () => {
+				function setWebscapeSeed(seed) {
+					const notebookLinks = document.querySelectorAll(".webscape-link");
+					notebookLinks.forEach((notebookLink) => {
+						const url = new URL(notebookLink.href);
+						url.searchParams.set("seed", seed);
+						notebookLink.href = url.toString();
+					});
+					const seedPlaceholders = document.querySelectorAll(".webscape-seed");
+					seedPlaceholders.forEach((placeholder) => {
+						placeholder.innerText = seed;
+					});
+
+					cookieStore.removeEventListener("change", onCookieChange);
+				}
+				function onCookieChange(event) {
+					const change = event.changed.find(cookie => cookie.name === "webscape_seed");
+					if (change && change.value) {
+						setWebscapeSeed(change.value);
+					}
+				}
+
+				const initialCookie = await cookieStore.get("webscape_seed");
+				if (initialCookie) {
+					setWebscapeSeed(initialCookie.value);
+				} else {
+					// wait for cookie to be set by loading background image
+					cookieStore.addEventListener("change", onCookieChange);
+				}
+			})();
+		</script>
 		{% block scripts %}{% endblock %}
 	</body>
 </html>

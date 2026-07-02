@@ -2,21 +2,28 @@
 eleventyExcludeFromCollections: true
 title: about
 ---
-{% layout layouts/webscape-portfolio.html %}
+{% assign show_donation_banner = true %}
+{% layout layouts/webscape.html %}
 
 {% block head %}
-{{ block.super }}
 <link rel="stylesheet" href="/styles/about.css">
 {% endblock %}
 
 {% block menubar %}
-{{ block.super }}
 <h1><a href="{{ page.url }}" aria-current="page">about</a></h1>
+{%- include webscape-controls.html.liquid -%}
 {% endblock %}
 
-{% assign right_first = true %}
-{% block right %}
+{% block content %}
 <div class="desktop-container">
+  <div class="finder finder-icons desktop-icons">
+    <a href="/">
+      <figure class="finder-item">
+        {%- include icon-sprite-32, id: "folder", alt: "folder" -%}
+        <figcaption>portfolio</figcaption>
+      </figure>
+    </a>
+  </div>
 
   <div id="dialog-about" class="window" style="flex-basis: 500px">
     <div class="window-contents" style="display: flex; padding: 1rem; gap: 1rem">
@@ -176,10 +183,11 @@ title: about
       <tbody class="scrollbox scrollbox-finder">
         {%- capture icon_sources %}
           [
-            {"sprite": "scrapbook", "source": "Scrapbook"},
             {"sprite": "users", "source": "System 7"},
             {"sprite": "suitcase-git", "source": "System 7", "status": "Modified"},
+            {"sprite": "alert", "source": "System 7"},
             {"sprite": "globe", "source": "OS 9", "status": "Modified"},
+            {"sprite": "scrapbook", "source": "Scrapbook"},
             {"sprite": "document-code", "source": "THINK C"},
             {"sprite": "mail4", "source": "Microsoft Outlook"},
             {

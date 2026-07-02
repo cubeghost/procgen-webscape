@@ -1,41 +1,35 @@
-.portfolio-container {
-  flex-direction: row-reverse;
-  flex-wrap: wrap;
-  /* max-width: 1200px; */
-  justify-content: center;
-}
-
-.portfolio-right {
-  flex: 1 1 320px;
-  min-width: 320px;
-  max-width: unset;
-  margin: 0 auto;
-}
-
 dialog[popover] {
   z-index: 1;
-}
-
-.portfolio-right dialog[popover] {
-  position: relative;
 }
 
 .select-word {
   appearance: none;
   border: 0;
   border-bottom: var(--border-width) dotted black;
+  background-color: transparent;
 }
 
 /* desktop */
 
 .desktop-container {
-  display: flex;
-  flex-wrap: wrap-reverse;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 60px;
+  container-name: desktop-container;
+  container-type: inline-size;
 }
 
-.desktop-icons {
-  margin-left: auto;
+.desktop-container .desktop-icons:first-child {
+  grid-column: 1;
+}
+
+.desktop-container .desktop-icons:last-child {
+  grid-column: 4;
+}
+
+.desktop-container #dialog-about {
+  grid-column: 2 / 4;
+  max-width: 500px;
+  width: 100%;
 }
 
 .finder-icons.desktop-icons {
@@ -44,8 +38,22 @@ dialog[popover] {
   padding-bottom: 0.5rem;
 }
 
-/* 500px (dialog) + 144px (finder icon item, 112px + 2rem) */
-@container portfolio-right (max-width: 644px) {
+/* 500px (dialog) + 160px (2x finder icon item, 80px) */
+@container desktop-container (max-width: 660px) {
+  .desktop-container .desktop-icons:first-child {
+    grid-column: 1 / 3;
+  }
+
+  .desktop-container .desktop-icons:last-child {
+    grid-column: 3 / 5;
+    justify-content: flex-end;
+  }
+
+  .desktop-container #dialog-about {
+    grid-column: 1 / 5;
+    grid-row: 2;
+  }
+
   .finder-icons.desktop-icons {
     display: flex;
     align-items: flex-start;
@@ -83,10 +91,7 @@ dialog[popover] {
     0 0 0 calc(4px * var(--ui-scale)) black;
   z-index: 1;
   height: fit-content;
-  flex-basis: 500px;
-  margin-left: auto;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin: 1rem auto 2rem auto;
 }
 
 #dialog-about .window-contents {
@@ -201,7 +206,6 @@ dialog[popover] {
   top: 22rem;
   margin: 0;
   margin-top: 44px;
-  /* left: auto; */
   padding: 0;
   max-width: 360px;
   border: 0;

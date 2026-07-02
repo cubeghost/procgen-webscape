@@ -2,32 +2,99 @@
 eleventyExcludeFromCollections: true
 title: cubegho.st
 ---
-{% layout layouts/webscape-portfolio.html %}
+{% assign show_donation_banner = true %}
+{% layout layouts/webscape.html %}
 
-{% block right %}
+{%- block head %}
+<link rel="stylesheet" href="/styles/portfolio.css">
+{% endblock -%}
 
-{%- assign portfolio_flat = collections.portfolio | flatten_tree -%}
-{%- for page in portfolio_flat -%}
-{%- liquid
-  if page.data.portfolio_preview
-    assign preview = page.data.portfolio_preview
-  elsif page.data.preview
-    assign preview = page.data.preview
-  else
-    assign preview = nil
-  endif 
--%}
-{%- if preview and page.use_preview -%}
-{%- assign id = page.url | default: page.filePathStem | slugify -%}
-<div id="{{ id }}" class="preview window window-animated window-animated-out" popover="hint">
-  <div class="window-titlebar">
-    <span class="window-button button-left"></span>
-    <span class="window-titlebar-title">{{ page.data.title }}</span>
+{% block menubar %}
+{%- include webscape-controls.html.liquid -%}
+{% endblock %}
+
+{% block content %}
+
+<div class="portfolio-container">
+  <div class="tree">
+    <div class="node">
+      <button class="node-button"></button>
+      <div class="node-content">~</div>
+    </div>
+    {% tree collections.portfolio %}
+    {% if node -%}
+    {% assign id = node.url | default: node.filePathStem | slugify -%}
+    {%- liquid
+      if node.data.portfolio_preview
+        assign preview = node.data.portfolio_preview
+      elsif node.data.preview
+        assign preview = node.data.preview
+      else
+        assign preview = nil
+      endif
+    -%}
+    <div class="node" {% if preview and node.use_preview %}popovertarget="{{ id }}" popovertargetaction="toggle" {%endif %}>
+      <button class="node-button"></button>
+      <div class="node-content">
+        {% pagelink node %}<span>{{ node.name | default: node.data.title }}</span>{% endpagelink %}
+        {%- if node.meta %}&nbsp;{{ node.meta }}{% endif -%}
+      </div>
+    </div>
+    {%- else -%}
+    {%- assign id = nil -%}
+    <div class="node">
+      <button class="node-button"></button>
+      <div class="node-content">
+        {%- if directory.url -%}
+        <a href="{{ directory.url }}">{{ directory.name }}</a>
+        {% else %}
+        {{ directory.name }}
+        {%- endif -%}
+      </div>
+      {% if directory.icon -%}
+      <div class="node-icon">
+        {%- assign icon = directory.icon -%}
+        {%- if icon.sprite -%}
+        {%- include icon-sprite-32, id: icon.sprite, alt: icon.alt -%}
+        {%- elsif icon.retina != false -%}
+        {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style | default: "", class: icon.class | default: "" -%}
+        {%- else -%}
+        <img src="{{ icon.src }}" alt="{{ icon.alt }}" width="{{ icon.width }}" style="{{ icon.style | default: "" }}" eleventy:ignore />
+        {%- endif -%}
+      </div>
+      {%- endif %}
+    </div>
+    {%- endif %}
+    {% endtree %}
   </div>
-  {%- include retina-image, src: preview.src, alt: preview.alt, width: 500 -%}
+
+  <div class="portfolio-right">
+    {%- assign portfolio_flat = collections.portfolio | flatten_tree -%}
+    {%- for page in portfolio_flat -%}
+    {%- liquid
+      if page.data.portfolio_preview
+        assign preview = page.data.portfolio_preview
+      elsif page.data.preview
+        assign preview = page.data.preview
+      else
+        assign preview = nil
+      endif 
+    -%}
+    {%- if preview and page.use_preview -%}
+    {%- assign id = page.url | default: page.filePathStem | slugify -%}
+    <div id="{{ id }}" class="preview window window-animated window-animated-out" popover="hint">
+      <div class="window-titlebar">
+        <span class="window-button button-left"></span>
+        <span class="window-titlebar-title">{{ page.data.title }}</span>
+      </div>
+      <div class="window-contents">
+        {%- include retina-image, src: preview.src, alt: preview.alt, width: 500 -%}
+      </div>
+    </div>
+    {%- endif -%}
+    {%- endfor -%}
+  </div>
 </div>
-{%- endif -%}
-{%- endfor -%}
 
 {% endblock %}
 
