@@ -1,0 +1,31 @@
+{%- liquid 
+  if tag
+    assign tag = tag
+  elsif popover
+    assign tag = "dialog"
+  else 
+    assign tag = "article"
+  endif
+-%}
+<{{tag}} class="window window-utility window-utility-side {% if animated %}window-animated{% endif %}" id="{{ id }}" {% if popover %}popover="manual"{% endif %}>
+  <div class="window-handle">
+    {% if popover -%}
+    <button class="window-button button-top" popovertarget="{{ id }}" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
+    {%- else -%}
+    <span class="window-button button-top"></span>
+    {%- endif %}
+    <span class="window-button button-bottom button-minimize"></span>
+  </div>
+  <div class="window-contents" {% if nosnippet %}data-nosnippet{% endif %}>
+    <div class="window-alert-icon">{% include icon-sprite, id: "alert", size: 16, role: "presentation" %}</div>
+    <div class="donation-alert">
+      <h3>Donate to a survival fund</h3>
+      <p>These are campaigns and collectives I trust that provide direct aid to people surviving genocides. If you
+        can, I recommend setting up a weekly or monthly donation- consistency is a big help.</p>
+      <div class="scrollbox">
+        {% render donation-links.html.liquid %}
+        <div class="scrollbox-scroll"></div>
+      </div>
+    </div>
+  </div>
+</{{tag}}>

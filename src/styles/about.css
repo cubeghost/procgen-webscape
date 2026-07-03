@@ -38,8 +38,8 @@ dialog[popover] {
   padding-bottom: 0.5rem;
 }
 
-/* 500px (dialog) + 160px (2x finder icon item, 80px) */
-@container desktop-container (max-width: 660px) {
+/* 500px (dialog) + 180px (2x finder icon item, 90px) */
+@container desktop-container (max-width: 680px) {
   .desktop-container .desktop-icons:first-child {
     grid-column: 1 / 3;
   }
@@ -181,7 +181,7 @@ dialog[popover] {
   }
 }
 
-/* notes dialog */
+/* notes dialog - starts as div */
 
 #dialog-about-notes {
   top: 22rem;
@@ -192,8 +192,9 @@ dialog[popover] {
 }
 
 @supports (anchor-name: --anchor) {
-  #dialog-about-notes[popover] {
+  #dialog-about-notes {
     position-anchor: --dialog-about;
+    position: absolute;
     top: calc(anchor(bottom) + 3rem);
     right: max(0.5rem, calc(anchor(right) - 3rem));
     margin-left: 0.5rem;
@@ -209,7 +210,7 @@ dialog[popover] {
   margin: 0;
   margin-top: 44px;
   padding: 0;
-  max-width: 360px;
+  max-width: 370px;
   border: 0;
   overflow: visible;
   background: transparent;
@@ -246,7 +247,6 @@ dialog[popover] {
 
 table.finder-list {
   display: grid;
-  grid-template-rows: repeat(1fr, 2);
   grid-template-columns: 1fr calc(16px * var(--ui-scale));
 }
 
@@ -320,14 +320,14 @@ tbody.scrollbox-finder {
 
 .finder-icons {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
   padding: 1rem;
 }
 
 .finder-icons .finder-item {
-  width: 80px;
-  flex: 0 0 80px;
+  width: 90px;
+  flex: 0 0 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -343,7 +343,7 @@ tbody.scrollbox-finder {
   padding: 0.125rem 0.25rem;
 }
 
-.finder-icons a:after {
+.finder a:after {
   display: none !important;
 }
 
@@ -486,80 +486,13 @@ tbody.scrollbox-finder {
   }
 }
 
-footer {
-  display: flex;
-  align-items: center;
+@media (prefers-reduced-motion: no-preference) {
+  .finder-item .sprite-cat:hover {
+    object-position: -18px 0;
+  }
 }
 
-.visitors {
-  background-color: white;
-  padding: 1rem;
-  display: flex;
-}
-
-.visitors-label {
-  width: 85px;
-  height: 19px;
-  object-fit: cover;
-  object-position: 0 0;
-  image-rendering: pixelated;
-  margin-right: 6px;
-}
-
-.visitors-number {
-  display: inline-block;
-  text-indent: -9999px;
-  image-rendering: pixelated;
-  background-image: url(/assets/visitors1.png);
-  height: 19px;
-}
-
-.visitors-number[data-number="0"] {
-  background-position: -85px 0;
-  width: 14px;
-}
-
-.visitors-number[data-number="1"] {
-  background-position: -98px 0;
-  width: 8px;
-}
-
-.visitors-number[data-number="2"] {
-  background-position: -106px 0;
-  width: 11px;
-}
-
-.visitors-number[data-number="3"] {
-  background-position: -117px 0;
-  width: 7px;
-}
-
-.visitors-number[data-number="4"] {
-  background-position: -124px 0;
-  width: 13px;
-}
-
-.visitors-number[data-number="5"] {
-  background-position: -137px 0;
-  width: 15px;
-}
-
-.visitors-number[data-number="6"] {
-  background-position: -152px 0;
-  width: 10px;
-}
-
-.visitors-number[data-number="7"] {
-  background-position: -162px 0;
-  width: 10px;
-}
-
-.visitors-number[data-number="8"] {
-  background-position: -172px 0;
-  width: 12px;
-}
-
-.visitors-number[data-number="9"] {
-  background-position: -184px 0;
-  width: 10px;
+#dialog-about-donate {
+  min-width: 320px;
+  max-width: 440px;
 }

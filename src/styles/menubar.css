@@ -10,8 +10,8 @@
   padding: 0 1rem;
   font-size: 0.875rem;
   font-family: var(--monospace);
+  line-height: 1.65;
 }
-
 
 .menubar h1 {
   position: absolute;
@@ -20,6 +20,8 @@
   margin: 0 auto;
   font-size: inherit;
   font-weight: normal;
+  line-height: 1.65;
+  height: 100%;
 }
 
 .menubar h1 a {
@@ -51,6 +53,10 @@
 
 .popover-menu:popover-open {
   display: flex;
+}
+
+.popover-menu>[aria-current="page"] {
+  font-weight: bold;
 }
 
 @supports (anchor-name: --anchor) {

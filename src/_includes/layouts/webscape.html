@@ -7,8 +7,9 @@
 
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+		<link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&family=Spline+Sans:wght@300..700&display=swap" 
 			rel="stylesheet">
+
 
 		<link rel="stylesheet" href="/styles/style.css">
 		{%- block head %}{% endblock -%}
@@ -40,9 +41,11 @@
 			{%- if show_donation_banner -%}
 				{% render donation-links.html.liquid, class: "donation-banner", marquee: true %}
 			{%- endif -%}
-			<div class="menubar">
+			<nav class="menubar">
 				<a href="/" class="menubar-button menubar-home-icon" {% if page.url == "/" %} aria-current="page"{% endif %}>
-					{% include icon-sprite, id: "globe", size: 16, style: "align-self: center", alt: "globe" %}
+					<img src="/assets/cat.png" width="18" height="16" alt="cat" class="sprite sprite-cat sprite-cat-animated" style="align-self: center" eleventy:ignore />
+					
+					{% comment %} {% include icon-sprite, id: "creature", size: 16, style: "align-self: center", alt: "globe" %} {% endcomment %}
 				</a>
 
 				<div class="menubar-menu">
@@ -80,7 +83,7 @@
 				</div>
 
 				{%- block menubar -%}{%- endblock -%}
-			</div>
+			</nav>
 		</div>
 		<div class="root" id="main">
 			{% block content %}{% endblock %}

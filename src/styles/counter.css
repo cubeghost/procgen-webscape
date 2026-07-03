@@ -1,0 +1,115 @@
+@import "./reset.css";
+@import "./windows.css";
+
+:root {
+  --ui-scale: 1;
+  --border-width: calc(1px * var(--ui-scale));
+}
+
+body {
+  min-height: auto;
+  margin: 0;
+  display: flex;
+}
+
+.visitors-container {
+  margin-left: auto;
+}
+
+.visitors-container .window-contents {
+  background-color: black;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 0 0.25rem 0.5rem;
+}
+
+.sprite-16 {
+  width: 16px;
+  height: 16px;
+  object-fit: cover;
+  object-position: 0 0;
+  image-rendering: pixelated;
+  filter: invert(1);
+}
+
+.visitors {
+  image-rendering: pixelated;
+  border-image-source: url("/assets/speech-bubble.png");
+  border-image-slice: 6 6 5 9 fill;
+  border-image-width: 6px 6px 5px 9px;
+  border-image-repeat: stretch stretch;
+  margin: 0.5rem;
+  padding: 0.125rem 0.5rem;
+}
+
+.visitors-label {
+  display: block;
+  width: 35px;
+  height: 9px;
+  text-indent: -9999px;
+  background-image: url(/assets/visitors3.png);
+  object-fit: cover;
+  object-position: 0 0;
+  margin-left: auto;
+}
+
+.visitors-count {
+  display: flex;
+}
+
+.visitors-number {
+  display: inline-block;
+  text-indent: -9999px;
+  background-image: url(/assets/visitors1.png);
+  height: 19px;
+}
+
+.visitors-number[data-number="0"] {
+  background-position: -85px 0;
+  width: 14px;
+}
+
+.visitors-number[data-number="1"] {
+  background-position: -98px 0;
+  width: 8px;
+}
+
+.visitors-number[data-number="2"] {
+  background-position: -106px 0;
+  width: 11px;
+}
+
+.visitors-number[data-number="3"] {
+  background-position: -117px 0;
+  width: 7px;
+}
+
+.visitors-number[data-number="4"] {
+  background-position: -124px 0;
+  width: 13px;
+}
+
+.visitors-number[data-number="5"] {
+  background-position: -137px 0;
+  width: 15px;
+}
+
+.visitors-number[data-number="6"] {
+  background-position: -152px 0;
+  width: 10px;
+}
+
+.visitors-number[data-number="7"] {
+  background-position: -162px 0;
+  width: 10px;
+}
+
+.visitors-number[data-number="8"] {
+  background-position: -172px 0;
+  width: 12px;
+}
+
+.visitors-number[data-number="9"] {
+  background-position: -184px 0;
+  width: 10px;
+}

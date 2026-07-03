@@ -8,7 +8,7 @@
 @import "./play-gif.css";
 @import "./webscape.css";
 
-@font-face {
+/* @font-face {
   font-family: FindersKeepers;
   src: url(/assets/FindersKeepers.ttf);
 }
@@ -22,16 +22,15 @@
 @font-face {
   font-family: "Geneva9.2";
   src: url(/assets/geneva-9-2.otf.woff2);
-}
+} */
 
 :root {
   --ui-scale: 1;
   --border-width: calc(1px * var(--ui-scale));
   --ui-sprite-size: calc(128px * var(--ui-scale));
 
-  --sans-serif: Roboto, Arial, Helvetica, sans-serif;
-  --monospace: 'Roboto Mono', 'Courier New', Courier, monospace;
-  --finder: FindersKeepers, monospace;
+  --sans-serif: "Spline Sans", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --monospace: "Spline Sans Mono", "Roboto Mono", ui-monospace, Menlo, "Cascadia Mono", "Droid Sans Mono", "Consolas", monospace;
 }
 
 body {
@@ -53,10 +52,17 @@ body {
 
 footer {
   margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
 }
 
 .hidden {
   display: none !important;
+}
+
+code {
+  font-family: var(--monospace);
 }
 
 /* TODO move */
@@ -90,6 +96,29 @@ button:focus-visible img.sprite.happy-mac-sprite,
 .menubar-menu:has(> .popover-menu:popover-open)>.trigger-menu img.sprite.happy-mac-sprite {
   filter: none;
   object-position: -14px 0;
+}
+
+img.sprite.sprite-cat {
+  width: 18px;
+  height: 16px;
+}
+
+img.sprite.sprite-cat-animated {
+  animation: cat 4s steps(1) infinite;
+}
+
+@keyframes cat {
+  0% {
+    object-position: 0 0;
+  }
+
+  75% {
+    object-position: -18px 0;
+  }
+
+  90% {
+    object-position: 0 0;
+  }
 }
 
 /* links */
@@ -167,4 +196,12 @@ a[href*="//"]:not([href*="cubegho.st"]):after {
 
 .skip-link:focus {
   transform: translateX(-50%) translateY(0%);
+}
+
+/* visitor counter */
+
+iframe.visitors {
+  margin-left: auto;
+  border: 0;
+  height: 60px;
 }

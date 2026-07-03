@@ -12,6 +12,7 @@
 		"@cornerstonejs/codec-libjpeg-turbo-8bit": "^1.2.2",
 		"@netlify/blobs": "^10.7.7",
 		"@netlify/functions": "^5.2.1",
+		"@upstash/redis": "^1.38.0",
 		"aseprite": "^0.3.1",
 		"canvas": "^3.2.3",
 		"canvas-dither": "^1.0.1",
@@ -22,7 +23,8 @@
 		"esbuild-plugin-import-map": "^2.1.0",
 		"farmhash": "^5.0.1",
 		"gifenc": "^1.0.3",
-		"gifuct-js": "^2.1.2"
+		"gifuct-js": "^2.1.2",
+		"isbot": "^5.1.44"
 	},
 	"devDependencies": {
 		"@types/11ty__eleventy-img": "^4.0.0",

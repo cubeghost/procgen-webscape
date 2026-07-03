@@ -1,6 +1,7 @@
 [
   "looped-square-large",
   "looped-square",
+  "looped-square-small",
   "sheep",
   "baby-sheep",
   "nodepad",
@@ -24,7 +25,11 @@
   "scrapbook",
   "scrapbook-file",
   "globe",
+  "users-netscape",
   "users",
   "paintbrush",
-  "magic-wand"
+  "magic-wand",
+  "cat",
+  "apple",
+  "moon"
 ]

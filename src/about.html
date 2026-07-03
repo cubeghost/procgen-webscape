@@ -20,13 +20,13 @@ title: about
   <div class="finder finder-icons desktop-icons">
     <a href="/">
       <figure class="finder-item">
-        {%- include icon-sprite, id: "folder", size: 32, alt: "folder" -%}
+        {%- include icon-sprite, id: "suitcase-fonts", size: 32, alt: "folder" -%}
         <figcaption>portfolio</figcaption>
       </figure>
     </a>
   </div>
 
-  <div id="dialog-about" class="window" style="flex-basis: 500px">
+  <article id="dialog-about" class="window" style="flex-basis: 500px">
     <div class="window-contents" style="display: flex; padding: 1rem; gap: 1rem">
       <div style="flex-shrink: 0; padding: 0.5rem 1rem;">
         {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
@@ -51,28 +51,34 @@ title: about
         </p>
         {% comment %} <p>logging on from Brooklyn, NY</p> {% endcomment %}
         <p>who has been writing code since ~2006</p>
-        <p>find them <button popovertarget="dialog-about-elsewhere" class="button-link">elsewhere on the world wide web</button></p>
+        {% comment %} <p>find them <button popovertarget="dialog-about-elsewhere" class="button-link">elsewhere on the world wide web</button></p> {% endcomment %}
       </div>
     </div>
-  </div>
+  </article>
 
   <div class="finder finder-icons desktop-icons">
     <figure class="finder-item">
       {%- include icon-sprite, id: "resedit-open", size: 32, alt: "ResEdit icon in open state" -%}
-      <figcaption>cubegho.st</figcaption>
+      <figcaption>about this mac</figcaption>
     </figure>
-    <button popovertarget="dialog-about-notes">
+    {% comment %} <button popovertarget="dialog-about-notes">
       <figure class="finder-item">
         {%- include icon-sprite, id: "notepad", size: 32, alt: "notepad" -%}
         <figcaption>about this website</figcaption>
       </figure>
-    </button>
+    </button> {% endcomment %}
     <button popovertarget="dialog-about-elsewhere">
       <figure class="finder-item">
         {%- include icon-sprite, id: "globe", size: 32, alt: "globe" -%}
         <figcaption>elsewhere</figcaption>
       </figure>
     </button>
+    {% comment %} <button popovertarget="dialog-about-donate">
+      <figure class="finder-item">
+        {%- include icon-sprite, id: "news", size: 32, alt: "newspaper" -%}
+        <figcaption>donate</figcaption>
+      </figure>
+    </button> {% endcomment %}
   </div>
 
 </div>
@@ -101,37 +107,40 @@ title: about
   </div>
 </dialog>
 
-<dialog id="dialog-about-notes" class="window window-note window-animated" popover="manual">
-  <div class="window-handle">
-    <button class="window-button button-left" popovertarget="dialog-about-notes" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
+<article id="dialog-about-notes" class="window">
+  <div class="window-titlebar">
+    <h3 class="window-titlebar-title">about this website</h3>
+    <span class="window-button button-right button-zoom" style="grid-column: 4"></span>
   </div>
-  <div class="window-contents" style="padding: 1rem; font-size: 0.875rem;">
-    <h3 style="margin-top: 0">about this website</h3>
-    <h4>technologies</h4>
-    <p>this is a mostly-static site built using <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a> and serverless functions. it is currently hosted on <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>.</p>
-    <p>
-      the background 
-      <select id="scape" class="select-word" style="width: 79px">
-        <option>landscape</option>
-        <option selected>webscape</option>
-        <option>dreamscape</option>
-        <option>bitscape</option>
-      </select>
-      is procedurally generated for the current date using perlin noise and JPEG artifacts. today's seed is <small><code class="webscape-seed">?</code></small>.
-      {% for dimension in webscapeDimensions -%}
-      <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
-        class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">try it for yourself!</a>
-      {%- endfor %}
-    </p>
-    <h4>visuals</h4>
-    <p>this website's visual language is based on the <a href="https://archive.org/details/applehumaninterf00appl" target="_blank" rel="noopener"
-      class="external">user interfaces</a> of Macintosh System 7 and OS 9.</p>
-    <p>
-      many of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> are 
-      pulled from classic Mac system software, apps, and fonts.
-    </p>
+  <div class="window-contents">
+    <div style="padding: 1rem; padding-top: 0; font-size: 0.875rem;">
+      <h4 margin>technologies</h4>
+      <p>this is a mostly-static site built using <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a> and serverless functions. it is currently hosted on <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>.</p>
+      <p>
+        the background
+        <select id="scape" class="select-word" style="width: 79px">
+          <option>landscape</option>
+          <option selected>webscape</option>
+          <option>dreamscape</option>
+          <option>bitscape</option>
+        </select>
+        is procedurally generated for the current date using perlin noise and JPEG artifacts. today's seed is <small><code class="webscape-seed">?</code></small>.
+        {% for dimension in webscapeDimensions -%}
+        <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
+          class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">try it for yourself!</a>
+        {%- endfor %}
+      </p>
+      <h4>visuals</h4>
+      <p>this website's visual language is based on the <a href="https://archive.org/details/applehumaninterf00appl" target="_blank" rel="noopener"
+        class="external">user interfaces</a> of Macintosh System 7 and OS 9.</p>
+      <p>
+        most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> are
+        pulled from classic Mac system software, apps, and fonts. many of the system icons and fonts were designed by <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a>.
+      </p>
+    </div>
+  <div class="window-notepad-footer"><span></span></div>
   </div>
-</dialog>
+</article>
 
 <dialog id="dialog-about-icons" popover="manual">
   <div class="window" style="position: relative; z-index: 1;">
@@ -168,6 +177,10 @@ title: about
             <figcaption>AppleLink</figcaption>
           </figure>
         </a>
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "news", size: 32, alt: "newspaper icon" -%}
+          <figcaption>TeachText</figcaption>
+        </figure>
       </div>
     </div>
   </div>
@@ -184,6 +197,16 @@ title: about
       <tbody class="scrollbox scrollbox-finder">
         {%- capture icon_sources %}
           [
+            {
+              "icon": "<img src=\"/assets/cat.png\" class=\"sprite sprite-cat\" alt=\"cat\" eleventy:ignore />",
+              "source": "<a href=\"https://piiixl.itch.io/1-bit-16px-icons-part-1\" target=\"_blank\" rel=\"noopener\">piixl</a>",
+              "status": "Modified"
+            },
+            {
+              "icon": "<img src=\"/assets/happy-mac.png\" class=\"sprite happy-mac-sprite\" alt=\"happy computer\" eleventy:ignore />",
+              "source": "System 7",
+              "status": "Modified"
+            },
             {"sprite": "users", "source": "System 7"},
             {"sprite": "suitcase-git", "source": "System 7", "status": "Modified"},
             {"sprite": "alert", "source": "System 7"},
@@ -192,10 +215,14 @@ title: about
             {"sprite": "document-code", "source": "THINK C"},
             {"sprite": "mail4", "source": "Microsoft Outlook"},
             {
-              "icon": "<div class=\"icon-dice\" style=\"margin-left: 12px\"><span class=\"visually-hidden\">dice</span></div>", 
+              "icon": "<div class=\"icon-dice\" style=\"margin: 0 auto\"><span class=\"visually-hidden\">dice</span></div>", 
               "source": "Cairo font", 
               "status": "Modified", 
               "icon_style": "padding-top: 0; padding-bottom: 0;"
+            },
+            {
+              "sprite": "sheep",
+              "source": "Geneva font"
             }
           ]
         {% endcapture -%}
@@ -219,26 +246,14 @@ title: about
   </div>
 </dialog>
   
+{% comment %} {% include donation-window.html.liquid, id: "dialog-about-donate", animated: true, popover: true %} {% endcomment %}
+
 {% endblock %}
 
 {% block footer %}
-<img src="/assets/sit-happens.png" style="image-rendering: pixelated" eleventy:ignore />
+<img src="/assets/sit-happens.png" alt=".sit happens" style="image-rendering: pixelated" eleventy:ignore />
 
-{% comment %} USE IFRAME? {% endcomment %}
-<div class="visitors" style="margin-left: auto">
-  <img src="/assets/visitors1.png" alt="visitors" class="visitors-label" eleventy:ignore />
-
-  <span class="visitors-number" data-number="1">1</span>
-  <span class="visitors-number" data-number="2">2</span>
-  <span class="visitors-number" data-number="3">3</span>
-  <span class="visitors-number" data-number="4">4</span>
-  <span class="visitors-number" data-number="5">5</span>
-  <span class="visitors-number" data-number="6">6</span>
-  <span class="visitors-number" data-number="7">7</span>
-  <span class="visitors-number" data-number="8">8</span>
-  <span class="visitors-number" data-number="9">9</span>
-  <span class="visitors-number" data-number="0">0</span>
-</div>
+<iframe src="/.netlify/functions/counter" class="visitors"></iframe>
 {% endblock %}
 
 {% block scripts %}

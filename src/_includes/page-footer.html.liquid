@@ -37,22 +37,5 @@
       </table>
     </div>
   </article>
-  <article class="window window-utility window-utility-side" id="footer-donation">
-    <div class="window-handle">
-      <span class="window-button button-top"></span>
-      <span class="window-button button-bottom button-minimize"></span>
-    </div>
-    <div class="window-contents" data-nosnippet>
-      <div class="window-alert-icon">{% include icon-sprite, id: "alert", size: 16, role: "presentation" %}</div>
-      <div class="donation-alert">
-        <h3>Donate to a survival fund</h3>
-        <p>These are campaigns and collectives I trust that provide direct aid to people surviving genocides. If you
-          can, I recommend setting up a weekly or monthly donation- consistency is a big help.</p>
-        <div class="scrollbox">
-          {% render donation-links.html.liquid %}
-          <div class="scrollbox-scroll"></div>
-        </div>
-      </div>
-    </div>
-  </article>
+  {% include donation-window.html.liquid, id: "footer-donation", nosnippet: true %}
 </div>

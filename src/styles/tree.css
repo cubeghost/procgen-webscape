@@ -83,7 +83,7 @@
   border: var(--border-width) solid #000;
   background-color: #fff;
   position: relative;
-  line-height: 1;
+  line-height: 1.25;
   height: var(--node-height);
 }
 
