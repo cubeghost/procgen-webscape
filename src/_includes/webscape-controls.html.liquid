@@ -1,15 +1,20 @@
-<div class="menubar-menu" style="margin-left: auto;">
-  <button popovertarget="dialog-webscape" class="trigger-menu" title="webscape controls">
-    <img src="/assets/happy-mac.png" class="sprite happy-mac-sprite" alt="happy computer" eleventy:ignore />
+<hr />
+<div class="popover-submenu">
+  <button popovertarget="dialog-webscape" class="menu-item trigger-menu trigger-submenu" title="background controls">
+    {% include icon-sprite, id: "display-1", size: 16, alt: "background controls" %}
+    webscape
   </button>
   <dialog id="dialog-webscape" class="popover-menu" popover>
-    <button id="replay-webscape">replay webscape<span class="spinner hidden"></span></button>
-    <button id="cancel-replay-webscape" class="hidden">cancel replay</button>
-    <button id="hide-webscape">hide webscape</button>
+    <button id="replay-webscape" class="menu-item">replay webscape<span class="spinner hidden"></span></button>
+    <button id="cancel-replay-webscape" class="menu-item hidden">cancel replay</button>
+    <button id="hide-webscape" class="menu-item">hide webscape</button>
     <hr />
     {% for dimension in webscapeDimensions -%}
-    <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
-      class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">notebook</a>
+    <a
+      href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
+      class="menu-item webscape-link webscape-link-{{ dimension.id }}" 
+      target="_blank"
+    >notebook</a>
     {%- endfor %}
   </dialog>
 </div>

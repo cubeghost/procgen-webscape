@@ -42,33 +42,38 @@
 				{% render donation-links.html.liquid, class: "donation-banner", marquee: true %}
 			{%- endif -%}
 			<nav class="menubar">
-				<a href="/" class="menubar-button menubar-home-icon" {% if page.url == "/" %} aria-current="page"{% endif %}>
-					<img src="/assets/cat.png" width="18" height="16" alt="cat" class="sprite sprite-cat sprite-cat-animated" style="align-self: center" eleventy:ignore />
-					
-					{% comment %} {% include icon-sprite, id: "creature", size: 16, style: "align-self: center", alt: "globe" %} {% endcomment %}
-				</a>
-
 				<div class="menubar-menu">
-					<button popovertarget="dialog-cubeghost" class="trigger-menu">
-						{% comment %} file {% endcomment %}
-						home 
+					<button popovertarget="dialog-apple" class="menu-item trigger-menu">
+						<img src="/assets/happy-mac.png" class="sprite happy-mac-sprite" alt="happy computer" style="align-self: center" eleventy:ignore />
+						<span class="visually-hidden">open menu</span>
 					</button>
-					<dialog id="dialog-cubeghost" class="popover-menu" popover>
-						{% if page.url != "/" %}<a href="/">portfolio</a>{% endif %}
-						<a href="/about/" {% if page.url == "/about/" %} aria-current="page"{% endif %}>about</a>
-						<button popovertarget="dialog-elsewhere" class="trigger-menu trigger-submenu">elsewhere</button>
-						<dialog id="dialog-elsewhere" class="popover-menu popover-submenu" popover>
-							<a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", size: 16, role: "presentation" %} github</a>
-							<a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", size: 16, role: "presentation" %} observable</a>
-							<a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", size: 16, role: "presentation" %} codepen</a>
-							<a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", size: 16, role: "presentation" %} bluesky</a>
-							<a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", size: 16, role: "presentation" %} e-mail</a>
-						</dialog>
+
+					<dialog id="dialog-apple" class="popover-menu" popover>
+						<span class="menu-item">cubegho.st</span>
+
+						<hr />
+						<a href="/" class="menu-item"{% if page.url == "/" %} aria-current="page"{% endif %}>{% include icon-sprite, id: "suitcase-fonts", size: 16, role: "presentation" %} home</a>
+						<a href="/about/" class="menu-item"{% if page.url == "/about/" %} aria-current="page"{% endif %}>{% include icon-sprite, id: "resedit", size: 16, role: "presentation" %} about</a>
+
+						<div class="popover-submenu">
+							<button popovertarget="dialog-elsewhere" class="menu-item trigger-menu trigger-submenu">{% include icon-sprite, id: "globe", size: 16, role: "presentation" %} elsewhere</button>
+							<dialog id="dialog-elsewhere" class="popover-menu" popover>
+								<a href="https://github.com/cubeghost" target="_blank" class="menu-item">{% include icon-sprite, id: "suitcase-git", size: 16, role: "presentation" %} github</a>
+								<a href="https://observablehq.com/user/@cubeghost" target="_blank" class="menu-item">{% include icon-sprite, id: "document-code", size: 16, role: "presentation" %} observable</a>
+								<a href="https://codepen.io/cubeghost" target="_blank" class="menu-item">{% include icon-sprite, id: "scrapbook", size: 16, role: "presentation" %} codepen</a>
+								<a href="https://bsky.app/profile/cubegho.st" target="_blank" class="menu-item">{% include icon-sprite, id: "users", size: 16, role: "presentation" %} bluesky</a>
+								<a href="mailto:mail@cubegho.st" target="_blank" class="menu-item">{% include icon-sprite, id: "mail4", size: 16, role: "presentation" %} e-mail</a>
+							</dialog>
+						</div>
+
+						{% block applemenu %}{% endblock %}
 					</dialog>
 				</div>
 
+				<a href="/" class="menu-item"{% if page.url=="/" %} aria-current="page"{% endif %}>home</a>
+
 				<div class="menubar-menu">
-					<button popovertarget="dialog-tags" class="trigger-menu">
+					<button popovertarget="dialog-tags" class="menu-item trigger-menu">
 						tags
 					</button>
 					<dialog id="dialog-tags" class="popover-menu" popover>
@@ -76,7 +81,7 @@
 						{%- assign tag_name = collection[0] -%}
 						{%- if tag_name != "all" and tag_name != "portfolio" -%}
 						{%- capture tag_url -%}/tags/{{ tag_name }}/{%- endcapture -%}
-						<a href="{{ tag_url }}" {% if page.url == tag_url %} aria-current="page"{% endif %}>#{{ tag_name }}</a>
+						<a href="{{ tag_url }}" {% if page.url == tag_url %} aria-current="page"{% endif %} class="menu-item">#{{ tag_name }}</a>
 						{%- endif -%}
 						{% endfor %}
 					</dialog>

@@ -2,6 +2,14 @@ dialog[popover] {
   z-index: 1;
 }
 
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Archivo, var(--sans-serif);
+}
+
 .select-word {
   appearance: none;
   border: 0;
@@ -206,7 +214,8 @@ dialog[popover] {
 #dialog-about-icons {
   position: fixed;
   left: 32rem;
-  top: 22rem;
+  bottom: 10vh;
+  top: auto;
   margin: 0;
   margin-top: 44px;
   padding: 0;
@@ -223,8 +232,9 @@ dialog[popover] {
 
   #dialog-about-icons[popover] {
     position-anchor: --dialog-about-notes;
-    top: calc(anchor(top) + 4rem);
+    bottom: max(0px, calc(anchor(bottom) - 4rem));
     left: max(1.5rem, calc(anchor(left) - 24rem));
+    top: auto;
     right: auto;
     margin-top: 0;
   }
@@ -295,7 +305,7 @@ thead.window-meta th {
 tbody.scrollbox-finder {
   display: block;
   position: relative;
-  max-height: calc(1.375rem * 6);
+  max-height: calc(1.375rem * 7);
   overflow-y: scroll;
   margin-right: calc(-16px * var(--ui-scale));
 }
@@ -492,7 +502,8 @@ tbody.scrollbox-finder {
   }
 }
 
-#dialog-about-donate {
-  min-width: 320px;
-  max-width: 440px;
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  image-rendering: pixelated;
 }

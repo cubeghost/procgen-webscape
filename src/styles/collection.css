@@ -14,7 +14,7 @@
 }
 
 .collection .window {
-  max-width: 500px;
+  max-width: calc(500px + (var(--border-width) * 4) + (4px * var(--ui-scale) * 2));
 }
 
 .collection .window img {
@@ -24,7 +24,6 @@
 
 .collection .window .excerpt {
   min-width: 300px;
-  /* margin: 1rem; */
 }
 
 .collection .window-titlebar a {
@@ -32,4 +31,8 @@
   position: relative;
   text-decoration: none;
   color: currentColor;
+}
+
+.collection a.page-link:after {
+  display: none !important;
 }

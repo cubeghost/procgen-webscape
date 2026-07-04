@@ -1,0 +1,113 @@
+[
+  {
+    "sprite": "document-macpaint",
+    "size": 32,
+    "alt": "MacPaint document",
+    "source": "MacPaint"
+  },
+  {
+    "sprite": "document-code",
+    "size": 32,
+    "alt": "code document",
+    "source": "THINK C"
+  },
+  {
+    "icon": "<img src=\"/kidpix/kidpix_icon_alt.png\" alt=\"kid pix studio deluxe icon\" width=\"32\" />",
+    "size": 32,
+    "source": "Kid Pix Studio Deluxe"
+  },
+  {
+    "sprite": "resedit",
+    "size": 32,
+    "alt": "ResEdit jack-in-the-box",
+    "source": "ResEdit"
+  },
+  {
+    "sprite": "suitcase-fonts",
+    "size": 32,
+    "alt": "font suitcase",
+    "source": "System 7"
+  },
+  {
+    "sprite": "globe",
+    "size": 32,
+    "alt": "globe",
+    "source": "AppleLink",
+    "url": "https://web.archive.org/web/20210321230610/https://twitter.com/SusanKare/status/1373772909651529728"
+  },
+  {
+    "sprite": "scrapbook",
+    "size": 16,
+    "alt": "scrapbook",
+    "source": "Scrapbook"
+  },
+  {
+    "sprite": "resedit",
+    "size": 16,
+    "alt": "ResEdit jack-in-the-box",
+    "source": "ResEdit"
+  },
+  {
+    "sprite": "document-code",
+    "size": 16,
+    "alt": "code document",
+    "source": "THINK C"
+  },
+  {
+    "sprite": "mail4",
+    "size": 16,
+    "alt": "mail",
+    "source": "Microsoft Outlook"
+  },
+  {
+    "icon": "<div class=\"icon-dice\" style=\"margin: 0 auto\"><span class=\"visually-hidden\">dice</span></div>",
+    "size": 16,
+    "source": "Cairo font",
+    "status": "Modified",
+    "style": "padding-top: 0; padding-bottom: 0;"
+  },
+  {
+    "sprite": "sheep",
+    "size": 16,
+    "alt": "sheep",
+    "source": "Geneva font"
+  },
+  {
+    "icon": "<img src=\"/assets/happy-mac.png\" class=\"sprite happy-mac-sprite\" alt=\"happy computer\" eleventy:ignore />",
+    "size": 16,
+    "source": "System 7",
+    "status": "Modified"
+  },
+  {
+    "sprite": "suitcase-fonts",
+    "size": 16,
+    "alt": "font suitcase",
+    "source": "System 7"
+  },
+  {
+    "sprite": "suitcase-git",
+    "size": 16,
+    "alt": "git suitcase",
+    "source": "System 7",
+    "status": "Modified"
+  },
+  {
+    "sprite": "alert",
+    "size": 16,
+    "alt": "alert face",
+    "source": "System 7"
+  },
+  {
+    "sprite": "globe",
+    "size": 16,
+    "alt": "globe",
+    "source": "OS 9",
+    "status": "Modified"
+  },
+  {
+    "sprite": "users",
+    "size": 16,
+    "alt": "users",
+    "source": "OS 9"
+  }
+]

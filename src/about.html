@@ -6,11 +6,15 @@ title: about
 {% layout layouts/webscape.html %}
 
 {% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles/about.css">
 {% endblock %}
 
 {% block menubar %}
 <h1><a href="{{ page.url }}" aria-current="page">about</a></h1>
+{% endblock %}
+
+{% block applemenu %}
 {%- include webscape-controls.html.liquid -%}
 {% endblock %}
 
@@ -32,7 +36,7 @@ title: about
         {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
       </div>
       <div>
-        <h2 style="font-size: 1.25rem; font-family: var(--monospace)">cubegho.st</h2>
+        <h2 style="font-size: 1.25rem">cubegho.st</h2>
         <p>
           <button popovertarget="dialog-about-picture" class="button-link"><strong>alex baldwin</strong></button> is a 
           <span style="display: inline-flex; align-items: center">
@@ -61,24 +65,12 @@ title: about
       {%- include icon-sprite, id: "resedit-open", size: 32, alt: "ResEdit icon in open state" -%}
       <figcaption>about this mac</figcaption>
     </figure>
-    {% comment %} <button popovertarget="dialog-about-notes">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "notepad", size: 32, alt: "notepad" -%}
-        <figcaption>about this website</figcaption>
-      </figure>
-    </button> {% endcomment %}
     <button popovertarget="dialog-about-elsewhere">
       <figure class="finder-item">
         {%- include icon-sprite, id: "globe", size: 32, alt: "globe" -%}
         <figcaption>elsewhere</figcaption>
       </figure>
     </button>
-    {% comment %} <button popovertarget="dialog-about-donate">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "news", size: 32, alt: "newspaper" -%}
-        <figcaption>donate</figcaption>
-      </figure>
-    </button> {% endcomment %}
   </div>
 
 </div>
@@ -150,37 +142,24 @@ title: about
     </div>
     <div class="window-contents">
       <div class="window-meta"><span>4 items</span></div>
-      <div class="finder finder-icons scrollbox-finder" style="max-height: 190px">
-        <figure class="finder-item">
-          {%- include icon-sprite, id: "document-macpaint", size: 32, alt: "MacPaint document icon" -%}
-          <figcaption>MacPaint</figcaption>
-        </figure>
-        <figure class="finder-item">
-          {%- include icon-sprite, id: "document-code", size: 32, alt: "THINK C document icon" -%}
-          <figcaption>THINK C</figcaption>
-        </figure>
-        <figure class="finder-item">
-          <img src="/kidpix/kidpix_icon_alt.png" alt="kid pix studio deluxe icon" width="32" />
-          <figcaption>Kid Pix Studio Deluxe</figcaption>
-        </figure>
-        <figure class="finder-item">
-          {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
-          <figcaption>ResEdit</figcaption>
-        </figure>
-        <figure class="finder-item">
-          {%- include icon-sprite, id: "notepad", size: 32, alt: "notepad icon" -%}
-          <figcaption>Notepad</figcaption>
-        </figure>
-        <a href="https://web.archive.org/web/20210321230610/https://twitter.com/SusanKare/status/1373772909651529728" target="_blank" rel="noopener">
+      <div class="finder finder-icons scrollbox-finder">
+        {%- assign icon_sources_32 = icon-sources | where: "size", 32 -%}
+        {%- for icon in icon_sources_32 -%}
           <figure class="finder-item">
-            {%- include icon-sprite, id: "globe", size: 32, alt: "globe icon" -%}
-            <figcaption>AppleLink</figcaption>
+            {%- if icon.sprite -%}
+              {%- include icon-sprite, id: icon.sprite, size: icon.size, alt: icon.alt -%}
+            {%- else -%}
+              {{ icon.icon }}
+            {%-endif-%}
+            <figcaption>
+              {%- if icon.url -%}
+              <a href="{{ icon.url }}" target="_blank" rel="noopener">{{ icon.source }}</a>
+              {%- else -%}
+              {{ icon.source }}
+              {%- endif -%}
+            </figcaption>
           </figure>
-        </a>
-        <figure class="finder-item">
-          {%- include icon-sprite, id: "news", size: 32, alt: "newspaper icon" -%}
-          <figcaption>TeachText</figcaption>
-        </figure>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -195,49 +174,24 @@ title: about
         </tr>
       </thead>
       <tbody class="scrollbox scrollbox-finder">
-        {%- capture icon_sources %}
-          [
-            {
-              "icon": "<img src=\"/assets/cat.png\" class=\"sprite sprite-cat\" alt=\"cat\" eleventy:ignore />",
-              "source": "<a href=\"https://piiixl.itch.io/1-bit-16px-icons-part-1\" target=\"_blank\" rel=\"noopener\">piixl</a>",
-              "status": "Modified"
-            },
-            {
-              "icon": "<img src=\"/assets/happy-mac.png\" class=\"sprite happy-mac-sprite\" alt=\"happy computer\" eleventy:ignore />",
-              "source": "System 7",
-              "status": "Modified"
-            },
-            {"sprite": "users", "source": "System 7"},
-            {"sprite": "suitcase-git", "source": "System 7", "status": "Modified"},
-            {"sprite": "alert", "source": "System 7"},
-            {"sprite": "globe", "source": "OS 9", "status": "Modified"},
-            {"sprite": "scrapbook", "source": "Scrapbook"},
-            {"sprite": "document-code", "source": "THINK C"},
-            {"sprite": "mail4", "source": "Microsoft Outlook"},
-            {
-              "icon": "<div class=\"icon-dice\" style=\"margin: 0 auto\"><span class=\"visually-hidden\">dice</span></div>", 
-              "source": "Cairo font", 
-              "status": "Modified", 
-              "icon_style": "padding-top: 0; padding-bottom: 0;"
-            },
-            {
-              "sprite": "sheep",
-              "source": "Geneva font"
-            }
-          ]
-        {% endcapture -%}
-        {%- assign icon_sources = icon_sources | json_parse -%}
-        {%- for icon_source in icon_sources -%}
+        {%- assign icon_sources_16 = icon-sources | where: "size", 16 -%}
+        {%- for icon in icon_sources_16 -%}
         <tr class="finder-item">
-          <td {% if icon_source.icon_style %}style="{{ icon_source.icon_style}}"{% endif  %}>
-          {%- if icon_source.sprite -%}
-            {%- include icon-sprite, id: icon_source.sprite, size: 16, role: "presentation" -%}
+          <td {% if icon.style %}style="{{ icon.style}}"{% endif  %}>
+          {%- if icon.sprite -%}
+            {%- include icon-sprite, id: icon.sprite, size: icon.size, alt: icon.alt -%}
           {%- else -%}
-            {{ icon_source.icon }}
+            {{ icon.icon }}
           {%-endif-%}
           </td>
-          <td>{{ icon_source.source }}</td>
-          <td>{{ icon_source.status | default: "" }}</td>
+          <td>
+            {%- if icon.url -%}
+              <a href="{{ icon.url }}" target="_blank" rel="noopener">{{ icon.source }}</a>
+            {%- else -%}
+              {{ icon.source }}
+            {%- endif -%}
+          </td>
+          <td>{{ icon.status | default: "" }}</td>
         </tr>
         {%- endfor -%}
       </tbody>
@@ -246,12 +200,15 @@ title: about
   </div>
 </dialog>
   
-{% comment %} {% include donation-window.html.liquid, id: "dialog-about-donate", animated: true, popover: true %} {% endcomment %}
-
 {% endblock %}
 
 {% block footer %}
-<img src="/assets/sit-happens.png" alt=".sit happens" style="image-rendering: pixelated" eleventy:ignore />
+<div class="badges">
+  {% include accessible-gif, src: "/assets/built-with-eleventy.gif", src_still: "/assets/built-with-eleventy.png", alt: "built with Eleventy" %}
+  <img src="/assets/sit-happens.png" alt=".sit happens" eleventy:ignore />
+  <img src="https://cyber.dabamos.de/88x31/1of2.gif" alt=".sit happens" eleventy:ignore />
+  <img src="https://88x31.nl/gifs/i_dream_in_html.gif" alt=".sit happens" eleventy:ignore />
+</div>
 
 <iframe src="/.netlify/functions/counter" class="visitors"></iframe>
 {% endblock %}

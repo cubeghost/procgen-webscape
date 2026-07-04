@@ -14,12 +14,10 @@
 }
 
 .menubar h1 {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 0 auto;
+  margin: 0 1rem 0 auto;
   font-size: inherit;
   font-weight: normal;
+  font-style: italic;
   line-height: 1.65;
   height: 100%;
 }
@@ -47,6 +45,12 @@
   align-items: stretch;
 }
 
+.submenu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .donation-banner+.menubar .popover-menu {
   top: calc(1.375rem * 2 - 1px);
 }
@@ -56,7 +60,8 @@
 }
 
 .popover-menu>[aria-current="page"] {
-  font-weight: bold;
+  /* font-weight: 600; */
+  font-style: italic;
 }
 
 @supports (anchor-name: --anchor) {
@@ -67,19 +72,37 @@
   }
 }
 
-/* cubegho.st menu */
-#dialog-cubeghost.popover-menu {
+/* main "apple" menu */
+#dialog-apple.popover-menu {
   right: auto;
   left: 1rem;
 }
 
 @supports (anchor-name: --anchor) {
-  .trigger-menu[popovertarget=dialog-cubeghost] {
-    anchor-name: --menubar-menu-cubeghost;
+  .trigger-menu[popovertarget=dialog-apple] {
+    anchor-name: --menubar-menu-apple;
   }
 
-  #dialog-cubeghost.popover-menu {
-    position-anchor: --menubar-menu-cubeghost;
+  #dialog-apple.popover-menu {
+    position-anchor: --menubar-menu-apple;
+    left: anchor(left);
+    right: auto;
+  }
+}
+
+/* cubegho.st menu */
+#dialog-home.popover-menu {
+  right: auto;
+  left: 1rem;
+}
+
+@supports (anchor-name: --anchor) {
+  .trigger-menu[popovertarget=dialog-home] {
+    anchor-name: --menubar-menu-home;
+  }
+
+  #dialog-home.popover-menu {
+    position-anchor: --menubar-menu-home;
     left: anchor(left);
     right: auto;
   }
@@ -103,7 +126,7 @@
   }
 }
 
-/* cubegho.st > elsewhere menu */
+/* home > elsewhere menu */
 #dialog-elsewhere.popover-menu {
   right: auto;
   left: 0;
@@ -126,8 +149,9 @@
 
 /* webscape menu */
 #dialog-webscape.popover-menu {
-  left: auto;
-  right: 1rem;
+  right: auto;
+  left: 0;
+  transform: translateX(100%);
 }
 
 @supports (anchor-name: --anchor) {
@@ -137,35 +161,39 @@
 
   #dialog-webscape.popover-menu {
     position-anchor: --menubar-menu-webscape;
-    right: anchor(right);
-    left: auto;
+    left: calc(anchor(right) - 0.25rem);
+    top: anchor(top) !important;
+    right: auto;
+    transform: none;
   }
 }
 
 /* buttons/links */
 
-.popover-menu>button {
+.popover-menu .menu-item {
   width: 100%;
-  text-align: left;
-}
-
-.popover-menu>a {
-  color: currentColor;
-  text-decoration: none;
-}
-
-.popover-menu>button,
-.popover-menu>a {
   padding: 0.25rem 0.75rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   min-height: 1.85rem;
+  text-align: left;
 }
 
-.menubar-button,
-.menubar-menu>button,
-.popover-menu>button {
+.menubar>.menu-item {
+  height: 100%;
+  padding: 0 0.75rem;
+}
+
+.menubar>.menu-item,
+.popover-menu a.menu-item {
+  color: currentColor;
+  text-decoration: none;
+}
+
+.menubar>.menu-item:is(a, button),
+.menubar-menu .menu-item:is(a, button),
+.popover-menu .menu-item:is(a, button) {
   appearance: none;
   background: transparent;
   color: black;
@@ -175,49 +203,37 @@
   font-size: inherit;
 }
 
-.popover-menu>hr {
+.popover-menu hr {
   width: 100%;
   margin: 0;
   border-top: 0;
   border-style: dotted;
 }
 
-.menubar-button:hover,
-.menubar-button:focus-visible,
-.menubar-menu>button:hover,
-.menubar-menu>button:focus-visible,
-.popover-menu>button:hover,
-.popover-menu>button:focus-visible,
-.popover-menu>a:hover,
-.popover-menu>a:focus-visible,
+.menubar>.menu-item:is(a, button):hover,
+.menubar>.menu-item:is(a, button):focus-visible,
+.menubar-menu .menu-item:is(a, button):hover,
+.menubar-menu .menu-item:is(a, button):focus-visible,
+.popover-menu .menu-item:is(a, button):hover,
+.popover-menu .menu-item:is(a, button):focus-visible,
 .menubar-menu:has(> .popover-menu:popover-open)>.trigger-menu,
-.popover-menu:has(> .popover-menu:popover-open)>.trigger-menu {
+.popover-submenu:has(> .popover-menu:popover-open)>.trigger-menu {
   background-color: black;
   color: white;
 }
 
-.menubar-button:hover .sprite,
-.menubar-button:focus-visible .sprite,
-.menubar-menu>button:hover .sprite,
-.menubar-menu>button:focus-visible .sprite,
-.popover-menu>button:hover .sprite,
-.popover-menu>button:focus-visible .sprite,
-.popover-menu>a:hover .sprite,
-.popover-menu>a:focus-visible .sprite,
+.menubar-menu .menu-item:is(a, button):hover .sprite,
+.menubar-menu .menu-item:is(a, button):focus-visible .sprite,
+.popover-menu .menu-item:is(a, button):hover .sprite,
+.popover-menu .menu-item:is(a, button):focus-visible .sprite,
 .menubar-menu:has(> .popover-menu:popover-open)>.trigger-menu .sprite,
-.popover-menu:has(> .popover-menu:popover-open)>.trigger-menu .sprite,
-.popover-menu:has(> .popover-menu:popover-open)>.trigger-submenu:after {
+.popover-submenu:has(> .popover-menu:popover-open)>.trigger-menu .sprite,
+.popover-submenu:has(> .popover-menu:popover-open)>.trigger-submenu:after {
   filter: invert(1);
 }
 
-.menubar-button,
 .trigger-menu {
   height: 100%;
-}
-
-.menubar>a {
-  display: inline-flex;
-  padding: 1px 6px;
 }
 
 .menubar-menu>.trigger-menu {
@@ -231,12 +247,9 @@
   }
 }
 
-.trigger-menu[popovertarget=dialog-webscape] {
-  display: block;
-}
-
 .trigger-menu.trigger-submenu:after {
   content: "";
+  display: block;
   width: calc(16px * var(--ui-scale));
   height: calc(16px * var(--ui-scale));
   background-image: url(/assets/ui.png);
@@ -248,8 +261,8 @@
 }
 
 .trigger-menu.trigger-submenu:hover:after,
-.trigger-menu.trigger-submenu:focus:after {
-  filter: invert(1)
+.trigger-menu.trigger-submenu:focus-visible:after {
+  filter: invert(1);
 }
 
 .menubar-menu button svg,
@@ -271,7 +284,7 @@
 }
 
 .menubar .menubar-breadcrumbs span:not(.menubar-breadcrumb) {
-  padding: 0 0.25rem;
+  margin: 0 -0.1rem;
 }
 
 .menubar .menubar-breadcrumbs a.menubar-breadcrumb:hover,
@@ -279,5 +292,3 @@
   background-color: black;
   color: white
 }
-
-.menubar-home-icon {}

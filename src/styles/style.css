@@ -65,6 +65,11 @@ code {
   font-family: var(--monospace);
 }
 
+b,
+strong {
+  font-weight: 600;
+}
+
 /* TODO move */
 .webscape-controls {
   margin-left: auto;
@@ -93,6 +98,8 @@ img.sprite.happy-mac-sprite {
 
 button:hover img.sprite.happy-mac-sprite,
 button:focus-visible img.sprite.happy-mac-sprite,
+.menu-item:hover img.sprite.happy-mac-sprite,
+.menu-item:focus-visible img.sprite.happy-mac-sprite,
 .menubar-menu:has(> .popover-menu:popover-open)>.trigger-menu img.sprite.happy-mac-sprite {
   filter: none;
   object-position: -14px 0;

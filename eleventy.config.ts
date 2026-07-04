@@ -42,7 +42,7 @@ export default defineConfig((eleventyConfig) => {
 
   eleventyConfig.addTemplateFormats("11ty.ts");
   eleventyConfig.addPassthroughCopy("src/assets/*.(ttf|woff2)");
-  eleventyConfig.addPassthroughCopy("src/assets/*.(png|jpg)");
+  eleventyConfig.addPassthroughCopy("src/assets/*.(png|jpg|gif)");
   eleventyConfig.addPassthroughCopy("src/**/*.css");
   eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 
@@ -348,9 +348,11 @@ export default defineConfig((eleventyConfig) => {
           const templates = this.templates;
 
           if (page.data.url && page.url === false) {
-            emitter.write(`<a href="${page.data.url}" target="_blank">`);
+            emitter.write(
+              `<a href="${page.data.url}" target="_blank" class="page-link">`,
+            );
           } else {
-            emitter.write(`<a href="${page.url}">`);
+            emitter.write(`<a href="${page.url}" class="page-link">`);
           }
 
           yield liquid.renderer.renderTemplates(templates, context, emitter);

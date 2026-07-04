@@ -9,7 +9,7 @@ title: cubegho.st
 <link rel="stylesheet" href="/styles/portfolio.css">
 {% endblock -%}
 
-{% block menubar %}
+{% block applemenu %}
 {%- include webscape-controls.html.liquid -%}
 {% endblock %}
 
@@ -69,6 +69,15 @@ title: cubegho.st
   </div>
 
   <div class="portfolio-right">
+    <div class="finder finder-icons desktop-icons">
+      <a href="/about/">
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
+          <figcaption>about this mac</figcaption>
+        </figure>
+      </a>
+    </div>
+
     {%- assign portfolio_flat = collections.portfolio | flatten_tree -%}
     {%- for page in portfolio_flat -%}
     {%- liquid

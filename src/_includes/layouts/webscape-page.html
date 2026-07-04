@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="/styles/page.css">
 {% endblock %}
 
+{% block menubar %}
+<div style="margin-left: auto">{% include breadcrumbs.html.liquid %}</div>
+{% endblock %}
+
 {% block content %}
 <article class="window page">
   <div class="window-titlebar">

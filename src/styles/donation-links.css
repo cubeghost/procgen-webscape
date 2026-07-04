@@ -40,6 +40,10 @@
     animation-play-state: paused;
   }
 
+  .donation-banner.marquee:focus-within .donation-marquee {
+    animation-play-state: paused;
+  }
+
   .donation-marquee li {
     white-space: nowrap;
   }

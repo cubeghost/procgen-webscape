@@ -33,6 +33,10 @@
 </style>
 {% endblock %}
 
+{% block menubar %}
+<div style="margin-left: auto">{% include breadcrumbs.html.liquid %}</div>
+{% endblock %}
+
 {% block content %}
 <div class="window image-page">
   <div class="window-titlebar">
