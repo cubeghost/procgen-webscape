@@ -38,9 +38,11 @@ title: about
       <div>
         <h2 style="font-size: 1.25rem">cubegho.st</h2>
         <p>
-          <button popovertarget="dialog-about-picture" class="button-link"><strong>alex baldwin</strong></button> is a 
-          <span style="display: inline-flex; align-items: center">
-            <select id="about-title" class="select-word" style="width: 162px">
+          <button popovertarget="dialog-about-picture" class="button-link" style="vertical-align: middle">
+            <strong>alex baldwin</strong>
+          </button> is a&nbsp;
+          <span style="display: inline-flex; align-items: center; vertical-align: middle">
+            <select id="about-title" class="select-word" style="width: 162px" aria-label="title">
               <option selected>code wizard</option>
               <option>level 3000 cyberwitch</option>
               <option>computer artist</option>
@@ -80,13 +82,18 @@ title: about
     <button class="window-button button-left" popovertarget="dialog-about-elsewhere" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
     <span class="window-button button-right button-minimize"></span>
   </div>
-  <div class="window-contents">
-    <a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", size: 16, role: "presentation" %} github</a>
-    <a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", size: 16, role: "presentation" %} observable</a>
-    <a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", size: 16, role: "presentation" %} codepen</a>
-    <a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", size: 16, role: "presentation" %} bluesky</a>
-    <a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", size: 16, role: "presentation" %} e-mail</a>
+  {% comment %} <div class="window-contents"> {% endcomment %}
+  <div class="window-contents scrollbox" style="padding: 0">
+    <ul class="combobox-list">
+      <li><a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", size: 16, role: "presentation" %} github</a></li>
+      <li><a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", size: 16, role: "presentation" %} observable</a></li>
+      <li><a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", size: 16, role: "presentation" %} codepen</a></li>
+      <li><a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", size: 16, role: "presentation" %} bluesky</a></li>
+      <li><a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", size: 16, role: "presentation" %} e-mail</a></li>
+    </ul>
+    <div class="scrollbox-scroll"></div>
   </div>
+    {% comment %} </div> {% endcomment %}
 </dialog>
 
 <dialog id="dialog-about-picture" popover="manual" class="window window-utility window-animated">
@@ -99,40 +106,49 @@ title: about
   </div>
 </dialog>
 
-<article id="dialog-about-notes" class="window">
-  <div class="window-titlebar">
-    <h3 class="window-titlebar-title">about this website</h3>
-    <span class="window-button button-right button-zoom" style="grid-column: 4"></span>
-  </div>
-  <div class="window-contents">
-    <div style="padding: 1rem; padding-top: 0; font-size: 0.875rem;">
-      <h4 margin>technologies</h4>
-      <p>this is a mostly-static site built using <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a> and serverless functions. it is currently hosted on <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>.</p>
-      <p>
-        the background
-        <select id="scape" class="select-word" style="width: 79px">
-          <option>landscape</option>
-          <option selected>webscape</option>
-          <option>dreamscape</option>
-          <option>bitscape</option>
-        </select>
-        is procedurally generated for the current date using perlin noise and JPEG artifacts. today’s seed is <small><code class="webscape-seed">?</code></small>.
-        {% for dimension in webscapeDimensions -%}
-        <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
-          class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">try it for yourself!</a>
-        {%- endfor %}
-      </p>
-      <h4>visuals</h4>
-      <p>this website’s visual language is based on the <a href="https://archive.org/details/applehumaninterf00appl" target="_blank" rel="noopener" class="external">user interfaces</a> of Macintosh System 7 and OS 9.</p>
-      <p>
-        most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> are
-        pulled from classic Mac system software, apps, and fonts, much of which was designed 
-        by <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a>.
-      </p>
+<div id="notes-container">
+  <article id="dialog-about-notes" class="window">
+    <div class="window-titlebar">
+      <h3 class="window-titlebar-title">about this website</h3>
+      <span class="window-button button-right button-zoom" style="grid-column: 4"></span>
     </div>
-  <div class="window-notepad-footer"><span></span></div>
-  </div>
-</article>
+    <div class="window-contents">
+      <div style="padding: 1rem; padding-top: 0; font-size: 0.875rem;">
+        <h4 margin>technologies</h4>
+        <p>this is a mostly-static site built using <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a> and serverless functions. it is currently hosted on <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>.</p>
+        <p>
+          <label>
+            the background
+            <select id="scape" class="select-word" style="width: 81px">
+              <option>landscape</option>
+              <option selected>webscape</option>
+              <option>dreamscape</option>
+              <option>bitscape</option>
+            </select>
+            is procedurally generated for the current date using perlin noise and JPEG artifacts.
+          </label> 
+          today’s seed is <code class="webscape-seed">?</code>.
+          {% for dimension in webscapeDimensions -%}
+          <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}" class="webscape-link webscape-link-{{ dimension.id }}" target="_blank">
+            try it for yourself!
+          </a>
+          {%- endfor %}
+        </p>
+        <h4>visuals</h4>
+        <p>
+          this website’s visual language is based on the user interfaces of 
+          Macintosh System 7 and OS 9, and most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> and 
+          interface elements are pulled from classic Mac system software, apps, and fonts. 
+        </p>
+        <p>
+          it is specifically inspired by the work of <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a> 
+          and <a href="https://en.wikipedia.org/wiki/Bill_Atkinson" target="_blank" rel="noopener">Bill Atkinson</a>.
+        </p>
+      </div>
+    <div class="window-notepad-footer"><span></span></div>
+    </div>
+  </article>
+</div>
 
 <dialog id="dialog-about-icons" popover="manual">
   <div class="window" style="position: relative; z-index: 1;">
@@ -143,24 +159,27 @@ title: about
     <div class="window-contents">
       {%- assign icon_sources_32 = icon-sources | where: "size", 32 -%}
       <div class="window-meta"><span>{{ icon_sources_32.length }} items</span></div>
-      <div class="finder finder-icons scrollbox-finder">
-        {%- for icon in icon_sources_32 -%}
-          <figure class="finder-item">
-            {%- if icon.sprite -%}
-              {%- include icon-sprite, id: icon.sprite, size: icon.size, alt: icon.alt -%}
-            {%- else -%}
-              {{ icon.icon }}
-            {%-endif-%}
-            <figcaption>
-              {%- if icon.url -%}
-              <a href="{{ icon.url }}" target="_blank" rel="noopener">{{ icon.source }}</a>
+      <div class="scrollbox">
+        <div class="finder finder-icons">
+          {%- for icon in icon_sources_32 -%}
+            <figure class="finder-item">
+              {%- if icon.sprite -%}
+                {%- include icon-sprite, id: icon.sprite, size: icon.size, alt: icon.alt -%}
               {%- else -%}
-              {{ icon.source }}
-              {%- endif -%}
-              {% if icon.status %}<br />({{ icon.status }}){% endif %}
-            </figcaption>
-          </figure>
-        {% endfor %}
+                {{ icon.icon }}
+              {%-endif-%}
+              <figcaption>
+                {%- if icon.url -%}
+                <a href="{{ icon.url }}" target="_blank" rel="noopener">{{ icon.source }}</a>
+                {%- else -%}
+                {{ icon.source }}
+                {%- endif -%}
+                {% if icon.status %}<br />({{ icon.status }}){% endif %}
+              </figcaption>
+            </figure>
+          {% endfor %}
+        </div>
+        <div class="scrollbox-scroll"></div>
       </div>
     </div>
   </div>
@@ -174,7 +193,7 @@ title: about
           <th scope="col">Status</th>
         </tr>
       </thead>
-      <tbody class="scrollbox scrollbox-finder">
+      <tbody class="scrollbox">
         {%- assign icon_sources_16 = icon-sources | where: "size", 16 -%}
         {%- for icon in icon_sources_16 -%}
         <tr class="finder-item">

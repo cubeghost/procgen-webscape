@@ -52,6 +52,10 @@
   padding: 0;
 }
 
+.desktop-icons a {
+  color: currentColor;
+}
+
 .desktop-icons .finder-item img {
   object-fit: cover;
   width: calc((32px + 0.25rem) * var(--ui-scale));
@@ -65,6 +69,8 @@
 }
 
 .desktop-icons button:active .finder-item img,
-.desktop-icons button:active .finder-item figcaption {
+.desktop-icons button:active .finder-item figcaption,
+.desktop-icons a:active .finder-item img,
+.desktop-icons a:active .finder-item figcaption {
   filter: invert(1);
 }

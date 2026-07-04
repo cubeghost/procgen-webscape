@@ -111,7 +111,7 @@
 /* tags menu */
 #dialog-tags.popover-menu {
   right: auto;
-  left: 1rem;
+  left: 7.5rem;
 }
 
 @supports (anchor-name: --anchor) {
@@ -126,11 +126,11 @@
   }
 }
 
-/* home > elsewhere menu */
+/* apple > elsewhere submenu */
 #dialog-elsewhere.popover-menu {
   right: auto;
-  left: 0;
-  transform: translateX(100%);
+  left: auto;
+  transform: translateX(158px) translateY(calc(2rem * 2));
 }
 
 @supports (anchor-name: --anchor) {
@@ -147,11 +147,11 @@
   }
 }
 
-/* webscape menu */
+/* apple > webscape submenu */
 #dialog-webscape.popover-menu {
   right: auto;
-  left: 0;
-  transform: translateX(100%);
+  left: auto;
+  transform: translateX(158px) translateY(calc(2rem * 4));
 }
 
 @supports (anchor-name: --anchor) {
@@ -176,7 +176,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  min-height: 1.85rem;
+  min-height: 2rem;
   text-align: left;
 }
 
@@ -189,6 +189,10 @@
 .popover-menu a.menu-item {
   color: currentColor;
   text-decoration: none;
+}
+
+.popover-menu .menu-item .sprite {
+  margin: 1px 0;
 }
 
 .menubar>.menu-item:is(a, button),

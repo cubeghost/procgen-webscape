@@ -49,10 +49,9 @@
 					</button>
 
 					<dialog id="dialog-apple" class="popover-menu" popover>
-						<span class="menu-item">cubegho.st</span>
+						<a href="/" class="menu-item"{% if page.url == "/" %} aria-current="page"{% endif %}>cubegho.st</a>
 
 						<hr />
-						<a href="/" class="menu-item"{% if page.url == "/" %} aria-current="page"{% endif %}>{% include icon-sprite, id: "suitcase-fonts", size: 16, role: "presentation" %} index</a>
 						<a href="/about/" class="menu-item"{% if page.url == "/about/" %} aria-current="page"{% endif %}>{% include icon-sprite, id: "resedit", size: 16, role: "presentation" %} about</a>
 
 						<div class="popover-submenu">
@@ -65,6 +64,8 @@
 								<a href="mailto:mail@cubegho.st" target="_blank" class="menu-item">{% include icon-sprite, id: "mail4", size: 16, role: "presentation" %} e-mail</a>
 							</dialog>
 						</div>
+
+						<a href="" class="menu-item">{% include icon-sprite, id: "alert", size: 16, role: "presentation" %} hire me!</a>
 
 						{% block applemenu %}{% endblock %}
 					</dialog>

@@ -42,6 +42,7 @@ body {
 
 .root {
   padding: clamp(1.5rem, 5vw, 4rem);
+  padding-bottom: 1rem;
 }
 
 .sticky-top {
@@ -53,8 +54,10 @@ body {
 footer {
   margin-top: auto;
   display: flex;
-  align-items: flex-end;
+  flex-wrap: wrap-reverse;
+  align-items: flex-start;
   padding: 1rem;
+  gap: 1rem;
 }
 
 .hidden {
@@ -140,9 +143,9 @@ a:active {
 
 button.button-link {
   appearance: none;
-  text-decoration: underline;
   color: blue;
   border: 0;
+  border-bottom: var(--border-width) dotted currentColor;
   background: transparent;
   cursor: pointer;
   padding: 0;

@@ -13,20 +13,25 @@
   overflow: hidden;
 }
 
-.donation-marquee+.donation-marquee {
+.marquee-list {
+  padding: 0;
+  margin: 0;
+}
+
+.marquee-list+.marquee-list {
   display: none;
 }
 
 @media screen and (max-width: 1060px) and (prefers-reduced-motion: no-preference) {
-  .donation-banner.marquee {
+  .donation-marquee {
     display: flex;
   }
 
-  .donation-banner.marquee {
+  .donation-marquee {
     overflow: hidden;
   }
 
-  .donation-marquee {
+  .marquee-list {
     display: flex !important;
     gap: 0.5rem;
     padding-right: 0.5rem;
@@ -36,11 +41,11 @@
     animation-timing-function: linear;
   }
 
-  .donation-banner.marquee:hover .donation-marquee {
+  .donation-marquee:hover .marquee-list {
     animation-play-state: paused;
   }
 
-  .donation-banner.marquee:focus-within .donation-marquee {
+  .donation-marquee:focus-within .marquee-list {
     animation-play-state: paused;
   }
 
@@ -104,19 +109,20 @@
 
 .donation-alert .scrollbox {
   margin-top: 1rem;
+  width: 273px;
 }
 
 .donation-alert ul.donation-links {
+  font-family: var(--monospace);
   padding-left: 0;
-  border: var(--border-width) solid black;
   font-size: 0.75rem;
   margin: 0;
+  flex: 1;
 }
 
 .donation-alert ul.donation-links li {
   display: flex;
   border-bottom: var(--border-width) dotted black;
-  width: 259px;
 }
 
 .donation-alert ul.donation-links li:last-of-type {

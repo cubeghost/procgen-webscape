@@ -14,11 +14,13 @@
   {% include donation-link.html.liquid, label: "Sameer Project", flags: "🇵🇸", href: "https://linktr.ee/thesameerproject" %}
   {% include donation-link.html.liquid, label: "gazafunds.com", flags: "🇵🇸", href: "https://gazafunds.com/" %}
 {%- endcapture -%}
-<ul class="donation-links {% if marquee -%}marquee{%- endif %} {{ class | default: "" }}">
   {%- if marquee -%}
-    <div class="donation-marquee">{{ links }}</div>
-    <div class="donation-marquee" aria-hidden="true">{{ links }}</div>
+  <div class="donation-marquee donation-links {{ class | default: "" }}">
+    <ul class="marquee-list">{{ links }}</ul>
+    <ul class="marquee-list" aria-hidden="true">{{ links }}</ul>
+  </div>
   {%- else -%}
+  <ul class="donation-links {{ class | default: "" }}">
     {{ links }}
+  </ul>
   {%- endif -%}
-</ul>
