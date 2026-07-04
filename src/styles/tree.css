@@ -204,10 +204,6 @@
   pointer-events: none;
 }
 
-.tree .node .node-content>a:after {
-  display: none !important;
-}
-
 .tree .node a {
   text-decoration: none;
 }

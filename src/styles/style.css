@@ -157,12 +157,13 @@ button.button-link:active {
   color: red;
 }
 
-a[href*="//"]:not([href*="cubegho.st"]):after {
-  content: "";
+.page-content a[href*="//"]:not([href*="cubegho.st"]):after {
+  content: " ";
   image-rendering: pixelated;
   mask-image: url(/assets/ui.png);
   mask-size: var(--ui-sprite-size);
   mask-position: calc(-80px * var(--ui-scale)) 0;
+  mask-repeat: no-repeat;
   background-color: currentColor;
   display: inline;
   vertical-align: -0.2rem;

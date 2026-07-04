@@ -51,10 +51,6 @@
   border-image-repeat: stretch;
 }
 
-.page-metadata a:after {
-  display: none !important;
-}
-
 .page-footer #footer-donation {
   margin-top: 4rem;
   min-width: 320px;

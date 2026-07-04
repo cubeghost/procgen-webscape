@@ -64,12 +64,6 @@
   }
 }
 
-.donation-links {}
-
-.donation-links a:after {
-  display: none !important;
-}
-
 .donation-banner li {
   margin: 0 0.25rem;
   display: inline-block;
