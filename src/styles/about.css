@@ -1,3 +1,5 @@
+@import "./finder.css";
+
 dialog[popover] {
   z-index: 1;
 }
@@ -21,7 +23,7 @@ h6 {
 
 .desktop-container {
   display: grid;
-  grid-template-columns: 60px 1fr 1fr 60px;
+  grid-template-columns: 90px 1fr 1fr 90px;
   container-name: desktop-container;
   container-type: inline-size;
 }
@@ -40,16 +42,11 @@ h6 {
   width: 100%;
 }
 
-.finder-icons.desktop-icons {
-  grid-template-columns: 1fr;
-  padding: 0;
-  padding-bottom: 0.5rem;
-}
-
 /* 500px (dialog) + 180px (2x finder icon item, 90px) */
 @container desktop-container (max-width: 680px) {
   .desktop-container .desktop-icons:first-child {
     grid-column: 1 / 3;
+    justify-content: flex-start;
   }
 
   .desktop-container .desktop-icons:last-child {
@@ -66,31 +63,6 @@ h6 {
     display: flex;
     align-items: flex-start;
   }
-}
-
-.desktop-icons button {
-  appearance: none;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  padding: 0;
-}
-
-.desktop-icons .finder-item img {
-  object-fit: cover;
-  width: calc((32px + 0.25rem) * var(--ui-scale));
-  height: calc((32px + 0.25rem) * var(--ui-scale));
-  padding: calc(0.125rem * var(--ui-scale));
-}
-
-.desktop-icons .finder-item img,
-.desktop-icons .finder-item figcaption {
-  background-color: white;
-}
-
-.desktop-icons button:active .finder-item img,
-.desktop-icons button:active .finder-item figcaption {
-  filter: invert(1);
 }
 
 #dialog-about {
@@ -240,11 +212,7 @@ h6 {
   }
 }
 
-/* FINDER */
-
-.finder {
-  font-size: 0.75rem;
-}
+/* FINDER scrollable */
 
 .finder-list {
   border-right: var(--border-width) solid black;
@@ -322,39 +290,6 @@ tbody.scrollbox-finder {
 .scrollbox-finder+.scrollbox-scroll:before {
   margin-top: auto;
   box-shadow: 0 calc(-1 * var(--border-width)) 0 black;
-}
-
-.finder-item {
-  margin: 0;
-}
-
-.finder-icons {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.finder-icons .finder-item {
-  width: 90px;
-  flex: 0 0 90px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  text-wrap: balance;
-}
-
-.finder-icons .finder-item img {
-  image-rendering: pixelated;
-}
-
-.finder-icons .finder-item figcaption {
-  padding: 0.125rem 0.25rem;
-}
-
-.finder a:after {
-  display: none !important;
 }
 
 /* custom scrollbar */

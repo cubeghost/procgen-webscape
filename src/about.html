@@ -25,7 +25,7 @@ title: about
     <a href="/">
       <figure class="finder-item">
         {%- include icon-sprite, id: "suitcase-fonts", size: 32, alt: "folder" -%}
-        <figcaption>portfolio</figcaption>
+        <figcaption>index</figcaption>
       </figure>
     </a>
   </div>
@@ -116,18 +116,18 @@ title: about
           <option>dreamscape</option>
           <option>bitscape</option>
         </select>
-        is procedurally generated for the current date using perlin noise and JPEG artifacts. today's seed is <small><code class="webscape-seed">?</code></small>.
+        is procedurally generated for the current date using perlin noise and JPEG artifacts. today’s seed is <small><code class="webscape-seed">?</code></small>.
         {% for dimension in webscapeDimensions -%}
         <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
           class="webscape-link webscape-link-{{ dimension.id }} external" target="_blank">try it for yourself!</a>
         {%- endfor %}
       </p>
       <h4>visuals</h4>
-      <p>this website's visual language is based on the <a href="https://archive.org/details/applehumaninterf00appl" target="_blank" rel="noopener"
-        class="external">user interfaces</a> of Macintosh System 7 and OS 9.</p>
+      <p>this website’s visual language is based on the <a href="https://archive.org/details/applehumaninterf00appl" target="_blank" rel="noopener" class="external">user interfaces</a> of Macintosh System 7 and OS 9.</p>
       <p>
         most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> are
-        pulled from classic Mac system software, apps, and fonts. many of the system icons and fonts were designed by <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a>.
+        pulled from classic Mac system software, apps, and fonts, much of which was designed 
+        by <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a>.
       </p>
     </div>
   <div class="window-notepad-footer"><span></span></div>
@@ -141,9 +141,9 @@ title: about
       <span class="window-titlebar-title">Icons</span>
     </div>
     <div class="window-contents">
-      <div class="window-meta"><span>4 items</span></div>
+      {%- assign icon_sources_32 = icon-sources | where: "size", 32 -%}
+      <div class="window-meta"><span>{{ icon_sources_32.length }} items</span></div>
       <div class="finder finder-icons scrollbox-finder">
-        {%- assign icon_sources_32 = icon-sources | where: "size", 32 -%}
         {%- for icon in icon_sources_32 -%}
           <figure class="finder-item">
             {%- if icon.sprite -%}
@@ -157,6 +157,7 @@ title: about
               {%- else -%}
               {{ icon.source }}
               {%- endif -%}
+              {% if icon.status %}<br />({{ icon.status }}){% endif %}
             </figcaption>
           </figure>
         {% endfor %}

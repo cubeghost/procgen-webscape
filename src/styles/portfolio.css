@@ -1,4 +1,5 @@
 @import "./tree.css";
+@import "./finder.css";
 
 .portfolio-container {
   display: flex;
@@ -18,6 +19,14 @@
 @container portfolio-right (max-width: 250px) {
   .preview {
     display: none;
+  }
+}
+
+@container portfolio-right (max-width: 90px) {
+  .desktop-icons {
+    position: fixed;
+    bottom: 0.5rem;
+    left: 1rem;
   }
 }
 
@@ -51,4 +60,10 @@
   .preview[popover]:popover-open {
     position-anchor: --portfolio-right;
   }
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }

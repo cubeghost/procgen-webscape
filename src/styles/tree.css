@@ -207,3 +207,11 @@
 .tree .node .node-content>a:after {
   display: none !important;
 }
+
+.tree .node a {
+  text-decoration: none;
+}
+
+.tree .node:hover a {
+  text-decoration: underline;
+}

@@ -71,7 +71,7 @@ title: cubegho.st
   <div class="portfolio-right">
     <div class="finder finder-icons desktop-icons">
       <a href="/about/">
-        <figure class="finder-item">
+        <figure class="finder-item" style="margin-left: auto;">
           {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
           <figcaption>about this mac</figcaption>
         </figure>
@@ -103,8 +103,13 @@ title: cubegho.st
     {%- endif -%}
     {%- endfor -%}
   </div>
+
 </div>
 
+{% endblock %}
+
+{% block footer %}
+<iframe src="/.netlify/functions/counter" class="visitors"></iframe>
 {% endblock %}
 
 {% block scripts %}

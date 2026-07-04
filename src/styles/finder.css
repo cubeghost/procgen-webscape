@@ -1,0 +1,70 @@
+.finder {
+  font-size: 0.75rem;
+}
+
+.finder-item {
+  margin: 0;
+}
+
+.finder-icons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.finder-icons .finder-item {
+  width: 90px;
+  flex: 0 0 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.finder-icons .finder-item img {
+  image-rendering: pixelated;
+}
+
+.finder-icons .finder-item figcaption {
+  padding: 0.125rem 0.25rem;
+}
+
+.finder a:after {
+  display: none !important;
+}
+
+/* desktop */
+
+.finder-icons.desktop-icons {
+  grid-template-columns: 1fr;
+  padding: 0;
+  padding-bottom: 0.5rem;
+  justify-content: center;
+}
+
+.desktop-icons button {
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.desktop-icons .finder-item img {
+  object-fit: cover;
+  width: calc((32px + 0.25rem) * var(--ui-scale));
+  height: calc((32px + 0.25rem) * var(--ui-scale));
+  padding: calc(0.125rem * var(--ui-scale));
+}
+
+.desktop-icons .finder-item img,
+.desktop-icons .finder-item figcaption {
+  background-color: white;
+}
+
+.desktop-icons button:active .finder-item img,
+.desktop-icons button:active .finder-item figcaption {
+  filter: invert(1);
+}
