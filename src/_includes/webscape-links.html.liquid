@@ -1,0 +1,9 @@
+{% for dimension in webscapeDimensions -%}
+<a 
+  href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
+  class="webscape-link webscape-link-{{ dimension.id }} {{ class | default: "" }}" 
+  target="_blank"
+>
+  {{ label | default: "notebook" }}
+</a>
+{%- endfor %}

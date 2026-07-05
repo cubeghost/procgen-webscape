@@ -3,15 +3,12 @@ eleventyExcludeFromCollections: true
 title: cubegho.st
 ---
 {% assign show_donation_banner = true %}
+{% assign show_webscape_controls = true %}
 {% layout layouts/webscape.html %}
 
 {%- block head %}
 <link rel="stylesheet" href="/styles/portfolio.css">
 {% endblock -%}
-
-{% block applemenu %}
-{%- include webscape-controls.html.liquid -%}
-{% endblock %}
 
 {% block content %}
 

@@ -6,13 +6,18 @@ import { type Context2DFunc } from "./generate.mts";
 
 export async function replay(
   container: HTMLElement,
+  signal: AbortSignal,
   context2d: Context2DFunc<CanvasRenderingContext2D>,
   buffer: ArrayBuffer,
   chunkSize: number,
   scale: number,
 ): Promise<void> {
+  signal.throwIfAborted();
+
   const gif = await parseGIF(buffer);
+  signal.throwIfAborted();
   const frames = await decompressFrames(gif, true);
+  signal.throwIfAborted();
   if (!frames.length) throw new Error("no frames");
 
   const { width, height } = frames[0].dims;
@@ -59,14 +64,17 @@ export async function replay(
 
   return new Promise((resolve, reject) => {
     let currentFrame = 0;
+    let currentTimeout;
     const delay = 60;
     async function drawFrame() {
+      signal.throwIfAborted();
       const frame = queuedFrames[currentFrame];
       const start = new Date().getTime();
 
       const image = context.createImageData(width, height);
       image.data.set(frame.patch);
       const bitmap = await createImageBitmap(image);
+      signal.throwIfAborted();
       context.drawImage(bitmap, 0, 0);
       bitmap.close();
 

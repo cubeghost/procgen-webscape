@@ -8,7 +8,7 @@ permalink: styles/webscape.css
 
 .webscape {
   image-rendering: pixelated;
-
+  display: none;
   position: fixed;
   top: 0;
   right: 0;
@@ -26,6 +26,10 @@ permalink: styles/webscape.css
   background-size: calc(var(--width) * var(--scale)) calc(var(--height) * var(--scale));
   background-repeat: no-repeat;
   background-position: bottom left;
+}
+
+body.background-webscape .webscape {
+  display: block;
 }
 
 .webscape #webscape-canvas {

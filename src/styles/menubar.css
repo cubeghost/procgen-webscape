@@ -13,6 +13,12 @@
   line-height: 1.65;
 }
 
+@supports (anchor-name: --anchor) {
+  .menubar {
+    anchor-name: --menubar;
+  }
+}
+
 .menubar h1 {
   margin: 0 1rem 0 auto;
   font-size: inherit;
@@ -60,7 +66,6 @@
 }
 
 .popover-menu>[aria-current="page"] {
-  /* font-weight: 600; */
   font-style: italic;
 }
 
@@ -178,6 +183,7 @@
   gap: 0.75rem;
   min-height: 2rem;
   text-align: left;
+  line-height: 0.5;
 }
 
 .menubar>.menu-item {
@@ -196,6 +202,11 @@
 }
 
 .menubar>.menu-item:is(a, button),
+.menubar-menu>.menu-item:is(a, button) {
+  line-height: inherit;
+}
+
+.menubar>.menu-item:is(a, button),
 .menubar-menu .menu-item:is(a, button),
 .popover-menu .menu-item:is(a, button) {
   appearance: none;
@@ -203,7 +214,6 @@
   color: black;
   border: 0;
   cursor: pointer;
-  line-height: inherit;
   font-size: inherit;
 }
 

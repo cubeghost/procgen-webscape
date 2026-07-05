@@ -1,23 +1,9 @@
-<hr />
-<div class="popover-submenu">
-  <button popovertarget="dialog-webscape" class="menu-item trigger-menu trigger-submenu" title="background controls">
-    {% include icon-sprite, id: "display-1", size: 16, alt: "background controls" %}
-    webscape
-  </button>
-  <dialog id="dialog-webscape" class="popover-menu" popover>
-    <button id="replay-webscape" class="menu-item">replay webscape<span class="spinner hidden"></span></button>
-    <button id="cancel-replay-webscape" class="menu-item hidden">cancel replay</button>
-    <button id="hide-webscape" class="menu-item">hide webscape</button>
-    <hr />
-    {% for dimension in webscapeDimensions -%}
-    <a
-      href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}"
-      class="menu-item webscape-link webscape-link-{{ dimension.id }}" 
-      target="_blank"
-    >notebook</a>
-    {%- endfor %}
-  </dialog>
-</div>
+<button id="replay-webscape">
+  replay webscape 
+  {% include icon-sprite, id: "magic-wand", size: 16, role: "presentation" %} 
+  <span class="spinner hidden"></span>
+</button>
+<button id="cancel-replay-webscape" class="hidden">cancel replay</button>
 
 {% block scripts %}
 
@@ -28,11 +14,15 @@ globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
   {{ global_dimensions }}
   const replayButton = document.getElementById("replay-webscape");
   const cancelButton = document.getElementById("cancel-replay-webscape");
+  let replayController;
 
   replayButton.addEventListener("click", (event) => {
     initialize();
   });
   cancelButton.addEventListener("click", (event) => {
+    if (replayController && replayController.signal.aborted === false) {
+      replayController.abort("canceled");
+    }
     replayButton.disabled = false;
     replayButton.querySelector(".spinner").classList.add("hidden");
     cancelButton.classList.add("hidden");
@@ -44,6 +34,9 @@ globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
     const webscape = document.querySelector(".webscape");
     const orientation = getComputedStyle(webscape).getPropertyValue("--orientation");
     const scale = parseInt(getComputedStyle(webscape).getPropertyValue("--scale"));
+    
+    if (replayController && replayController.signal.aborted === false) throw new Error("already running");
+    replayController = new AbortController();
 
     try {
       replayButton.disabled = true;
@@ -65,7 +58,7 @@ globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
       const { replay } = await import("/replay.js");
       replayButton.querySelector(".spinner").classList.add("hidden");
 
-      await replay(canvasContainer, context2d, buffer, chunkSize, scale);
+      await replay(canvasContainer, replayController.signal, context2d, buffer, chunkSize, scale);
 
       replayButton.disabled = false;
       cancelButton.classList.add("hidden");

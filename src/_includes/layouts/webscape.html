@@ -10,7 +10,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&family=Spline+Sans:wght@300..700&display=swap" 
 			rel="stylesheet">
 
-
+		<noscript><style>.requires-js { display: none !important; }</style></noscript>
 		<link rel="stylesheet" href="/styles/style.css">
 		{%- block head %}{% endblock -%}
 		<script type="text/javascript">
@@ -31,7 +31,14 @@
 			}
 		</script>
 	</head>
-	<body>
+	<body class="background-webscape">
+		<script type="text/javascript">
+			const desktopPreference = localStorage.getItem("desktop-background");
+			if (desktopPreference) {
+				document.body.className = `background-${desktopPreference}`;
+			}
+		</script>
+
 		<a class="skip-link" href="#main">
 			skip to content
 		</a>
@@ -52,6 +59,7 @@
 						<a href="/" class="menu-item"{% if page.url == "/" %} aria-current="page"{% endif %}>cubegho.st</a>
 
 						<hr />
+
 						<a href="/about/" class="menu-item"{% if page.url == "/about/" %} aria-current="page"{% endif %}>{% include icon-sprite, id: "resedit", size: 16, role: "presentation" %} about</a>
 
 						<div class="popover-submenu">
@@ -67,11 +75,17 @@
 
 						<a href="" class="menu-item">{% include icon-sprite, id: "alert", size: 16, role: "presentation" %} hire me!</a>
 
-						{% block applemenu %}{% endblock %}
+						<hr class="requires-js" />
+
+						<button popovertarget="dialog-appearance" class="menu-item requires-js">
+							{% include icon-sprite, id: "display-1", size: 16, alt: "appearance controls" %}
+							appearance
+						</button>
+
 					</dialog>
 				</div>
 
-				<a href="/" class="menu-item"{% if page.url=="/" %} aria-current="page"{% endif %}>index</a>
+				<a href="/" class="menu-item"{% if page.url=="/" %} aria-current="page"{% endif %}>home</a>
 
 				<div class="menubar-menu">
 					<button popovertarget="dialog-tags" class="menu-item trigger-menu">
@@ -91,6 +105,64 @@
 				{%- block menubar -%}{%- endblock -%}
 			</nav>
 		</div>
+
+		<dialog id="dialog-appearance" class="window window-animated" popover="manual">
+			<div class="window-titlebar">
+				<button class="window-button button-left" popovertarget="dialog-appearance" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
+				<span class="window-titlebar-title">appearance</span>
+			</div>
+			<div class="window-contents appearance">
+				<div class="appearance-group">
+					<h3>Display</h3>
+				</div>
+				<div class="appearance-group">
+					<h3>Desktop</h3>
+
+					<div class="desktop-picker">
+						{%- assign desktops = "webscape,grid,dot,gray,black,white" | split: "," -%}
+						{% for desktop in desktops %}
+						<div class="desktop-picker-group">
+							<label class="picker-previous" for="desktop-{{ forloop.index0 | minus: 1 | plus: desktops.length | modulo: desktops.length }}">previous</label>
+							<input type="radio" name="desktop" value="{{ desktop }}" id="desktop-{{ forloop.index0 }}" aria-labelledby="desktop-{{ desktop }}-preview" {% if forloop.index0 == 0 %}checked{% endif %} />
+							<label id="desktop-{{ desktop }}-preview" for="desktop-{{ forloop.index0 }}" class="picker-preview background-{{ desktop }}">{{ desktop }}</label>
+							<label class="picker-next" for="desktop-{{ forloop.index0 | plus: 1 | modulo: desktops.length }}">next</label>
+						</div>
+						{% endfor %}
+					</div>
+					<script type="text/javascript">
+						if (desktopPreference) {
+							document.querySelector(`input[name="desktop"][value="${desktopPreference}"]`).checked = true;
+						}
+					</script>
+
+					<button id="desktop-apply" type="submit">apply</button>
+
+					<div class="desktop-webscape-controls">
+						{% if show_webscape_controls %}
+						{% include webscape-controls.html.liquid %}
+						{% endif %}
+						{% include webscape-links.html.liquid, class: "external" %}
+					</div>
+				</div>
+			</div>
+		</dialog>
+		<script type="text/javascript">
+			// document.getElementById("dialog-appearance").showPopover();
+
+			document.getElementById("desktop-apply").addEventListener("click", (event) => {
+				const desktop = document.querySelector('input[name="desktop"]:checked')?.value;
+				if (!desktop) return;
+
+				document.body.className = `background-${desktop}`;
+				localStorage.setItem("desktop-background", desktop);
+
+				// webscape-controls
+				if (replayController && replayController.signal.aborted === false) {
+					replayController.abort();
+				}
+			})
+		</script>
+
 		<div class="root" id="main">
 			{% block content %}{% endblock %}
 		</div>

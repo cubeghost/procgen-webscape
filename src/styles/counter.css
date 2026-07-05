@@ -34,7 +34,7 @@ body {
 
 .visitors {
   image-rendering: pixelated;
-  border-image-source: url("/assets/speech-bubble.png");
+  border-image-source: url(/assets/speech-bubble.png);
   border-image-slice: 6 6 5 9 fill;
   border-image-width: 6px 6px 5px 9px;
   border-image-repeat: stretch stretch;

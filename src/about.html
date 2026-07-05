@@ -3,6 +3,7 @@ eleventyExcludeFromCollections: true
 title: about
 ---
 {% assign show_donation_banner = true %}
+{% assign show_webscape_controls = true %}
 {% layout layouts/webscape.html %}
 
 {% block head %}
@@ -42,14 +43,14 @@ title: about
             <strong>alex baldwin</strong>
           </button> is a&nbsp;
           <span style="display: inline-flex; align-items: center; vertical-align: middle">
-            <select id="about-title" class="select-word" style="width: 162px" aria-label="title">
+            <select id="about-title" class="select-word" style="width: 164px" aria-label="title">
               <option selected>code wizard</option>
               <option>level 3000 cyberwitch</option>
               <option>computer artist</option>
               <option>software engineer</option>
               <option>creative technologist</option>
             </select>
-            <button id="random-about-title" class="button-dice">
+            <button id="random-about-title" class="button-dice requires-js">
               <span class="icon-dice"></span>
               <span class="visually-hidden">randomize</span>
             </button>
@@ -82,7 +83,6 @@ title: about
     <button class="window-button button-left" popovertarget="dialog-about-elsewhere" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
     <span class="window-button button-right button-minimize"></span>
   </div>
-  {% comment %} <div class="window-contents"> {% endcomment %}
   <div class="window-contents scrollbox" style="padding: 0">
     <ul class="combobox-list">
       <li><a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", size: 16, role: "presentation" %} github</a></li>
@@ -93,7 +93,6 @@ title: about
     </ul>
     <div class="scrollbox-scroll"></div>
   </div>
-    {% comment %} </div> {% endcomment %}
 </dialog>
 
 <dialog id="dialog-about-picture" popover="manual" class="window window-utility window-animated">
@@ -128,11 +127,7 @@ title: about
             is procedurally generated for the current date using perlin noise and JPEG artifacts.
           </label> 
           today’s seed is <code class="webscape-seed">?</code>.
-          {% for dimension in webscapeDimensions -%}
-          <a href="https://observablehq.com/@cubeghost/procgen-dreamscape?width={{ dimension.width }}&height={{ dimension.height }}" class="webscape-link webscape-link-{{ dimension.id }}" target="_blank">
-            try it for yourself!
-          </a>
-          {%- endfor %}
+          {% include webscape-links.html.liquid, label: "try it for yourself!" %}
         </p>
         <h4>visuals</h4>
         <p>
@@ -154,7 +149,7 @@ title: about
   <div class="window" style="position: relative; z-index: 1;">
     <div class="window-titlebar">
       <button class="window-button button-left" popovertarget="dialog-about-icons" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
-      <span class="window-titlebar-title">Icons</span>
+      <span class="window-titlebar-title">icons</span>
     </div>
     <div class="window-contents">
       {%- assign icon_sources_32 = icon-sources | where: "size", 32 -%}
