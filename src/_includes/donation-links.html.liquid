@@ -15,12 +15,12 @@
   {% include donation-link.html.liquid, label: "gazafunds.com", flags: "🇵🇸", href: "https://gazafunds.com/" %}
 {%- endcapture -%}
   {%- if marquee -%}
-  <div class="donation-marquee donation-links {{ class | default: "" }}">
+  <div class="donation-marquee donation-links {{ class | default: "" }}" {% if nosnippet %}data-nosnippet{% endif %}>
     <ul class="marquee-list">{{ links }}</ul>
     <ul class="marquee-list" aria-hidden="true">{{ links }}</ul>
   </div>
   {%- else -%}
-  <ul class="donation-links {{ class | default: "" }}">
+  <ul class="donation-links {{ class | default: "" }}" {% if nosnippet %}data-nosnippet{% endif %}>
     {{ links }}
   </ul>
   {%- endif -%}

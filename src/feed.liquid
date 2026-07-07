@@ -27,6 +27,7 @@
     <name>{{ metadata.author.name }}</name>
   </author>
   {%- for post in collections.all | reverse %}
+  {%- if post.data.permalink != false or post.data.date -%}
   {%- liquid
     if post.data.permalink == false
       assign absolutePostUrl = post.data.url
@@ -39,7 +40,14 @@
     <link href="{{ absolutePostUrl }}" />
     <updated>{{ post.date | dateToRfc3339 }}</updated>
     <id>{{ absolutePostUrl }}</id>
-    {%- if post.content.length > 0 -%}
+    {%- if post.data.description -%}
+    {%- capture content -%}
+      {%- if post.data.preview -%}
+      <img src="{{ post.data.preview.src }}" alt="{{ post.data.preview.alt }}" />
+      {%- endif -%}
+      <p>{{ post.data.description }}</p>
+    {%- endcapture -%}
+    {%- elsif post.content.length > 0 -%}
     {%- assign content = post.content -%}
     {%- elsif post.data.images -%}
     {%- capture content -%}
@@ -68,5 +76,6 @@
     <content type="html" />
     {%- endif -%}
   </entry>
+  {%- endif -%}
   {%- endfor %}
 </feed>

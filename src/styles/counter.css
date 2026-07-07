@@ -47,7 +47,7 @@ body {
   width: 35px;
   height: 9px;
   text-indent: -9999px;
-  background-image: url(/assets/visitors3.png);
+  background-image: url(/assets/visitors.png);
   object-fit: cover;
   object-position: 0 0;
   margin-left: auto;
@@ -60,7 +60,7 @@ body {
 .visitors-number {
   display: inline-block;
   text-indent: -9999px;
-  background-image: url(/assets/visitors1.png);
+  background-image: url(/assets/visitors.png);
   height: 19px;
 }
 

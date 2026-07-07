@@ -46,7 +46,7 @@
 		<div class="sticky-top">
 			{%- assign url_start = page.url | slice: 0, 6 -%}
 			{%- if show_donation_banner -%}
-				{% render donation-links.html.liquid, class: "donation-banner", marquee: true %}
+				{% render donation-links.html.liquid, class: "donation-banner", marquee: true, nosnippet: true %}
 			{%- endif -%}
 			<nav class="menubar">
 				<div class="menubar-menu">
