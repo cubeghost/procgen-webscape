@@ -2,6 +2,7 @@
 title: ephemeral web presence space
 tags: code
 permalink: false
+date: 2019-05-18
 
 url: https://ephemeral.circumfluo.us/
 preview:

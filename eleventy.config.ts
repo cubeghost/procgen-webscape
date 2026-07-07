@@ -51,8 +51,8 @@ export default defineConfig((eleventyConfig) => {
   eleventyConfig.addLiquidFilter("dateToRfc3339", dateToRfc3339);
 
   eleventyConfig.addTemplateFormats("11ty.ts");
-  eleventyConfig.addPassthroughCopy("src/assets/*.(ttf|woff2)");
-  eleventyConfig.addPassthroughCopy("src/assets/*.(png|jpg|gif)");
+  eleventyConfig.addPassthroughCopy("src/assets/**/*.(ttf|woff2)");
+  eleventyConfig.addPassthroughCopy("src/assets/**/*.(png|jpg|gif)");
   eleventyConfig.addPassthroughCopy("src/**/*.css");
   eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 

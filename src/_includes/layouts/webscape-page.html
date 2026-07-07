@@ -20,6 +20,7 @@
   </div>
   <div class="window-contents">
     <div class="window-meta">
+      {%- assign date = date | default: nil -%}
       {%- render post-meta.html.liquid, date: date, tags: tags -%}
     </div>
     <div class="page-content">

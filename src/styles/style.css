@@ -17,6 +17,9 @@
 
   --pixel-border-r2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' width='6'%3E%3Cpath d='M2 0h2v1H2Z M1 1h1v1H1Z M4 1h1v1H4Z M0 2h1v2H0Z M5 2h1v2H5Z M1 4h1v1H1Z M4 4h1v1H4Z M2 5h2v1H2Z' /%3E%3C/svg%3E") 2 / calc(2px * var(--ui-scale)) stretch;
   --pixel-border-r4: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' width='8'%3E%3Cpath d='M3 0h2v1H3Z M2 1h1v1H2Z M5 1h1v1H5Z M1 2h1v1H1Z M6 2h1v1H6Z M0 3h1v2H0Z M7 3h1v2H7Z M1 5h1v1H1Z M6 5h1v1H6Z M2 6h1v1H2Z M2 6h1v1H2Z M5 6h1v1H5Z M3 7h2v1H3Z' /%3E%3C/svg%3E") 3 / calc(3px * var(--ui-scale)) stretch;
+
+  --accent-color: #999bf8;
+  --accent-color-light: #cccdfb;
 }
 
 body {
@@ -119,7 +122,12 @@ button:focus-visible img.sprite.sprite-happy-mac,
 img.sprite.sprite-watch {
   width: 16px;
   height: 16px;
-  animation: watch 1000ms steps(8) infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  img.sprite.sprite-watch {
+    animation: watch 1000ms steps(8) infinite;
+  }
 }
 
 @keyframes watch {
@@ -158,9 +166,9 @@ button.button-link:active {
   color: red;
 }
 
-.page-content a[href*="//"]:not([href*="cubegho.st"]):not(:has(img)):after,
+/* .page-content a[href*="//"]:not([href*="cubegho.st"]):not(:has(img)):after, */
 a.external:after {
-  content: " ";
+  content: "";
   image-rendering: pixelated;
   mask-image: url(/assets/ui.png);
   mask-size: var(--ui-sprite-size);
@@ -226,6 +234,9 @@ a.button {
 
 .linkable:is(h1, h2, h3, h4, h5, h6) a {
   opacity: 0;
+  display: inline-block;
+  width: 0;
+  text-indent: 0.5rem;
 }
 
 .linkable:is(h1, h2, h3, h4, h5, h6):hover a,

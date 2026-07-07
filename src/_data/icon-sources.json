@@ -37,16 +37,48 @@
     "status": "Modified"
   },
   {
-    "sprite": "scrapbook",
+    "sprite": "news",
+    "size": 32,
+    "alt": "newspaper",
+    "source": "SimpleText"
+  },
+  {
+    "icon": "<img src=\"/assets/happy-mac.png\" class=\"sprite sprite-happy-mac\" alt=\"happy computer\" eleventy:ignore />",
     "size": 16,
-    "alt": "scrapbook",
-    "source": "Scrapbook"
+    "source": "System 7",
+    "status": "Modified"
   },
   {
     "sprite": "resedit",
     "size": 16,
     "alt": "ResEdit jack-in-the-box",
     "source": "ResEdit"
+  },
+  {
+    "icon": "<div class=\"icon-dice\" style=\"margin: 0 auto\"><span class=\"visually-hidden\">dice</span></div>",
+    "size": 16,
+    "source": "Cairo font",
+    "status": "Modified",
+    "style": "padding-top: 0; padding-bottom: 0;"
+  },
+  {
+    "sprite": "spray-paint",
+    "size": 16,
+    "alt": "spray paint",
+    "source": "Cairo font / MacPaint",
+    "status": "Modified"
+  },
+  {
+    "sprite": "sheep",
+    "size": 16,
+    "alt": "sheep",
+    "source": "Geneva font"
+  },
+  {
+    "sprite": "scrapbook",
+    "size": 16,
+    "alt": "scrapbook",
+    "source": "Scrapbook"
   },
   {
     "sprite": "document-code",
@@ -61,23 +93,9 @@
     "source": "Microsoft Outlook"
   },
   {
-    "icon": "<div class=\"icon-dice\" style=\"margin: 0 auto\"><span class=\"visually-hidden\">dice</span></div>",
+    "icon": "<img src=\"/assets/watch.png\" alt=\"watch\" class=\"sprite sprite-watch\" eleventy:ignore />",
     "size": 16,
-    "source": "Cairo font",
-    "status": "Modified",
-    "style": "padding-top: 0; padding-bottom: 0;"
-  },
-  {
-    "sprite": "sheep",
-    "size": 16,
-    "alt": "sheep",
-    "source": "Geneva font"
-  },
-  {
-    "icon": "<img src=\"/assets/happy-mac.png\" class=\"sprite sprite-happy-mac\" alt=\"happy computer\" eleventy:ignore />",
-    "size": 16,
-    "source": "System 7",
-    "status": "Modified"
+    "source": "System 1"
   },
   {
     "sprite": "suitcase-fonts",
@@ -110,5 +128,12 @@
     "size": 16,
     "alt": "users",
     "source": "OS 9"
+  },
+  {
+    "sprite": "display-1",
+    "size": 16,
+    "alt": "display",
+    "source": "OS 9",
+    "status": "Modified"
   }
 ]

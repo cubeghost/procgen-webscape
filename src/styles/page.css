@@ -17,19 +17,25 @@
   height: auto;
 }
 
-.page-content h1,
-.page-content h2,
-.page-content h3,
-.page-content h4,
-.page-content h5,
-.page-content h6 {
+.page-content :is(h1, h2, h3, h4, h5, h6) {
   font-family: Archivo, var(--sans-serif);
 }
 
-.page-content h1:first-child,
-.page-content h2:first-child,
-.page-content h3:first-child {
+.page-content :is(h1, h2, h3):first-child {
   margin-top: 0.25rem;
+}
+
+.page-content :is(p, ul, blockquote) {
+  margin: 1rem 0;
+}
+
+.page-content code {
+  background-color: #eee;
+}
+
+.page-content hr {
+  border: 0;
+  border-bottom: var(--border-width) dotted black;
 }
 
 .codepen {

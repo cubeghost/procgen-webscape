@@ -5,9 +5,7 @@ date: 2021-07-24
 permalink: false
 
 url: https://afffirmations.netlify.app/
+preview:
+  src: /code/afffirmations-generator.png
+  alt: a meme generator tool. on the left is an image of a woman wearing a 90s-style VR headset while surrounded by fish underwater and the meme text "I am profoundly connected to reality". on the right are the meme generator controls, with fields for image upload, text, text size, and color
 ---
-
-[afffirmations generator](https://afffirmations.netlify.app/)
-
-<img src="https://camo.githubusercontent.com/d6c66eeb0c6caac542d7e276702622dd8b8067bb68dac48afc71dc44edc346c1/68747470733a2f2f36342e6d656469612e74756d626c722e636f6d2f38393431326431653462633731303737343933643936616137373966303465622f353031333566623036383533666436352d62362f733132383078313932302f396630333432643133303533356338343361636366396638323631313937666139353430653730342e6a7067"
-width="400" eleventy:ignore>

@@ -18,7 +18,7 @@ h6 {
   border: 0;
   border-bottom: var(--border-width) dotted black;
   background-color: transparent;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 /* desktop */
@@ -39,10 +39,12 @@ h6 {
   grid-column: 4;
 }
 
-.desktop-container #dialog-about {
+.desktop-container .window {
   grid-column: 2 / 4;
   max-width: 500px;
   width: 100%;
+  margin: 0 auto;
+  height: fit-content;
 }
 
 /* 500px (dialog) + 180px (2x finder icon item, 90px) */
@@ -73,12 +75,19 @@ h6 {
     0 0 0 calc(3px * var(--ui-scale)) white,
     0 0 0 calc(4px * var(--ui-scale)) black;
   z-index: 1;
-  margin: 0 auto;
 }
 
 #dialog-about .window-contents {
   margin: 0;
   border: 0;
+}
+
+#dialog-about h2 {
+  margin-bottom: 1rem;
+}
+
+#dialog-about p {
+  margin-top: 0.5rem;
 }
 
 #dialog-about-elsewhere a {

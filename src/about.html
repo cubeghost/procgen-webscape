@@ -15,10 +15,6 @@ title: about
 <h1><a href="{{ page.url }}" aria-current="page">about</a></h1>
 {% endblock %}
 
-{% block applemenu %}
-{%- include webscape-controls.html.liquid -%}
-{% endblock %}
-
 {% block content %}
 
 <div class="desktop-container">
@@ -26,13 +22,13 @@ title: about
     <a href="/">
       <figure class="finder-item">
         {%- include icon-sprite, id: "suitcase-fonts", size: 32, alt: "folder" -%}
-        <figcaption>index</figcaption>
+        <figcaption>portfolio</figcaption>
       </figure>
     </a>
   </div>
 
-  <article id="dialog-about" class="window" style="flex-basis: 500px">
-    <div class="window-contents" style="display: flex; padding: 1rem; gap: 1rem">
+  <article id="dialog-about" class="window">
+    <div class="window-contents" style="display: flex; padding: 1rem; gap: 1rem;">
       <div style="flex-shrink: 0; padding: 0.5rem 1rem;">
         {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
       </div>
@@ -56,9 +52,8 @@ title: about
             </button>
           </span>
         </p>
-        {% comment %} <p>logging on from Brooklyn, NY</p> {% endcomment %}
-        <p>who has been writing code since ~2006</p>
-        {% comment %} <p>find them <button popovertarget="dialog-about-elsewhere" class="button-link">elsewhere on the world wide web</button></p> {% endcomment %}
+        {% comment %} <p>who has been writing code since ~2006</p> {% endcomment %}
+        <p>currently logging on from Brooklyn, NY</p>
       </div>
     </div>
   </article>
@@ -146,7 +141,7 @@ title: about
           and <a href="https://en.wikipedia.org/wiki/Bill_Atkinson" target="_blank" rel="noopener">Bill Atkinson</a>.
         </p>
       </div>
-    <div class="window-notepad-footer"><span></span></div>
+      <div class="window-notepad-footer"><span></span></div>
     </div>
   </article>
 </div>
@@ -160,7 +155,7 @@ title: about
     <div class="window-contents">
       {%- assign icon_sources_32 = icon-sources | where: "size", 32 -%}
       <div class="window-meta"><span>{{ icon_sources_32.length }} items</span></div>
-      <div class="scrollbox">
+      <div class="scrollbox" style="max-height: 11.5rem;">
         <div class="finder finder-icons">
           {%- for icon in icon_sources_32 -%}
             <figure class="finder-item">
@@ -225,10 +220,11 @@ title: about
 
 {% block footer %}
 <div class="badges">
-  {% include accessible-gif, src: "/assets/built-with-eleventy.gif", src_still: "/assets/built-with-eleventy.png", alt: "built with Eleventy" %}
-  <img src="/assets/sit-happens.png" alt=".sit happens" eleventy:ignore />
-  <img src="https://cyber.dabamos.de/88x31/1of2.gif" alt="1 of 2" eleventy:ignore />
-  <img src="https://88x31.nl/gifs/i_dream_in_html.gif" alt="i dream in HTML" eleventy:ignore />
+  <!-- https://chrisburnell.com/note/eleventy-animated-88x31/ -->
+  {% include accessible-gif, src: "/assets/88x31/built-with-eleventy.gif", src_still: "/assets/88x31/built-with-eleventy.png", alt: "built with Eleventy" %}
+  <img src="/assets/88x31/sit-happens.png" alt=".sit happens" eleventy:ignore />
+  <img src="/assets/88x31/1of2.png" alt="1 of 2" eleventy:ignore />
+  {% include accessible-gif, src: "/assets/88x31/i-dream-in-html.gif", src_still: "/assets/88x31/i-dream-in-html.png", alt: "i dream in HTML" %}
 </div>
 
 <iframe src="/.netlify/functions/counter" class="visitors"></iframe>

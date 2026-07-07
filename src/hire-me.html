@@ -1,0 +1,59 @@
+---
+date: false
+
+eleventyExcludeFromCollections: true
+title: hire me!
+---
+{% assign show_donation_banner = true %}
+{% assign show_webscape_controls = true %}
+{% layout layouts/webscape.html %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/about.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="desktop-container">
+  <div class="finder finder-icons desktop-icons">
+    <a href="/">
+      <figure class="finder-item">
+        {%- include icon-sprite, id: "suitcase-fonts", size: 32, alt: "folder" -%}
+        <figcaption>portfolio</figcaption>
+      </figure>
+    </a>
+  </div>
+
+  <article class="window">
+    <div class="window-titlebar">
+      <span class="window-button button-left"></span>
+      <h3 class="window-titlebar-title">hire me</h3>
+      <span class="window-button button-right button-zoom" style="grid-column: 4"></span>
+    </div>
+    <div class="window-contents">
+      <div style="padding: 0 1rem 0.5rem">
+        <h2>i am available for work!</h2>
+        {% comment %} <p>do you need a creative software engineer?</p> {% endcomment %}
+        <p><a href="https://www.linkedin.com/in/ghostbaldwin/" target="_blank" rel="noopener" class="external">linkedin</a></p>
+      </div>
+      <div class="window-notepad-footer"><span></span></div>
+    </div>
+  </article>
+
+  <div class="finder finder-icons desktop-icons">
+      <a href="/about/">
+        <figure class="finder-item" style="margin-left: auto;">
+          {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
+          <figcaption>about this mac</figcaption>
+        </figure>
+      </a>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<iframe src="/.netlify/functions/counter" class="visitors"></iframe>
+{% endblock %}

@@ -38,3 +38,7 @@
   </article>
   {% include donation-window.html.liquid, id: "footer-donation", nosnippet: true %}
 </div>
+
+{% block footer %}
+<iframe src="/.netlify/functions/counter" class="visitors"></iframe>
+{% endblock %}

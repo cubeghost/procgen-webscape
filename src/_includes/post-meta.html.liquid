@@ -1,4 +1,6 @@
+{%- if date -%}
 <span class="meta-date">{{ date | date: "%b %d, %Y", "UTC" }}</span>
+{%- endif -%}
 {%- if extra -%}
 <span class="meta-extra">{{ extra }}</span>
 {%- endif -%}
