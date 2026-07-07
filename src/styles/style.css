@@ -450,14 +450,14 @@ label#desktop-webscape-preview {
 }
 
 .webscape-replay-controls .sprite-watch {
-  display: inline-block;
+  display: none;
   vertical-align: middle;
   margin-left: 0.25rem;
-  opacity: 0;
+
 }
 
 .webscape-replay-controls:has(.webscape-replay-cancel) .sprite-watch {
-  opacity: 1;
+  display: inline-block;
 }
 
 .webscape-replay-controls button {
