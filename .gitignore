@@ -7,5 +7,4 @@ dist
 .netlify
 
 
-src/maintenance/original.html
-src/maintenance/screen-dimensions.css
+tmp/
