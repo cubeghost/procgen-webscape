@@ -1,0 +1,73 @@
+---json
+{
+  "permalink": "feed.xml",
+  "eleventyExcludeFromCollections": true,
+  "eleventyImport": {
+    "collections": ["all"]
+  },
+  "metadata": {
+    "title": "cubegho.st",
+    "description": "TODO",
+    "language": "en",
+    "base": "http://localhost:8888/",
+    "author": {
+      "name": "alex"
+    }
+  }
+}
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ metadata.language }}">
+  <title>{{ metadata.title }}</title>
+  <subtitle>{{ metadata.description }}</subtitle>
+  <link href="{{ permalink | htmlBaseUrl: metadata.base }}" rel="self" />
+  <link href="{{ metadata.base | addPathPrefixToFullUrl }}" />
+  <updated>{{ collections.all | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+  <id>{{ metadata.base | addPathPrefixToFullUrl }}</id>
+  <author>
+    <name>{{ metadata.author.name }}</name>
+  </author>
+  {%- for post in collections.all | reverse %}
+  {%- liquid
+    if post.data.permalink == false
+      assign absolutePostUrl = post.data.url
+    else
+      assign absolutePostUrl = post.url | htmlBaseUrl: metadata.base
+    endif
+  -%}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="{{ absolutePostUrl }}" />
+    <updated>{{ post.date | dateToRfc3339 }}</updated>
+    <id>{{ absolutePostUrl }}</id>
+    {%- if post.content.length > 0 -%}
+    {%- assign content = post.content -%}
+    {%- elsif post.data.images -%}
+    {%- capture content -%}
+      {%- for image in post.data.images %}
+      <figure>
+        <img src="{{ image.src }}" alt="{{ image.alt }}" />
+        {% if image.caption %}
+        <figcaption>{{ image.caption }}</figcaption>
+        {% endif %}
+      </figure>
+      {% endfor -%}
+    {% endcapture %}
+    {%- elsif post.data.preview -%}
+    {%- capture content -%}
+      <img src="{{ post.data.preview.src }}" alt="{{ post.data.preview.alt }}" />
+    {%- endcapture -%}
+    {%- else -%}
+    {% assign content = nil %}
+    {%- endif -%}
+
+    {%- if content -%}
+    <content type="html">
+      {{ content | renderTransforms: post.data.page, metadata.base | escape }}
+    </content>
+    {%- else -%}
+    <content type="html" />
+    {%- endif -%}
+  </entry>
+  {%- endfor %}
+</feed>

@@ -129,11 +129,6 @@
 						</div>
 						{% endfor %}
 					</div>
-					<script type="text/javascript">
-						if (desktopPreference) {
-							document.querySelector(`input[name="desktop"][value="${desktopPreference}"]`).checked = true;
-						}
-					</script>
 
 					<button id="desktop-apply" type="submit" class="button">apply</button>
 					
@@ -144,6 +139,16 @@
 						{% endif %}
 						{% include webscape-links.html.liquid, class: "external" %}
 					</fieldset>
+
+					<script type="text/javascript">
+						if (desktopPreference) {
+							document.querySelector(`input[name="desktop"][value="${desktopPreference}"]`).checked = true;
+							document.querySelector(".desktop-controls-webscape").disabled = desktopPreference !== "webscape";
+							{% if show_webscape_controls %}
+							document.querySelector("#webscape-replay").disabled = desktopPreference !== "webscape";
+							{% endif %}
+						}
+					</script>
 				</div>
 			</div>
 		</dialog>
@@ -161,6 +166,7 @@
 				localStorage.setItem("desktop-background", desktop);
 
 				{% if show_webscape_controls %}
+				replayButton.disabled = desktop !== "webscape";
 				if (replayController && replayController.signal.aborted === false) {
 					replayController.abort();
 				}

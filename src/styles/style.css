@@ -221,7 +221,7 @@ a.button {
 }
 
 .button:focus-visible:after,
-.button:active:after {
+.button:not(:disabled):active:after {
   content: "";
   display: block;
   position: absolute;
@@ -453,10 +453,6 @@ label#desktop-webscape-preview {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
-}
-
-body:not(.background-webscape) .webscape-replay-controls {
-  display: none;
 }
 
 .webscape-replay-controls .sprite-watch {

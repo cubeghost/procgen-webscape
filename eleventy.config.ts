@@ -15,7 +15,10 @@ import type {
 import { Value } from "liquidjs";
 
 import Image, { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
-import pluginRss from "@11ty/eleventy-plugin-rss";
+import pluginRss, {
+  dateToRfc3339,
+  getNewestCollectionItemDate,
+} from "@11ty/eleventy-plugin-rss";
 import { consolePlus } from "eleventy-plugin-console-plus";
 import esbuild from "esbuild";
 import * as importMap from "esbuild-plugin-import-map";
@@ -39,6 +42,13 @@ export default defineConfig((eleventyConfig) => {
     key: "11ty.js",
   });
   eleventyConfig.addWatchTarget("./src/assets/*.aseprite");
+
+  eleventyConfig.addPlugin(pluginRss);
+  eleventyConfig.addLiquidFilter(
+    "getNewestCollectionItemDate",
+    getNewestCollectionItemDate,
+  );
+  eleventyConfig.addLiquidFilter("dateToRfc3339", dateToRfc3339);
 
   eleventyConfig.addTemplateFormats("11ty.ts");
   eleventyConfig.addPassthroughCopy("src/assets/*.(ttf|woff2)");
@@ -72,7 +82,7 @@ export default defineConfig((eleventyConfig) => {
     transformOnRequest: process.env.NODE_ENV !== "production",
   });
   const playGifButton = (id: string) =>
-    `<button class="play-gif" data-target-id="${id}" aria-pressed="false" onclick="playGifToggle(event)">
+    `<button class="play-gif requires-js" data-target-id="${id}" aria-pressed="false" onclick="playGifToggle(event)">
       <span class="visually-hidden">play gif</span>
     </button>`;
   eleventyConfig.addShortcode(
@@ -362,8 +372,6 @@ export default defineConfig((eleventyConfig) => {
       };
     },
   );
-
-  eleventyConfig.addPlugin(pluginRss);
 
   return {
     dir: {
