@@ -51,7 +51,7 @@
 			<nav class="menubar">
 				<div class="menubar-menu">
 					<button popovertarget="dialog-apple" class="menu-item trigger-menu">
-						<img src="/assets/happy-mac.png" class="sprite happy-mac-sprite" alt="happy computer" style="align-self: center" eleventy:ignore />
+						<img src="/assets/happy-mac.png" class="sprite sprite-happy-mac" alt="happy computer" style="align-self: center" eleventy:ignore />
 						<span class="visually-hidden">open menu</span>
 					</button>
 
@@ -112,10 +112,10 @@
 				<span class="window-titlebar-title">appearance</span>
 			</div>
 			<div class="window-contents appearance">
-				<div class="appearance-group">
+				{% comment %} <div class="appearance-group">
 					<h3>Display</h3>
-				</div>
-				<div class="appearance-group">
+				</div> {% endcomment %}
+				<div class="appearance-group desktop">
 					<h3>Desktop</h3>
 
 					<div class="desktop-picker">
@@ -135,20 +135,24 @@
 						}
 					</script>
 
-					<button id="desktop-apply" type="submit">apply</button>
-
-					<div class="desktop-webscape-controls">
+					<button id="desktop-apply" type="submit" class="button">apply</button>
+					
+					<fieldset class="desktop-controls-webscape">
+						<legend>webscape</legend>
 						{% if show_webscape_controls %}
 						{% include webscape-controls.html.liquid %}
 						{% endif %}
 						{% include webscape-links.html.liquid, class: "external" %}
-					</div>
+					</fieldset>
 				</div>
 			</div>
 		</dialog>
 		<script type="text/javascript">
-			// document.getElementById("dialog-appearance").showPopover();
-
+			const webscapeControls = document.querySelector(".desktop-controls-webscape");
+			document.querySelector(".desktop-picker").addEventListener("change", (event) => {
+				const desktop = event.target.value;
+				webscapeControls.disabled = desktop !== "webscape";
+			});
 			document.getElementById("desktop-apply").addEventListener("click", (event) => {
 				const desktop = document.querySelector('input[name="desktop"]:checked')?.value;
 				if (!desktop) return;
@@ -156,10 +160,11 @@
 				document.body.className = `background-${desktop}`;
 				localStorage.setItem("desktop-background", desktop);
 
-				// webscape-controls
+				{% if show_webscape_controls %}
 				if (replayController && replayController.signal.aborted === false) {
 					replayController.abort();
 				}
+				{% endif %}
 			})
 		</script>
 

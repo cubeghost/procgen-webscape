@@ -31,6 +31,9 @@
 
   --sans-serif: "Spline Sans", Roboto, "Helvetica Neue", Arial, sans-serif;
   --monospace: "Spline Sans Mono", "Roboto Mono", ui-monospace, Menlo, "Cascadia Mono", "Droid Sans Mono", "Consolas", monospace;
+
+  --pixel-border-r2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' width='6'%3E%3Cpath d='M2 0h2v1H2Z M1 1h1v1H1Z M4 1h1v1H4Z M0 2h1v2H0Z M5 2h1v2H5Z M1 4h1v1H1Z M4 4h1v1H4Z M2 5h2v1H2Z' /%3E%3C/svg%3E") 2 / calc(2px * var(--ui-scale)) stretch;
+  --pixel-border-r4: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' width='8'%3E%3Cpath d='M3 0h2v1H3Z M2 1h1v1H2Z M5 1h1v1H5Z M1 2h1v1H1Z M6 2h1v1H6Z M0 3h1v2H0Z M7 3h1v2H7Z M1 5h1v1H1Z M6 5h1v1H6Z M2 6h1v1H2Z M2 6h1v1H2Z M5 6h1v1H5Z M3 7h2v1H3Z' /%3E%3C/svg%3E") 3 / calc(3px * var(--ui-scale)) stretch;
 }
 
 body {
@@ -73,10 +76,32 @@ strong {
   font-weight: 600;
 }
 
-/* TODO move */
-.webscape-controls {
-  margin-left: auto;
+/* backgrounds */
+
+.background-grid {
+  background-image: linear-gradient(black 12.5%, transparent 12.5%), linear-gradient(to right, black 12.5%, white 12.5%);
+  background-size: calc(8px * var(--ui-scale)) calc(8px * var(--ui-scale));
 }
+
+.background-dot {
+  background-image: linear-gradient(transparent 12.5%, white 12.5%), linear-gradient(to right, black 12.5%, white 12.5%);
+  background-size: calc(8px * var(--ui-scale)) calc(8px * var(--ui-scale));
+}
+
+.background-gray {
+  background-image: repeating-conic-gradient(from 0, white 0% 25%, black 0% 50%);
+  background-size: calc(2px * var(--ui-scale)) calc(2px * var(--ui-scale));
+}
+
+.background-white {
+  background-color: white;
+}
+
+.background-black {
+  background-color: black;
+}
+
+/* sprites */
 
 img.sprite {
   image-rendering: pixelated;
@@ -94,40 +119,33 @@ img.sprite.sprite-32 {
   height: 32px;
 }
 
-img.sprite.happy-mac-sprite {
+img.sprite.sprite-happy-mac {
   width: 14px;
   height: 17px;
 }
 
-button:hover img.sprite.happy-mac-sprite,
-button:focus-visible img.sprite.happy-mac-sprite,
-.menu-item:hover img.sprite.happy-mac-sprite,
-.menu-item:focus-visible img.sprite.happy-mac-sprite,
-.menubar-menu:has(> .popover-menu:popover-open)>.trigger-menu img.sprite.happy-mac-sprite {
+button:hover img.sprite.sprite-happy-mac,
+button:focus-visible img.sprite.sprite-happy-mac,
+.menu-item:hover img.sprite.sprite-happy-mac,
+.menu-item:focus-visible img.sprite.sprite-happy-mac,
+.menubar-menu:has(> .popover-menu:popover-open)>.trigger-menu img.sprite.sprite-happy-mac {
   filter: none;
   object-position: -14px 0;
 }
 
-img.sprite.sprite-cat {
-  width: 18px;
+img.sprite.sprite-watch {
+  width: 16px;
   height: 16px;
+  animation: watch 1000ms steps(8) infinite;
 }
 
-img.sprite.sprite-cat-animated {
-  animation: cat 4s steps(1) infinite;
-}
-
-@keyframes cat {
+@keyframes watch {
   0% {
     object-position: 0 0;
   }
 
-  75% {
-    object-position: -18px 0;
-  }
-
-  90% {
-    object-position: 0 0;
+  100% {
+    object-position: -128px 0;
   }
 }
 
@@ -175,6 +193,40 @@ a.external:after {
 
 .page-content h1 a[href*="//"]:not([href*="cubegho.st"]):after {
   display: none;
+}
+
+/* buttons */
+
+.button {
+  border-width: 0;
+  border-image: var(--pixel-border-r2);
+  position: relative;
+  padding: 0.15rem 0.75rem;
+  line-height: 1.4;
+  height: fit-content;
+}
+
+button.button {
+  appearance: none;
+  background: transparent;
+}
+
+a.button {
+  color: currentColor;
+  text-decoration: none;
+}
+
+.button:focus-visible {
+  outline: 0;
+}
+
+.button:focus-visible:after,
+.button:active:after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: calc(-4px * var(--ui-scale));
+  border-image: var(--pixel-border-r4)
 }
 
 /* should this go in windows.css? */
@@ -228,7 +280,6 @@ iframe.visitors {
   top: 1rem;
   right: 1rem;
   left: auto;
-  width: 280px;
   margin: 0;
   margin-top: calc(1.375rem * 2);
 }
@@ -248,15 +299,33 @@ iframe.visitors {
 
 .appearance-group {
   padding: 0.75rem;
+  flex: 1;
 }
 
 .appearance-group h3 {
   font-size: inherit;
   margin-top: 0;
+  margin-bottom: 0.75rem;
 }
 
 .appearance .appearance-group:not(:first-child) {
   border-left: var(--border-width) dotted black;
+}
+
+.appearance-group.desktop {
+  display: grid;
+  grid-template-columns: calc(100px * var(--ui-scale)) 7rem;
+  grid-template-rows: max-content;
+  column-gap: 0.75rem;
+}
+
+.appearance-group.desktop h3 {
+  grid-column: span 2;
+}
+
+.appearance-group.desktop #desktop-apply {
+  grid-column: 1;
+  height: fit-content;
 }
 
 .desktop-picker {
@@ -269,6 +338,8 @@ iframe.visitors {
   width: var(--width);
   height: calc(var(--height) + var(--click-area));
   position: relative;
+  margin-top: calc(-1 * var(--click-area));
+  margin-bottom: 0.5rem;
 }
 
 .desktop-picker:before,
@@ -351,12 +422,12 @@ iframe.visitors {
 }
 
 .desktop-picker-group label.picker-previous:after {
-  background-position: calc(-96px * var(--ui-scale)) 0;
+  background-position: calc(-87px * var(--ui-scale)) 0;
   left: 0;
 }
 
 .desktop-picker-group label.picker-next:after {
-  background-position: calc(-101px * var(--ui-scale)) 0;
+  background-position: calc(-92px * var(--ui-scale)) 0;
   right: 0;
 }
 
@@ -364,38 +435,59 @@ label#desktop-webscape-preview {
   background-image: url(/assets/desktop-webscape-98.png);
 }
 
-.background-grid {
-  background-image: linear-gradient(black 12.5%, transparent 12.5%), linear-gradient(to right, black 12.5%, white 12.5%);
-  background-size: calc(8px * var(--ui-scale)) calc(8px * var(--ui-scale));
+.desktop-controls-webscape {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: unset;
+  height: fit-content;
+  border: var(--border-width) dotted black;
+  padding: 0.25rem 0.5rem 0.5rem;
+  margin: -0.5rem 0 0 0;
 }
 
-.background-dot {
-  background-image: linear-gradient(transparent 12.5%, white 12.5%), linear-gradient(to right, black 12.5%, white 12.5%);
-  background-size: calc(8px * var(--ui-scale)) calc(8px * var(--ui-scale));
+.desktop-controls-webscape:disabled {
+  opacity: 0.5;
 }
 
-.background-gray {
-  background-image: repeating-conic-gradient(from 0, white 0% 25%, black 0% 50%);
-  background-size: calc(2px * var(--ui-scale)) calc(2px * var(--ui-scale));
+.webscape-replay-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.background-white {
-  background-color: white;
-}
-
-.background-black {
-  background-color: black;
-}
-
-
-.desktop-webscape-controls {
+body:not(.background-webscape) .webscape-replay-controls {
   display: none;
 }
 
-.desktop-picker:has(#desktop-0:checked)~.desktop-webscape-controls {
-  display: block;
+.webscape-replay-controls .sprite-watch {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.25rem;
+  opacity: 0;
 }
 
-body:not(.background-webscape) .desktop-webscape-controls #replay-webscape {
+.webscape-replay-controls:has(.webscape-replay-cancel) .sprite-watch {
+  opacity: 1;
+}
+
+.webscape-replay-controls button {
+  white-space: nowrap;
+}
+
+.webscape-replay-controls button img {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.25rem;
+}
+
+.webscape-replay-controls button .label-cancel {
   display: none;
+}
+
+.webscape-replay-controls button.webscape-replay-cancel .label-replay {
+  display: none;
+}
+
+.webscape-replay-controls button.webscape-replay-cancel .label-cancel {
+  display: inline;
 }

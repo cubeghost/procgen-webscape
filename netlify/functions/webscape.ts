@@ -36,7 +36,7 @@ export default async function (request: Request, context: Context) {
           ...(format === "gif"
             ? { "X-Webscape-Chunk-Size": chunkSize.toString() }
             : {}),
-          ...getResponseHeaders(seed, expires),
+          ...getResponseHeaders(seed, size, expires),
         },
       });
     } else {
@@ -70,7 +70,7 @@ export default async function (request: Request, context: Context) {
         return new Response(image.buffer as ArrayBuffer, {
           headers: {
             "Content-Type": "image/png",
-            ...getResponseHeaders(seed, expires),
+            ...getResponseHeaders(seed, size, expires),
           },
         });
       }
@@ -150,7 +150,7 @@ export default async function (request: Request, context: Context) {
         "Content-Type": "image/gif",
         "Transfer-Encoding": "chunked",
         "X-Webscape-Chunk-Size": chunkSize.toString(),
-        ...getResponseHeaders(seed, expires),
+        ...getResponseHeaders(seed, size, expires),
       },
     });
   }
@@ -228,12 +228,18 @@ function getDateSeed() {
   };
 }
 
-function getResponseHeaders(seed: number, expires: Date) {
+function getResponseHeaders(
+  seed: number,
+  size: { width: number; height: number },
+  expires: Date,
+) {
   const expiresStr = expires.toUTCString();
   const expiresInSeconds = Math.floor((expires.getTime() - Date.now()) / 1000);
   return {
     "Cache-Control": `public, max-age=${expiresInSeconds}`,
     "Set-Cookie": `webscape_seed=${seed}; Expires=${expiresStr}`,
     Expires: expiresStr,
+    "X-Webscape-Width": size.width.toString(),
+    "X-Webscape-Height": size.height.toString(),
   };
 }

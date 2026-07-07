@@ -74,7 +74,7 @@
     "source": "Geneva font"
   },
   {
-    "icon": "<img src=\"/assets/happy-mac.png\" class=\"sprite happy-mac-sprite\" alt=\"happy computer\" eleventy:ignore />",
+    "icon": "<img src=\"/assets/happy-mac.png\" class=\"sprite sprite-happy-mac\" alt=\"happy computer\" eleventy:ignore />",
     "size": 16,
     "source": "System 7",
     "status": "Modified"

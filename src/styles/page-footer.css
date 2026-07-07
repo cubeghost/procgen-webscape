@@ -45,10 +45,7 @@
   inset: 0;
   display: block;
   pointer-events: none;
-  border-image-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' width='6'%3E%3Crect width='1' height='1' x='2' y='0' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='3' y='0' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='1' y='1' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='4' y='1' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='0' y='2' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='5' y='2' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='0' y='3' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='5' y='3' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='1' y='4' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='4' y='4' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='2' y='5' fill='black'%3E%3C/rect%3E%3Crect width='1' height='1' x='3' y='5' fill='black'%3E%3C/rect%3E%3C/svg%3E");
-  border-image-slice: 2;
-  border-image-width: calc(2px * var(--ui-scale));
-  border-image-repeat: stretch;
+  border-image: var(--pixel-border-r2);
 }
 
 .page-footer #footer-donation {

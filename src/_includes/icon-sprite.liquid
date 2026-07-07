@@ -15,7 +15,7 @@
   {% if role != "presentation" -%}
   alt="{{ alt }}"
   {%- endif %}
-  class="sprite sprite-{{ size }}"
+  class="sprite sprite-{{ size }} {{ class | default: "" }}"
   style="object-position: {{ sprite_index | times: multiplier }}px 0; {{ style | default: "" }}"
   {% if role -%}
   role="{{ role }}"

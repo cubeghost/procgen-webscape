@@ -1,23 +1,28 @@
-/* browser-only */
+/* web worker */
 
 import { parseGIF, decompressFrames, ParsedFrame } from "gifuct-js";
 import { DEEP_FRY_ITERATIONS } from "./constants.mjs";
-import { type Context2DFunc } from "./generate.mts";
+
+interface ReplayEvent {
+  type: "replay";
+  canvas: OffscreenCanvas;
+  buffer: ArrayBuffer;
+  chunkSize: number;
+  scale: number;
+  vw: number;
+  vh: number;
+}
 
 export async function replay(
-  container: HTMLElement,
-  signal: AbortSignal,
-  context2d: Context2DFunc<CanvasRenderingContext2D>,
+  canvas: OffscreenCanvas,
   buffer: ArrayBuffer,
   chunkSize: number,
   scale: number,
+  viewportWidth: number,
+  viewportHeight: number,
 ): Promise<void> {
-  signal.throwIfAborted();
-
   const gif = await parseGIF(buffer);
-  signal.throwIfAborted();
   const frames = await decompressFrames(gif, true);
-  signal.throwIfAborted();
   if (!frames.length) throw new Error("no frames");
 
   const { width, height } = frames[0].dims;
@@ -27,11 +32,11 @@ export async function replay(
   const deepFryFrames = DEEP_FRY_ITERATIONS;
   // const effectFrames = frames.length - chunkFrames * 2 - deepFryFrames;
   const chunkFramesStart = frames.length - chunkFrames * 2;
-  const vxChunks = Math.ceil(window.innerWidth / scale / chunkSize);
-  const vyChunks = Math.ceil(window.innerHeight / scale / chunkSize);
+  const vxChunks = Math.ceil(viewportWidth / scale / chunkSize);
+  const vyChunks = Math.ceil(viewportHeight / scale / chunkSize);
 
-  const context = context2d(width, height, 1);
-  container.replaceChildren(context.canvas);
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("unable to get 2d context");
 
   const queuedFrames: ParsedFrame[] = [];
 
@@ -64,35 +69,51 @@ export async function replay(
 
   return new Promise((resolve, reject) => {
     let currentFrame = 0;
-    let currentTimeout;
-    const delay = 60;
+    const delay = 30;
     async function drawFrame() {
-      signal.throwIfAborted();
-      const frame = queuedFrames[currentFrame];
-      const start = new Date().getTime();
+      try {
+        const frame = queuedFrames[currentFrame];
+        const start = new Date().getTime();
 
-      const image = context.createImageData(width, height);
-      image.data.set(frame.patch);
-      const bitmap = await createImageBitmap(image);
-      signal.throwIfAborted();
-      context.drawImage(bitmap, 0, 0);
-      bitmap.close();
+        const image = context!.createImageData(width, height);
+        image.data.set(frame.patch);
+        const bitmap = await createImageBitmap(image);
+        context!.drawImage(bitmap, 0, 0);
+        bitmap.close();
 
-      currentFrame++;
-      if (currentFrame >= queuedFrames.length) {
-        resolve();
-        return;
+        currentFrame++;
+        if (currentFrame >= queuedFrames.length) {
+          resolve();
+          return;
+        }
+
+        const end = new Date().getTime();
+        const diff = end - start;
+
+        setTimeout(
+          () => requestAnimationFrame(drawFrame),
+          Math.max(0, Math.floor(delay - diff)),
+        );
+      } catch (err) {
+        reject(err);
       }
-
-      const end = new Date().getTime();
-      const diff = end - start;
-
-      setTimeout(
-        () => requestAnimationFrame(drawFrame),
-        Math.max(0, Math.floor(delay - diff)),
-      );
     }
 
     drawFrame();
   });
 }
+
+self.addEventListener("message", async (event: MessageEvent<ReplayEvent>) => {
+  try {
+    const { canvas, buffer, chunkSize, scale, vw, vh } = event.data;
+    await replay(canvas, buffer, chunkSize, scale, vw, vh);
+
+    self.postMessage({ type: "done" });
+  } catch (error) {
+    console.log(error);
+    self.postMessage({
+      type: "error",
+      error: (error as Error).message,
+    });
+  }
+});

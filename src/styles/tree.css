@@ -2,6 +2,7 @@
 
 .tree {
   --node-height: 1.8rem;
+  --border-color: black;
   --stroke: 0.5rem;
   --stroke-color: white;
   font-family: var(--monospace);
@@ -16,7 +17,7 @@
   width: fit-content;
   margin-left: 0.5rem;
   padding: 0.5rem 0;
-  border-left: var(--border-width) solid black;
+  border-left: var(--border-width) solid var(--border-color);
 }
 
 .tree li:first-child {
@@ -51,11 +52,11 @@
 }
 
 .tree li .tree-marker:after {
-  border-bottom: var(--border-width) solid black;
+  border-bottom: var(--border-width) solid var(--border-color);
 }
 
 .tree li:last-child>.tree-marker {
-  border-left: var(--border-width) solid black;
+  border-left: var(--border-width) solid var(--border-color);
   height: calc((var(--node-height) / 2) + 0.5rem);
 }
 
@@ -80,7 +81,7 @@
   grid-area: node;
   display: inline-block;
   width: fit-content;
-  border: var(--border-width) solid #000;
+  border: var(--border-width) solid var(--border-color);
   background-color: #fff;
   position: relative;
   line-height: 1.2;
@@ -169,7 +170,7 @@
 .tree .node:hover,
 .tree .node:focus-within {
   --shadow-depth: calc(var(--border-width) * 2);
-  box-shadow: var(--shadow-depth) var(--shadow-depth) 0 black,
+  box-shadow: var(--shadow-depth) var(--shadow-depth) 0 var(--border-color),
     var(--outline-shadow);
 }
 
@@ -210,4 +211,13 @@
 
 .tree .node:hover a {
   text-decoration: underline;
+}
+
+.background-black .tree {
+  --border-color: white;
+  --stroke-color: transparent;
+}
+
+.background-gray .tree {
+  --stroke-color: transparent;
 }

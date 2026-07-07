@@ -1,9 +1,12 @@
-<button id="replay-webscape">
-  replay webscape 
-  {% include icon-sprite, id: "magic-wand", size: 16, role: "presentation" %} 
-  <span class="spinner hidden"></span>
-</button>
-<button id="cancel-replay-webscape" class="hidden">cancel replay</button>
+<div class="webscape-replay-controls">
+  <button class="button" id="webscape-replay">
+    <span class="label-replay">
+      replay {% include icon-sprite, id: "spray-paint", size: 16, role: "presentation", class: "sprite-replay" %}
+    </span>
+    <span class="label-cancel">cancel</span>
+  </button>
+  <img src="/assets/watch.png" class="sprite sprite-watch" eleventy:ignore />
+</div>
 
 {% block scripts %}
 
@@ -12,40 +15,46 @@ globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
 {% endcapture %}
 <script type="text/javascript">
   {{ global_dimensions }}
-  const replayButton = document.getElementById("replay-webscape");
-  const cancelButton = document.getElementById("cancel-replay-webscape");
+  const replayButton = document.getElementById("webscape-replay");
   let replayController;
 
   replayButton.addEventListener("click", (event) => {
-    initialize();
+    if (replayButton.classList.contains("webscape-replay-cancel")) {
+      cancel();
+    } else {
+      replay();
+    }
   });
-  cancelButton.addEventListener("click", (event) => {
+
+  function cancel() {
     if (replayController && replayController.signal.aborted === false) {
       replayController.abort("canceled");
     }
-    replayButton.disabled = false;
-    replayButton.querySelector(".spinner").classList.add("hidden");
-    cancelButton.classList.add("hidden");
+    replayButton.classList.remove("webscape-replay-cancel");
     const canvasContainer = document.getElementById("webscape-canvas");
     if (canvasContainer) canvasContainer.innerHTML = "";
-  });
+  }
 
-  async function initialize() {
+  async function replay() {
     const webscape = document.querySelector(".webscape");
     const orientation = getComputedStyle(webscape).getPropertyValue("--orientation");
     const scale = parseInt(getComputedStyle(webscape).getPropertyValue("--scale"));
     
-    if (replayController && replayController.signal.aborted === false) throw new Error("already running");
+    if (replayController && replayController.signal.aborted === false) throw new Error("webscape replay already running");
     replayController = new AbortController();
 
-    try {
-      replayButton.disabled = true;
-      replayButton.querySelector(".spinner").classList.remove("hidden");
-      cancelButton.classList.remove("hidden");
+    replayButton.classList.add("webscape-replay-cancel");
 
+    function cleanup() {
+      replayButton.classList.remove("webscape-replay-cancel");
+    }
+
+    try {
       const response = await fetch(`/webscape.gif?orientation=${orientation}`);
 
       const buffer = await response.arrayBuffer();
+      const width = parseInt(response.headers.get("x-webscape-width"));
+      const height = parseInt(response.headers.get("x-webscape-height"));
       const chunkSize = parseInt(response.headers.get("x-webscape-chunk-size"));
 
       let canvasContainer = document.getElementById("webscape-canvas");
@@ -55,29 +64,51 @@ globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
         document.querySelector(".webscape").appendChild(canvasContainer);
       }
 
-      const { replay } = await import("/replay.js");
-      replayButton.querySelector(".spinner").classList.add("hidden");
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      canvas.style.setProperty("image-rendering", "pixelated");
+      canvasContainer.replaceChildren(canvas);
+      const offscreen = canvas.transferControlToOffscreen();
 
-      await replay(canvasContainer, replayController.signal, context2d, buffer, chunkSize, scale);
+      const worker = new Worker("/replay.js", { type: "module" });
+      replayController.signal.addEventListener("abort", () => worker.terminate());
 
-      replayButton.disabled = false;
-      cancelButton.classList.add("hidden");
-      canvasContainer.innerHTML = "";
-    } catch (err) {
-      replayButton.disabled = false;
-      replayButton.querySelector(".spinner").classList.add("hidden");
-      cancelButton.classList.add("hidden");
+      worker.addEventListener("message", (event) => {
+        switch (event.data.type) {
+          case "done": {
+            console.log("webscape replay done");
+            worker.terminate();
+            replayController.abort("done");
+
+            replayButton.classList.remove("webscape-replay-cancel");
+            canvasContainer.innerHTML = "";
+
+            break;
+          }
+          case "error": {
+            throw new Error(event.error);
+            break;
+          }
+        }
+      });
+
+      worker.postMessage({
+        type: "replay",
+        canvas: offscreen, 
+        buffer, 
+        chunkSize, 
+        scale, 
+        vw: window.innerWidth, 
+        vh: window.innerHeight
+      }, [offscreen]);
+
+    } catch (error) {
+      console.error("webscape replay", error);
+      replayController.abort("error");
+
+      replayButton.classList.remove("webscape-replay-cancel");
     }
-  }
-
-  function context2d(width, height, dpi = 1) {
-    const canvas = document.createElement("canvas");
-    canvas.width = width * dpi;
-    canvas.height = height * dpi;
-    canvas.style.setProperty("image-rendering", "pixelated");
-    const context = canvas.getContext("2d", { willReadFrequently: true });
-    context.scale(dpi, dpi);
-    return context;
   }
 </script>
 {% endblock %}
