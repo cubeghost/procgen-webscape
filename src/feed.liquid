@@ -7,9 +7,8 @@
   },
   "metadata": {
     "title": "cubegho.st",
-    "description": "TODO",
+    "description": "alex got their homepage at cubegho.st",
     "language": "en",
-    "base": "http://localhost:8888/",
     "author": {
       "name": "alex"
     }
@@ -20,10 +19,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ metadata.language }}">
   <title>{{ metadata.title }}</title>
   <subtitle>{{ metadata.description }}</subtitle>
-  <link href="{{ permalink | htmlBaseUrl: metadata.base }}" rel="self" />
-  <link href="{{ metadata.base | addPathPrefixToFullUrl }}" />
+  <link href="{{ permalink | htmlBaseUrl: site.url }}" rel="self" />
+  <link href="{{ site.url | addPathPrefixToFullUrl }}" />
   <updated>{{ collections.all | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
-  <id>{{ metadata.base | addPathPrefixToFullUrl }}</id>
+  <id>{{ site.url | addPathPrefixToFullUrl }}</id>
   <author>
     <name>{{ metadata.author.name }}</name>
   </author>
@@ -32,7 +31,7 @@
     if post.data.permalink == false
       assign absolutePostUrl = post.data.url
     else
-      assign absolutePostUrl = post.url | htmlBaseUrl: metadata.base
+      assign absolutePostUrl = post.url | htmlBaseUrl: site.url
     endif
   -%}
   <entry>
@@ -63,7 +62,7 @@
 
     {%- if content -%}
     <content type="html">
-      {{ content | renderTransforms: post.data.page, metadata.base | escape }}
+      {{ content | renderTransforms: post.data.page, site.url | escape }}
     </content>
     {%- else -%}
     <content type="html" />
