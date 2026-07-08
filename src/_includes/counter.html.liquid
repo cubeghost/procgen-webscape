@@ -1,0 +1,7 @@
+<iframe src="/.netlify/functions/counter" class="visitors" id="counter"></iframe>
+<script type="text/javascript">
+  document.getElementById("counter").addEventListener("load", (event) => {
+    const counterWindow = document.getElementById("counter").contentWindow.document.querySelector(".visitors-container");
+    if (counterWindow) event.target.style.setProperty("flex-basis", `${counterWindow.offsetWidth}px`);
+  })
+</script>

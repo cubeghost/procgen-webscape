@@ -28,7 +28,6 @@ h6 {
   grid-template-columns: 90px 1fr 1fr 90px;
   container-name: desktop-container;
   container-type: inline-size;
-  margin-bottom: 2rem;
 }
 
 .desktop-container .desktop-icons:first-child {

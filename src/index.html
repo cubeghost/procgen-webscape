@@ -106,7 +106,7 @@ title: cubegho.st
 {% endblock %}
 
 {% block footer %}
-<iframe src="/.netlify/functions/counter" class="visitors"></iframe>
+{%- include counter.html.liquid -%}
 {% endblock %}
 
 {% block scripts %}

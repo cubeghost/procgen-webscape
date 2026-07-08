@@ -17,10 +17,17 @@ body {
 }
 
 .visitors-container .window-contents {
-  background-color: black;
+  padding: 0;
+}
+
+.visitors-container .window-contents button {
   display: flex;
   align-items: flex-end;
+  appearance: none;
+  border: 0;
+  background-color: black;
   padding: 0 0 0.25rem 0.5rem;
+  cursor: pointer;
 }
 
 .sprite-16 {
@@ -33,28 +40,36 @@ body {
 }
 
 .visitors {
+  display: flex;
+  flex-direction: column;
+}
+
+.visitors-label {
+  display: block;
+  width: 36px;
+  height: 9px;
+  text-indent: -9999px;
+  background-image: url(/assets/visitors.png);
+  background-position: -43px -23px;
+  margin: 0 auto;
+  filter: invert(1);
+}
+
+.visitors-count {
+  display: flex;
+  justify-content: center;
+  min-width: calc(var(--num-digits) * 15px + 0.75rem);
   image-rendering: pixelated;
   border-image-source: url(/assets/speech-bubble.png);
   border-image-slice: 6 6 5 9 fill;
   border-image-width: 6px 6px 5px 9px;
   border-image-repeat: stretch stretch;
-  margin: 0.5rem;
-  padding: 0.125rem 0.5rem;
+  margin: 0.5rem 0.5rem 0.125rem;
+  padding: 0.125rem;
 }
 
-.visitors-label {
-  display: block;
-  width: 35px;
-  height: 9px;
-  text-indent: -9999px;
-  background-image: url(/assets/visitors.png);
-  object-fit: cover;
-  object-position: 0 0;
-  margin-left: auto;
-}
-
-.visitors-count {
-  display: flex;
+button:active .visitors-count {
+  transform: translateY(1px);
 }
 
 .visitors-number {
@@ -65,51 +80,51 @@ body {
 }
 
 .visitors-number[data-number="0"] {
-  background-position: -85px 0;
+  background-position: 0 0;
   width: 14px;
 }
 
 .visitors-number[data-number="1"] {
-  background-position: -98px 0;
+  background-position: -13px 0;
   width: 8px;
 }
 
 .visitors-number[data-number="2"] {
-  background-position: -106px 0;
+  background-position: -21px 0;
   width: 11px;
 }
 
 .visitors-number[data-number="3"] {
-  background-position: -117px 0;
+  background-position: -32px 0;
   width: 7px;
 }
 
 .visitors-number[data-number="4"] {
-  background-position: -124px 0;
+  background-position: -39px 0;
   width: 13px;
 }
 
 .visitors-number[data-number="5"] {
-  background-position: -137px 0;
+  background-position: -52px 0;
   width: 15px;
 }
 
 .visitors-number[data-number="6"] {
-  background-position: -152px 0;
+  background-position: -67px 0;
   width: 10px;
 }
 
 .visitors-number[data-number="7"] {
-  background-position: -162px 0;
+  background-position: -77px 0;
   width: 10px;
 }
 
 .visitors-number[data-number="8"] {
-  background-position: -172px 0;
+  background-position: -87px 0;
   width: 12px;
 }
 
 .visitors-number[data-number="9"] {
-  background-position: -184px 0;
+  background-position: -99px 0;
   width: 10px;
 }

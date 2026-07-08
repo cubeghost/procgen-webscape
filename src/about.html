@@ -227,7 +227,7 @@ title: about
   {% include accessible-gif, src: "/assets/88x31/i-dream-in-html.gif", src_still: "/assets/88x31/i-dream-in-html.png", alt: "i dream in HTML" %}
 </div>
 
-<iframe src="/.netlify/functions/counter" class="visitors"></iframe>
+{%- include counter.html.liquid -%}
 {% endblock %}
 
 {% block scripts %}
