@@ -2,6 +2,7 @@
 
 {% block head %}
 <link rel="stylesheet" href="/styles/page.css">
+<link rel="stylesheet" href="/styles/page-footer.css">
 {% endblock %}
 
 {% block menubar %}
@@ -12,6 +13,10 @@
 <article class="page">
   {{ content }}
 </article>
+{% endblock %}
 
-{%- include page-footer.html.liquid, class: "page", show_source: true, show_date: true -%}
+{% block footer %}
+<footer>
+  {%- include page-footer.html.liquid, class: "page", show_source: true, show_date: true -%}
+</footer>
 {% endblock %}

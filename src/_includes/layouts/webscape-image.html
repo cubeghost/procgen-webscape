@@ -1,6 +1,7 @@
 {% layout layouts/webscape.html %}
 
 {% block head %}
+<link rel="stylesheet" href="/styles/page-footer.css">
 <style type="text/css">
 .image-page {
   max-width: 60rem;
@@ -63,6 +64,10 @@
     </div>
   </div>
 </div>
+{% endblock %}
 
-{%- include page-footer.html.liquid, class: "image-page" -%}
+{% block footer %}
+<footer>
+  {%- include page-footer.html.liquid, class: "image-page" -%}
+</footer>
 {% endblock %}

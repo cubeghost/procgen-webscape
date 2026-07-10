@@ -13,6 +13,8 @@
   --border-width: calc(1px * var(--ui-scale));
   --ui-sprite-size: calc(128px * var(--ui-scale));
 
+  --root-padding: clamp(1.5rem, 5vw, 4rem);
+
   --sans-serif: "Spline Sans", Roboto, "Helvetica Neue", Arial, sans-serif;
   --monospace: "Spline Sans Mono", "Roboto Mono", ui-monospace, Menlo, "Cascadia Mono", "Droid Sans Mono", "Consolas", monospace;
   --headings: Archivo, var(--sans-serif);
@@ -32,7 +34,7 @@ body {
 }
 
 .root {
-  padding: clamp(1.5rem, 5vw, 4rem);
+  padding: var(--root-padding);
   padding-bottom: 1rem;
 }
 
@@ -267,7 +269,9 @@ a.button {
 iframe.visitors {
   margin-left: auto;
   border: 0;
-  height: 60px;
+  height: 55px;
+  flex-basis: var(--counter-width, 0px);
+  max-width: var(--counter-width);
 }
 
 /* appearance dialog */

@@ -27,6 +27,9 @@ export default async function (request: Request, context: Context) {
     });
   }
 
+  const align = new URL(request.url).searchParams.get("align");
+  const bodyClass = align === "left" ? "align-left" : "align-right";
+
   return new Response(
     `<!DOCTYPE html>
 <html lang="en">
@@ -34,7 +37,7 @@ export default async function (request: Request, context: Context) {
 		<meta charset="utf-8" />
     <link rel="stylesheet" href="/styles/counter.css">
   </head>
-  <body>
+  <body class="${bodyClass}">
     <div class="visitors-container window window-utility window-utility-side">
       <div class="window-handle">
         <span class="window-button button-top"></span>

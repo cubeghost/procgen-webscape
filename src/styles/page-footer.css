@@ -1,8 +1,20 @@
+footer:has(.page-footer) {
+  display: block;
+  padding: var(--root-padding);
+  padding-top: 0;
+}
+
 .page-footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   column-gap: 1rem;
+}
+
+.page-footer .page-footer-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .page-footer #footer-metadata {

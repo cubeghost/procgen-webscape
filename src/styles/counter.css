@@ -12,8 +12,12 @@ body {
   display: flex;
 }
 
-.visitors-container {
+.align-right .visitors-container {
   margin-left: auto;
+}
+
+.align-left .visitors-container {
+  margin-right: auto;
 }
 
 .visitors-container .window-contents {
@@ -48,7 +52,9 @@ body {
   display: block;
   width: 36px;
   height: 9px;
-  text-indent: -9999px;
+  color: transparent;
+  font-size: 0.5rem;
+  image-rendering: pixelated;
   background-image: url(/assets/visitors.png);
   background-position: -43px -23px;
   margin: 0 auto;
@@ -74,7 +80,7 @@ button:active .visitors-count {
 
 .visitors-number {
   display: inline-block;
-  text-indent: -9999px;
+  color: transparent;
   background-image: url(/assets/visitors.png);
   height: 19px;
 }
