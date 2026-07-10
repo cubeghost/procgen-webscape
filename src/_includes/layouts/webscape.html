@@ -60,11 +60,9 @@
 						<div class="popover-submenu">
 							<button popovertarget="dialog-elsewhere" class="menu-item trigger-menu trigger-submenu">{% include icon-sprite, id: "globe", size: 16, role: "presentation" %} elsewhere</button>
 							<dialog id="dialog-elsewhere" class="popover-menu" popover>
-								<a href="https://github.com/cubeghost" target="_blank" class="menu-item">{% include icon-sprite, id: "suitcase-git", size: 16, role: "presentation" %} github</a>
-								<a href="https://observablehq.com/user/@cubeghost" target="_blank" class="menu-item">{% include icon-sprite, id: "document-code", size: 16, role: "presentation" %} observable</a>
-								<a href="https://codepen.io/cubeghost" target="_blank" class="menu-item">{% include icon-sprite, id: "scrapbook", size: 16, role: "presentation" %} codepen</a>
-								<a href="https://bsky.app/profile/cubegho.st" target="_blank" class="menu-item">{% include icon-sprite, id: "users", size: 16, role: "presentation" %} bluesky</a>
-								<a href="mailto:mail@cubegho.st" target="_blank" class="menu-item">{% include icon-sprite, id: "mail4", size: 16, role: "presentation" %} e-mail</a>
+								{%- for link in elsewhere -%}
+								<a href="{{ link.url }}" target="_blank" class="menu-item">{% include icon-sprite, id: link.icon, size: 16, role: "presentation" %} {{ link.label }}</a>
+								{%- endfor -%}
 							</dialog>
 						</div>
 
@@ -101,74 +99,8 @@
 			</nav>
 		</div>
 
-		<dialog id="dialog-appearance" class="window window-animated" popover="manual">
-			<div class="window-titlebar">
-				<button class="window-button button-left" popovertarget="dialog-appearance" popovertargetaction="hide"><span class="visually-hidden">close</span></button>
-				<span class="window-titlebar-title">appearance</span>
-			</div>
-			<div class="window-contents appearance">
-				{% comment %} <div class="appearance-group">
-					<h3>Display</h3>
-				</div> {% endcomment %}
-				<div class="appearance-group desktop">
-					<h3>Desktop</h3>
-
-					<div class="desktop-picker">
-						{%- assign desktops = "webscape,grid,dot,gray,black,white" | split: "," -%}
-						{% for desktop in desktops %}
-						<div class="desktop-picker-group">
-							<label class="picker-previous" for="desktop-{{ forloop.index0 | minus: 1 | plus: desktops.length | modulo: desktops.length }}">previous</label>
-							<input type="radio" name="desktop" value="{{ desktop }}" id="desktop-{{ forloop.index0 }}" aria-labelledby="desktop-{{ desktop }}-preview" {% if forloop.index0 == 0 %}checked{% endif %} />
-							<label id="desktop-{{ desktop }}-preview" for="desktop-{{ forloop.index0 }}" class="picker-preview background-{{ desktop }}">{{ desktop }}</label>
-							<label class="picker-next" for="desktop-{{ forloop.index0 | plus: 1 | modulo: desktops.length }}">next</label>
-						</div>
-						{% endfor %}
-					</div>
-
-					<button id="desktop-apply" type="submit" class="button">apply</button>
-					
-					<fieldset class="desktop-controls-webscape">
-						<legend>webscape</legend>
-						{% if show_webscape_controls %}
-						{% include webscape-controls.html.liquid %}
-						{% endif %}
-						{% include webscape-links.html.liquid, class: "external" %}
-					</fieldset>
-
-					<script type="text/javascript">
-						if (desktopPreference) {
-							document.querySelector(`input[name="desktop"][value="${desktopPreference}"]`).checked = true;
-							document.querySelector(".desktop-controls-webscape").disabled = desktopPreference !== "webscape";
-							{% if show_webscape_controls %}
-							document.querySelector("#webscape-replay").disabled = desktopPreference !== "webscape";
-							{% endif %}
-						}
-					</script>
-				</div>
-			</div>
-		</dialog>
-		<script type="text/javascript">
-			const webscapeControls = document.querySelector(".desktop-controls-webscape");
-			document.querySelector(".desktop-picker").addEventListener("change", (event) => {
-				const desktop = event.target.value;
-				webscapeControls.disabled = desktop !== "webscape";
-			});
-			document.getElementById("desktop-apply").addEventListener("click", (event) => {
-				const desktop = document.querySelector('input[name="desktop"]:checked')?.value;
-				if (!desktop) return;
-
-				document.body.className = `background-${desktop}`;
-				localStorage.setItem("desktop-background", desktop);
-
-				{% if show_webscape_controls %}
-				replayButton.disabled = desktop !== "webscape";
-				if (replayController && replayController.signal.aborted === false) {
-					replayController.abort();
-				}
-				{% endif %}
-			})
-		</script>
-
+		{%- include appearance-controls.html.liquid -%}
+		
 		<div class="root" id="main">
 			{% block content %}{% endblock %}
 		</div>

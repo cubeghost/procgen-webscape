@@ -9,7 +9,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Archivo, var(--sans-serif);
+  font-family: var(--headings);
 }
 
 .select-word {
@@ -19,6 +19,13 @@ h6 {
   border-bottom: var(--border-width) dotted black;
   background-color: transparent;
   line-height: 1.1;
+}
+
+.root {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 /* desktop */
@@ -58,14 +65,20 @@ h6 {
     justify-content: flex-end;
   }
 
-  .desktop-container #dialog-about {
+  .desktop-container .window {
     grid-column: 1 / 5;
     grid-row: 2;
+    margin-bottom: 2rem;
   }
 
   .finder-icons.desktop-icons {
     display: flex;
     align-items: flex-start;
+    gap: 0;
+  }
+
+  .finder-icons.desktop-icons .finder-item {
+    width: 70px;
   }
 }
 
@@ -98,7 +111,7 @@ h6 {
 #dialog-about-picture {
   position: absolute;
   top: 4rem;
-  left: 50%;
+  left: 25%;
   transform: translateX(-50%);
   margin: 0;
 }
@@ -119,7 +132,7 @@ h6 {
   #dialog-about-picture[popover] {
     position-anchor: --dialog-about;
     top: calc(anchor(top) + 4rem);
-    left: max(0.5rem, calc(anchor(left) - 2rem));
+    left: max(0.5rem, calc(anchor(left) - 3rem));
     transform: none;
   }
 
@@ -214,15 +227,12 @@ ul.combobox-list a:focus .sprite {
 
 /* notes */
 
-#notes-container {
-  display: grid;
-  grid-template-columns: 3fr fit-content(420px) 1fr;
-}
-
 #dialog-about-notes {
   grid-column: 2;
-  max-width: 420px;
+  max-width: 480px;
+  margin-bottom: auto;
 }
+
 
 /* icon credit popovers */
 
@@ -411,9 +421,32 @@ tbody.scrollbox {
   }
 }
 
+/* footer */
+
+#bottom-container {
+  flex: 1;
+  display: flex;
+  flex-flow: row-reverse;
+  flex-wrap: wrap;
+  padding-bottom: 1rem;
+}
+
+footer {
+  flex-direction: column;
+  margin-right: auto;
+  padding-bottom: 0;
+  padding-left: 0;
+}
+
 .badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   image-rendering: pixelated;
+}
+
+iframe.visitors {
+  margin-left: unset;
+  margin-right: auto;
+  flex-basis: unset;
 }

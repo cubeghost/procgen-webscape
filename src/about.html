@@ -51,8 +51,7 @@ title: about
             </button>
           </span>
         </p>
-        {% comment %} <p>who has been writing code since ~2006</p> {% endcomment %}
-        <p>currently logging on from Brooklyn, NY</p>
+        <p style="text-wrap: balance;">who still believes in the power of the internet to change the world for the better</p>
       </div>
     </div>
   </article>
@@ -85,11 +84,9 @@ title: about
   </div>
   <div class="window-contents scrollbox" style="padding: 0">
     <ul class="combobox-list">
-      <li><a href="https://github.com/cubeghost" target="_blank">{% include icon-sprite, id: "suitcase-git", size: 16, role: "presentation" %} github</a></li>
-      <li><a href="https://observablehq.com/user/@cubeghost" target="_blank">{% include icon-sprite, id: "document-code", size: 16, role: "presentation" %} observable</a></li>
-      <li><a href="https://codepen.io/cubeghost" target="_blank">{% include icon-sprite, id: "scrapbook", size: 16, role: "presentation" %} codepen</a></li>
-      <li><a href="https://bsky.app/profile/cubegho.st" target="_blank">{% include icon-sprite, id: "users", size: 16, role: "presentation" %} bluesky</a></li>
-      <li><a href="mailto:mail@cubegho.st" target="_blank">{% include icon-sprite, id: "mail4", size: 16, role: "presentation" %} e-mail</a></li>
+      {%- for link in elsewhere -%}
+      <li><a href="{{ link.url }}" target="_blank">{% include icon-sprite, id: link.icon, size: 16, role: "presentation" %} {{ link.label }}</a></li>
+      {%- endfor -%}
     </ul>
     <div class="scrollbox-scroll"></div>
   </div>
@@ -105,7 +102,7 @@ title: about
   </div>
 </dialog>
 
-<div id="notes-container">
+<div id="bottom-container">
   <article id="dialog-about-notes" class="window">
     <div class="window-titlebar">
       <h3 class="window-titlebar-title">about this website</h3>
@@ -115,6 +112,10 @@ title: about
       <div style="padding: 1rem; padding-top: 0; font-size: 0.875rem;">
         <h4 margin>technologies</h4>
         <p>this is a mostly-static site built using <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a> and serverless functions. it is currently hosted on <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>.</p>
+        <p>
+          javascript is only used for non-essential enhancements<span class="requires-js"> like the <button popovertarget="dialog-appearance" class="button-link">appearance</button> panel</span>. 
+          the menubar and pop-up windows utilize the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Popover_API" target="_blank" rel="noopener">Popover API</a>.
+        </p>
         <p>
           <label>
             the background
@@ -126,16 +127,14 @@ title: about
             </select>
             is procedurally generated for the current date using perlin noise and JPEG artifacts.
           </label> 
-          today’s seed is <code class="webscape-seed">?</code>.
+          <span class="requires-js">today’s seed is <code class="webscape-seed">?</code>.</span>
           {% include webscape-links.html.liquid, label: "try it for yourself!" %}
         </p>
-        <h4>visuals</h4>
+        <h4>design</h4>
         <p>
           this website’s visual language is based on the user interfaces of 
           Macintosh System 7 and OS 9, and most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> and 
           interface elements are pulled from classic Mac system software, apps, and fonts. 
-        </p>
-        <p>
           it is specifically inspired by the work of <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a> 
           and <a href="https://en.wikipedia.org/wiki/Bill_Atkinson" target="_blank" rel="noopener">Bill Atkinson</a>.
         </p>
@@ -150,6 +149,19 @@ title: about
       <div class="window-notepad-footer"><span></span></div>
     </div>
   </article>
+
+  <footer>
+    {%- include counter.html.liquid, align: "left" -%}
+
+    <div class="badges">
+      <!-- https://chrisburnell.com/note/eleventy-animated-88x31/ -->
+      {% include accessible-gif, src: "/assets/88x31/built-with-eleventy.gif", src_still: "/assets/88x31/built-with-eleventy.png", alt: "built with Eleventy" %}
+      <img src="/assets/88x31/sit-happens.png" alt=".sit happens" eleventy:ignore />
+      <img src="/assets/88x31/1of2.png" alt="1 of 2" eleventy:ignore />
+      {% include accessible-gif, src: "/assets/88x31/i-dream-in-html.gif", src_still: "/assets/88x31/i-dream-in-html.png", alt: "i dream in HTML" %}
+    </div>
+
+  </footer>
 </div>
 
 <dialog id="dialog-about-icons" popover="manual">
@@ -222,18 +234,6 @@ title: about
   </div>
 </dialog>
   
-{% endblock %}
-
-{% block footer %}
-<div class="badges">
-  <!-- https://chrisburnell.com/note/eleventy-animated-88x31/ -->
-  {% include accessible-gif, src: "/assets/88x31/built-with-eleventy.gif", src_still: "/assets/88x31/built-with-eleventy.png", alt: "built with Eleventy" %}
-  <img src="/assets/88x31/sit-happens.png" alt=".sit happens" eleventy:ignore />
-  <img src="/assets/88x31/1of2.png" alt="1 of 2" eleventy:ignore />
-  {% include accessible-gif, src: "/assets/88x31/i-dream-in-html.gif", src_still: "/assets/88x31/i-dream-in-html.png", alt: "i dream in HTML" %}
-</div>
-
-{%- include counter.html.liquid -%}
 {% endblock %}
 
 {% block scripts %}
