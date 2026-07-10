@@ -158,7 +158,7 @@ button.window-button {
 .window .window-notepad-footer span {
   grid-column: 2;
   border-bottom: var(--border-width) solid black;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
 }
 
 .window .window-notepad-footer:after {
@@ -170,8 +170,6 @@ button.window-button {
  * utility windows 
  * https://dev.os9.ca/techpubs/mac/HIGuidelines/HIGuidelines-112.html
  */
-
-.window-utility {}
 
 .window-utility-side {
   display: flex;

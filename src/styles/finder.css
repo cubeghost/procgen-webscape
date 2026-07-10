@@ -29,6 +29,7 @@
 
 .finder-icons .finder-item figcaption {
   padding: 0.125rem 0.25rem;
+  line-height: 1.5;
 }
 
 /* desktop */
