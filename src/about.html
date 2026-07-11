@@ -36,7 +36,8 @@ title: about
         <p>
           <button popovertarget="dialog-about-picture" class="button-link" style="vertical-align: middle">
             <strong>alex baldwin</strong>
-          </button> is a&nbsp;
+          </button>
+          <span style="vertical-align: middle; border-bottom: var(--border-width) solid transparent"> is a </span>
           <span style="display: inline-flex; align-items: center; vertical-align: middle">
             <select id="about-title" class="select-word" style="width: 164px" aria-label="title">
               <option selected>code wizard</option>
@@ -108,45 +109,48 @@ title: about
       <h3 class="window-titlebar-title">about this website</h3>
       <span class="window-button button-right button-zoom" style="grid-column: 4"></span>
     </div>
-    <div class="window-contents">
-      <div style="padding: 1rem; padding-top: 0; font-size: 0.875rem;">
-        <h4 margin>technologies</h4>
-        <p>this is a mostly-static site built using <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a> and serverless functions. it is currently hosted on <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>.</p>
-        <p>
-          javascript is only used for non-essential enhancements<span class="requires-js"> like the <button popovertarget="dialog-appearance" class="button-link">appearance</button> panel</span>. 
-          the menubar and pop-up windows utilize the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Popover_API" target="_blank" rel="noopener">Popover API</a>.
-        </p>
-        <p>
-          <label>
-            the background
-            <select id="scape" class="select-word" style="width: 81px">
-              <option>landscape</option>
-              <option selected>webscape</option>
-              <option>dreamscape</option>
-              <option>bitscape</option>
-            </select>
-            is procedurally generated for the current date using perlin noise and JPEG artifacts.
-          </label> 
-          <span class="requires-js">today’s seed is <code class="webscape-seed">?</code>.</span>
-          {% include webscape-links.html.liquid, label: "try it for yourself!" %}
-        </p>
-        <h4>design</h4>
-        <p>
-          this website’s visual language is based on the user interfaces of 
-          Macintosh System 7 and OS 9, and most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> and 
-          interface elements are pulled from classic Mac system software, apps, and fonts. 
-          it is specifically inspired by the work of <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a> 
-          and <a href="https://en.wikipedia.org/wiki/Bill_Atkinson" target="_blank" rel="noopener">Bill Atkinson</a>.
-        </p>
-        <h4>fonts</h4>
-        <p>
-          <a href="https://fonts.google.com/specimen/Archivo" target="_blank" rel="noopener">Archivo</a> is used for headings, 
-          <a href="https://fonts.google.com/specimen/Spline+Sans" target="_blank" rel="noopener">Spline Sans</a> for body text, and 
-          <a href="https://fonts.google.com/specimen/Spline+Sans+Mono" target="_blank" rel="noopener">Spline Sans Mono</a> for code and some UI elements, 
-          all hosted locally.
-        </p>
+    <div class="window-contents scrollbox">
+      <div class="scrollbox-contents">
+        <div style="padding: 1rem; padding-top: 0; font-size: 0.875rem;">
+          <h4 margin>technologies</h4>
+          <p>this is a mostly-static site built using <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a> and serverless functions. it is currently hosted on <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>.</p>
+          <p>
+            javascript is only used for non-essential enhancements<span class="requires-js"> like the <button popovertarget="dialog-appearance" class="button-link">appearance</button> panel</span>.
+            the menubar and pop-up windows utilize the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Popover_API" target="_blank" rel="noopener">Popover API</a>.
+          </p>
+          <p>
+            <label>
+              the background
+              <select id="scape" class="select-word" style="width: 81px">
+                <option>landscape</option>
+                <option selected>webscape</option>
+                <option>dreamscape</option>
+                <option>bitscape</option>
+              </select>
+              is procedurally generated for the current date using perlin noise and JPEG artifacts.
+            </label>
+            <span class="requires-js">today’s seed is <code class="webscape-seed">?</code>.</span>
+            {% include webscape-links.html.liquid, label: "try it for yourself!" %}
+          </p>
+          <h4>design</h4>
+          <p>
+            this website’s visual language is based on the user interfaces of
+            Macintosh System 7 and OS 9, and most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> and
+            interface elements are pulled from classic Mac system software, apps, and fonts.
+            it is specifically inspired by the work of <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a>
+            and <a href="https://en.wikipedia.org/wiki/Bill_Atkinson" target="_blank" rel="noopener">Bill Atkinson</a>.
+          </p>
+          <h4>fonts</h4>
+          <p>
+            <a href="https://fonts.google.com/specimen/Archivo" target="_blank" rel="noopener">Archivo</a> is used for headings,
+            <a href="https://fonts.google.com/specimen/Spline+Sans" target="_blank" rel="noopener">Spline Sans</a> for body text, and
+            <a href="https://fonts.google.com/specimen/Spline+Sans+Mono" target="_blank" rel="noopener">Spline Sans Mono</a> for code and some UI elements,
+            all hosted locally.
+          </p>
+        </div>
+        <div class="window-notepad-footer"><span></span></div>
       </div>
-      <div class="window-notepad-footer"><span></span></div>
+      <div class="scrollbox-scroll"></div>
     </div>
   </article>
 
@@ -174,7 +178,7 @@ title: about
       {%- assign icon_sources_32 = icon-sources | where: "size", 32 -%}
       <div class="window-meta"><span>{{ icon_sources_32.length }} items</span></div>
       <div class="scrollbox" style="max-height: 11.5rem;">
-        <div class="finder finder-icons">
+        <div class="scrollbox-contents finder finder-icons">
           {%- for icon in icon_sources_32 -%}
             <figure class="finder-item">
               {%- if icon.sprite -%}

@@ -19,6 +19,12 @@ h6 {
   border-bottom: var(--border-width) dotted black;
   background-color: transparent;
   line-height: 1.1;
+  padding: 0;
+}
+
+body {
+  min-height: unset;
+  height: 100dvh;
 }
 
 .root {
@@ -26,6 +32,13 @@ h6 {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0;
+}
+
+@media (max-width: 980px) {
+  .root {
+    min-height: auto;
+  }
 }
 
 /* desktop */
@@ -75,6 +88,7 @@ h6 {
     display: flex;
     align-items: flex-start;
     gap: 0;
+    padding-bottom: 1.5rem;
   }
 
   .finder-icons.desktop-icons .finder-item {
@@ -228,9 +242,21 @@ ul.combobox-list a:focus .sprite {
 /* notes */
 
 #dialog-about-notes {
-  grid-column: 2;
   max-width: 480px;
-  margin-bottom: auto;
+  min-height: 320px;
+  margin: 0 auto auto auto;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollbox-contents .window-notepad-footer {
+  position: sticky;
+  bottom: calc(5px * var(--ui-scale));
+}
+
+.scrollbox {
+  min-height: 0;
 }
 
 
@@ -265,7 +291,7 @@ ul.combobox-list a:focus .sprite {
   }
 }
 
-/* FINDER scrollable */
+/* FINDER */
 
 .finder-list {
   border-right: var(--border-width) solid black;
@@ -425,6 +451,7 @@ tbody.scrollbox {
 
 #bottom-container {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-flow: row-reverse;
   flex-wrap: wrap;

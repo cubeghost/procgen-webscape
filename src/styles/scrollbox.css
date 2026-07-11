@@ -6,8 +6,17 @@
   border: var(--border-width) solid black;
 }
 
+.scrollbox:has(.scrollbox-contents) {
+  overflow-y: unset;
+}
+
 .window-contents>.scrollbox {
   border: 0;
+}
+
+.scrollbox-contents {
+  overflow-y: auto;
+  flex: 1;
 }
 
 .scrollbox-scroll {
@@ -46,6 +55,14 @@
   .scrollbox {
     display: block;
     overflow-y: scroll;
+  }
+
+  .scrollbox:has(.scrollbox-contents) {
+    overflow-y: scroll;
+  }
+
+  .scrollbox-contents {
+    overflow-y: unset;
   }
 
   .scrollbox-scroll {

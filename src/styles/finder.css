@@ -9,7 +9,8 @@
 .finder-icons {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
+  column-gap: 0.5rem;
+  row-gap: 1rem;
   padding: 1rem;
 }
 

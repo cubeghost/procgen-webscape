@@ -151,6 +151,8 @@ button.window-button {
   background-repeat: no-repeat;
   background-size: var(--ui-sprite-size);
   background-position: 0 calc(-16px * var(--ui-scale));
+  background-color: white;
+  box-shadow: 0 1px 0 white;
   transform: translateY(calc(-1px * var(--ui-scale)));
   image-rendering: pixelated;
 }

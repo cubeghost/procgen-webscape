@@ -12,3 +12,9 @@
 {% block content %}
 {{ content }}
 {% endblock %}
+
+{% block footer %}
+<footer>
+  {%- include counter.html.liquid -%}
+</footer>
+{% endblock %}

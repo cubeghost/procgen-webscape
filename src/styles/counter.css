@@ -48,6 +48,11 @@ body {
   flex-direction: column;
 }
 
+button:active .visitors {
+  margin-bottom: -1px;
+  margin-top: 1px;
+}
+
 .visitors-label {
   display: block;
   width: 36px;
@@ -57,7 +62,7 @@ body {
   image-rendering: pixelated;
   background-image: url(/assets/visitors.png);
   background-position: -43px -23px;
-  margin: 0 auto;
+  margin: 0 auto 0.125rem;
   filter: invert(1);
 }
 
@@ -70,13 +75,10 @@ body {
   border-image-slice: 6 6 5 9 fill;
   border-image-width: 6px 6px 5px 9px;
   border-image-repeat: stretch stretch;
-  margin: 0.5rem 0.5rem 0.125rem;
+  margin: 0.375rem 0.5rem 0.125rem;
   padding: 0.125rem;
 }
 
-button:active .visitors-count {
-  transform: translateY(1px);
-}
 
 .visitors-number {
   display: inline-block;
