@@ -8,7 +8,7 @@
 
 .finder-icons {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   column-gap: 0.5rem;
   row-gap: 1rem;
   padding: 1rem;
@@ -33,6 +33,15 @@
   line-height: 1.5;
 }
 
+.finder-icons a {
+  color: currentColor;
+}
+
+.finder-item img,
+.finder-item figcaption {
+  background-color: white;
+}
+
 /* desktop */
 
 .desktop-container {
@@ -44,7 +53,7 @@
   --window-width: 500px;
 }
 
-.desktop-icons {
+.desktop-container .desktop-icons {
   display: flex;
   align-items: flex-start;
   position: absolute;
@@ -85,7 +94,7 @@
 }
 
 @container desktop-container (max-width: calc(500px + (2 * 90px))) {
-  .desktop-icons {
+  .desktop-container .desktop-icons {
     position: relative;
     --icon-width: 70px;
   }
@@ -111,10 +120,6 @@
   padding: 0;
 }
 
-.desktop-icons a {
-  color: currentColor;
-}
-
 .desktop-icons .finder-icons {
   column-gap: 0;
   padding: 0;
@@ -130,11 +135,6 @@
   width: calc((32px + 0.25rem) * var(--ui-scale));
   height: calc((32px + 0.25rem) * var(--ui-scale));
   padding: calc(0.125rem * var(--ui-scale));
-}
-
-.desktop-icons .finder-item img,
-.desktop-icons .finder-item figcaption {
-  background-color: white;
 }
 
 .desktop-icons button:active .finder-item img,

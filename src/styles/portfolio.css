@@ -22,14 +22,6 @@
   }
 }
 
-@container portfolio-right (max-width: 90px) {
-  .desktop-icons {
-    position: fixed;
-    bottom: 0.5rem;
-    left: 1rem;
-  }
-}
-
 .preview[popover] {
   position: fixed;
   right: var(--root-padding);
@@ -59,6 +51,20 @@
 
   .preview[popover]:popover-open {
     position-anchor: --portfolio-right;
+  }
+}
+
+/* desktop icon */
+.desktop-icons {
+  width: 90px;
+  margin-left: auto;
+}
+
+@container portfolio-right (max-width: 90px) {
+  .desktop-icons {
+    position: fixed;
+    bottom: 0.5rem;
+    left: 1rem;
   }
 }
 
