@@ -14,6 +14,7 @@
   --ui-sprite-size: calc(128px * var(--ui-scale));
 
   --root-padding: clamp(1.5rem, 5vw, 4rem);
+  --counter-height: 55px;
 
   --sans-serif: "Spline Sans", Roboto, "Helvetica Neue", Arial, sans-serif;
   --monospace: "Spline Sans Mono", "Roboto Mono", ui-monospace, Menlo, "Cascadia Mono", "Droid Sans Mono", "Consolas", monospace;
@@ -170,7 +171,6 @@ button.button-link:active {
   color: red;
 }
 
-/* .page-content a[href*="//"]:not([href*="cubegho.st"]):not(:has(img)):after, */
 a.external:after {
   content: "";
   image-rendering: pixelated;
@@ -184,10 +184,6 @@ a.external:after {
   margin-left: 0.2rem;
   padding-left: calc(7px * var(--ui-scale));
   line-height: calc(7px * var(--ui-scale));
-}
-
-.page-content h1 a[href*="//"]:not([href*="cubegho.st"]):after {
-  display: none;
 }
 
 /* buttons */
@@ -264,14 +260,46 @@ a.button {
   transform: translateX(-50%) translateY(0%);
 }
 
+/* inline word choice */
+select.select-word,
+label.select-word select {
+  appearance: none;
+  border-radius: 0;
+  border: 0;
+  border-bottom: var(--border-width) dotted black;
+  background-color: transparent;
+  line-height: 1.1;
+  padding: 0;
+}
+
+label.select-word {
+  position: relative;
+  display: inline-block;
+}
+
+label.select-word span {
+  display: none;
+  position: absolute;
+}
+
+label.select-word:has(select>option[value="empty"]:checked) span {
+  display: block;
+}
+
+
 /* visitor counter */
 
-iframe.visitors {
+iframe.counter {
   margin-left: auto;
   border: 0;
-  height: 55px;
+  height: var(--counter-height);
   flex-basis: var(--counter-width, 0px);
   max-width: var(--counter-width);
+}
+
+iframe.counter-left {
+  margin-left: unset;
+  margin-right: auto;
 }
 
 /* appearance dialog */

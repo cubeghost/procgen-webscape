@@ -12,16 +12,6 @@ h6 {
   font-family: var(--headings);
 }
 
-.select-word {
-  appearance: none;
-  border-radius: 0;
-  border: 0;
-  border-bottom: var(--border-width) dotted black;
-  background-color: transparent;
-  line-height: 1.1;
-  padding: 0;
-}
-
 body {
   min-height: unset;
   height: 100dvh;
@@ -417,8 +407,6 @@ footer {
   image-rendering: pixelated;
 }
 
-iframe.visitors {
-  margin-left: unset;
-  margin-right: auto;
+iframe.counter {
   flex-basis: unset;
 }

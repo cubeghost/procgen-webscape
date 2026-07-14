@@ -16,74 +16,78 @@ title: about
 
 {% block content %}
 
-<div class="desktop-container">
-  <div class="finder finder-icons desktop-icons">
-    <a href="/">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "suitcase-fonts", size: 32, alt: "folder" -%}
-        <figcaption>portfolio</figcaption>
-      </figure>
-    </a>
-    <a href="/hire-me/">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "alert", size: 32, alt: "alert" -%}
-        <figcaption>hire me!</figcaption>
-      </figure>
-    </a>
-  </div>
-
-  <article id="dialog-about" class="window">
-    <div class="window-contents" style="display: flex; padding: 1rem; gap: 1rem;">
-      <div style="flex-shrink: 0; padding: 0.5rem 1rem;">
-        {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
-      </div>
-      <div>
-        <h2 style="font-size: 1.25rem">cubegho.st</h2>
-        <p>
-          <button popovertarget="dialog-about-picture" class="button-link" style="vertical-align: middle">
-            <strong>alex baldwin</strong>
-          </button>
-          <span style="vertical-align: middle; border-bottom: var(--border-width) solid transparent"> is a </span>
-          <span style="display: inline-flex; align-items: center; vertical-align: middle">
-            <select id="about-title" class="select-word" style="width: 164px" aria-label="title">
-              <option selected>code wizard</option>
-              <option>level 3000 cyberwitch</option>
-              <option>computer artist</option>
-              <option>software engineer</option>
-              <option>creative technologist</option>
-            </select>
-            <button id="random-about-title" class="button-dice requires-js">
-              <span class="icon-dice"></span>
-              <span class="visually-hidden">randomize</span>
-            </button>
-          </span>
-        </p>
-        <p style="text-wrap: balance;">who still believes in the power of the internet to change the world for the better</p>
-      </div>
+<div class="desktop-container" style="min-height: 214px;">
+  <div class="desktop-icons">
+    <div class="finder finder-icons icon-group">
+      <a href="/">
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "suitcase-fonts", size: 32, alt: "folder" -%}
+          <figcaption>portfolio</figcaption>
+        </figure>
+      </a>
+      <a href="/hire-me/">
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "alert", size: 32, alt: "alert" -%}
+          <figcaption>hire me!</figcaption>
+        </figure>
+      </a>
     </div>
-  </article>
-
-  <div class="finder finder-icons desktop-icons">
-    <a href="/about/" aria-current="page">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "resedit-open", size: 32, alt: "ResEdit icon in open state" -%}
-        <figcaption>about this mac</figcaption>
-      </figure>
-    </a>
-    <button popovertarget="dialog-about-elsewhere">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "globe", size: 32, alt: "globe" -%}
-        <figcaption>elsewhere</figcaption>
-      </figure>
-    </button>
-    <a href="/feed.xml">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "news", size: 32, alt: "newspaper" -%}
-        <figcaption>rss</figcaption>
-      </figure>
-    </a>
+    <div class="spacer"></div>
+    <div class="finder finder-icons icon-group">
+      <a href="/about/" aria-current="page">
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "resedit-open", size: 32, alt: "ResEdit icon in open state" -%}
+          <figcaption>about this mac</figcaption>
+        </figure>
+      </a>
+      <button popovertarget="dialog-about-elsewhere">
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "globe", size: 32, alt: "globe" -%}
+          <figcaption>elsewhere</figcaption>
+        </figure>
+      </button>
+      <a href="/feed.xml">
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "news", size: 32, alt: "newspaper" -%}
+          <figcaption>rss</figcaption>
+        </figure>
+      </a>
+    </div>
   </div>
-
+  <div class="desktop-window">
+    <div class="spacer"></div>
+    <article id="dialog-about" class="window">
+      <div class="window-contents" style="display: flex; padding: 1rem; gap: 1rem;">
+        <div style="flex-shrink: 0; padding: 0.5rem 1rem;">
+          {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
+        </div>
+        <div>
+          <h2 style="font-size: 1.25rem">cubegho.st</h2>
+          <p style="display: flex; align-items: baseline; gap: 0.25rem; flex-wrap: wrap;">
+            <button popovertarget="dialog-about-picture" class="button-link">
+              <strong>alex baldwin</strong>
+            </button>
+            <span style="border-bottom: var(--border-width) solid transparent"> is a </span>
+            <span style="display: inline-flex; align-items: center;">
+              <select id="about-title" class="select-word" style="width: 164px" aria-label="title">
+                <option selected>code wizard</option>
+                <option>level 3000 cyberwitch</option>
+                <option>computer artist</option>
+                <option>software engineer</option>
+                <option>creative technologist</option>
+              </select>
+              <button id="random-about-title" class="button-dice requires-js">
+                <span class="icon-dice"></span>
+                <span class="visually-hidden">randomize</span>
+              </button>
+            </span>
+          </p>
+          <p style="text-wrap: balance;">who still believes in the power of the internet to change the world for the better</p>
+        </div>
+      </div>
+    </article>
+    <div class="spacer"></div>
+  </div>
 </div>
 
 <dialog id="dialog-about-elsewhere" class="window window-utility window-animated" popover="manual">

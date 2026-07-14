@@ -14,83 +14,85 @@ eleventyExcludeFromCollections: true
 
 {% block content %}
 
-<div class="desktop-container">
-  <div class="finder finder-icons desktop-icons">
-    <a href="/">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "suitcase-fonts", size: 32, alt: "folder" -%}
-        <figcaption>portfolio</figcaption>
-      </figure>
-    </a>
-    <a href="/hire-me/" aria-current="page">
-      <figure class="finder-item">
-        {%- include icon-sprite, id: "alert-open", size: 32, alt: "alert icon in open state" -%}
-        <figcaption>hire me!</figcaption>
-      </figure>
-    </a>
-  </div>
-
-  <article class="window">
-    <div class="window-titlebar">
-      <span class="window-button button-left"></span>
-      <h3 class="window-titlebar-title">hire me</h3>
-      <span class="window-button button-right button-zoom" style="grid-column: 4"></span>
+<div class="desktop-container" >
+  <div class="desktop-icons">
+    <div class="finder finder-icons icon-group">
+      <a href="/">
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "suitcase-fonts", size: 32, alt: "folder" -%}
+          <figcaption>portfolio</figcaption>
+        </figure>
+      </a>
+      <a href="/hire-me/" aria-current="page">
+        <figure class="finder-item">
+          {%- include icon-sprite, id: "alert-open", size: 32, alt: "alert icon in open state" -%}
+          <figcaption>hire me!</figcaption>
+        </figure>
+      </a>
     </div>
-    <div class="window-contents page-content" style="padding: 0">
-      <div style="padding: 1rem 1rem 0">
-        <h2>
-          {% include icon-sprite, id: "alert", size: 32, role: "presentation", style: "display: inline-block; margin: 0; margin-right: 0.5rem; vertical-align: middle" %}
-          i am available for work
-        </h2>
-        <p>
-          I’m looking for a role as a software engineer or creative technologist doing work
-          that makes the world better for everyone.
-        </p>
-        <p>
-          could your team use:
+    <div class="spacer"></div>
+    <div class="finder finder-icons icon-group">
+      <a href="/about/">
+        <figure class="finder-item" style="margin-left: auto;">
+          {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
+          <figcaption>about this mac</figcaption>
+        </figure>
+      </a>
+    </div>
+  </div>
+  <div class="desktop-window">
+    <div class="spacer"></div>
+    <article class="window">
+      <div class="window-titlebar">
+        <span class="window-button button-left"></span>
+        <h3 class="window-titlebar-title">hire me</h3>
+        <span class="window-button button-right button-zoom" style="grid-column: 4"></span>
+      </div>
+      <div class="window-contents page-content" style="padding: 0">
+        <div style="padding: 1rem 1rem 0; font-size: 0.875rem">
+          <h2>
+            {% include icon-sprite, id: "alert", size: 32, role: "presentation", style: "display: inline-block; margin: 0; margin-right: 0.5rem; vertical-align: -0.55rem" %}
+            are you hiring?
+          </h2>
+          <p>
+            I’m looking for a role as a software engineer or creative technologist doing work
+            that makes the world better for everyone.
+          </p>
+          <p>
+            could your team use:
+          </p>
           <ul>
-            <li>a full-stack engineer with front-end expertise?</li>
+            <li>a full-stack engineer with deep front-end expertise?</li>
             <li>a generalist who can jump into any type of problem?</li>
             <li>someone who genuinely enjoys the craft of coding and building software?</li>
           </ul>
-        </p>
-        <p>
-          I’ve been a professional software engineer for the last 12 years, where I’ve worked on 
-          developer SDKs, infinite canvases, pharmacy software, music-making tools, chatbots, server-side 
-          rendering frameworks, security features, content management systems, and static websites.
-          no matter what it’s for, I think software should be accessible, intuitive, and delightful to use.
-        </p>
-        <p>
-          I started out as a self-taught front-end developer, learned  and have experimented with procedurally 
-          generated art, game development, hardware programming, 3D graphics, and lots more. 
-          I’ve always been endlessly curious about technology and how we interact with it.
-        </p>
-        <p>
-          learn more on <a href="https://www.linkedin.com/in/ghostbaldwin/" target="_blank" rel="noopener">linkedin</a> 
-          or shoot me an <a href="mailto:alex@cubegho.st">email</a>! I’m open to full-time or contract work.
-        </p>
-        <p>
-          -alex
-        </p>
+          <p>
+            I’ve been a professional software engineer for the last 12 years, where I’ve worked on
+            developer SDKs, infinite canvases, pharmacy software, music-making tools, weather chatbots, 
+            server-side rendering, security features, content management systems, and static websites.
+            no matter what it’s for, I think software should be accessible, intuitive, and delightful to use.
+          </p>
+          <p>
+            I started out as a self-taught front-end developer, developed my full-stack skills through real-world
+            experience, and have experimented with procedurally generated art, game development, hardware programming, 
+            3D graphics, and lots more. I’ve always been endlessly curious about technology and how we interact with it.
+          </p>
+          <p>
+            feel free to reach out through <a href="https://www.linkedin.com/in/ghostbaldwin/" target="_blank" rel="noopener">linkedin</a>
+            or <a href="mailto:alex@cubegho.st">email</a>!
+          </p>
+          <p>
+            -alex
+          </p>
+        </div>
+        <div class="window-notepad-footer"><span></span></div>
       </div>
-      <div class="window-notepad-footer"><span></span></div>
-    </div>
-  </article>
-
-  <div class="finder finder-icons desktop-icons">
-    <a href="/about/">
-      <figure class="finder-item" style="margin-left: auto;">
-        {%- include icon-sprite, id: "resedit", size: 32, alt: "ResEdit icon" -%}
-        <figcaption>about this mac</figcaption>
-      </figure>
-    </a>
+    </article>
+    <div class="spacer" style="height: calc(var(--counter-height) + 1rem)"></div>
   </div>
+  <footer class="desktop-footer" style="position: absolute; bottom: 0; padding: 1rem 0 0 0; width: 100%">
+    {%- include counter.html.liquid, align: "left" -%}
+  </footer>
 </div>
 
-{% endblock %}
-
-{% block footer %}
-<footer>
-  {%- include counter.html.liquid -%}
-</footer>
 {% endblock %}
