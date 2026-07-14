@@ -87,6 +87,12 @@
     "source": "THINK C"
   },
   {
+    "sprite": "document-pinned",
+    "size": 16,
+    "alt": "pinned document",
+    "source": "Microsoft Outlook"
+  },
+  {
     "sprite": "mail4",
     "size": 16,
     "alt": "mail",

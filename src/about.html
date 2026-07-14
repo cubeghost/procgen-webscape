@@ -24,6 +24,12 @@ title: about
         <figcaption>portfolio</figcaption>
       </figure>
     </a>
+    <a href="/hire-me/">
+      <figure class="finder-item">
+        {%- include icon-sprite, id: "alert", size: 32, alt: "alert" -%}
+        <figcaption>hire me!</figcaption>
+      </figure>
+    </a>
   </div>
 
   <article id="dialog-about" class="window">
@@ -58,10 +64,12 @@ title: about
   </article>
 
   <div class="finder finder-icons desktop-icons">
-    <figure class="finder-item">
-      {%- include icon-sprite, id: "resedit-open", size: 32, alt: "ResEdit icon in open state" -%}
-      <figcaption>about this mac</figcaption>
-    </figure>
+    <a href="/about/" aria-current="page">
+      <figure class="finder-item">
+        {%- include icon-sprite, id: "resedit-open", size: 32, alt: "ResEdit icon in open state" -%}
+        <figcaption>about this mac</figcaption>
+      </figure>
+    </a>
     <button popovertarget="dialog-about-elsewhere">
       <figure class="finder-item">
         {%- include icon-sprite, id: "globe", size: 32, alt: "globe" -%}
@@ -135,10 +143,10 @@ title: about
           <h4>design</h4>
           <p>
             this website’s visual language is based on the user interfaces of
-            Macintosh System 7 and OS 9, and most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> and
-            interface elements are pulled from classic Mac system software, apps, and fonts.
-            it is specifically inspired by the work of <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a>
+            Macintosh System 7 and OS 9 and is specifically inspired by the work of <a href="https://www.behance.net/susankare" target="_blank" rel="noopener">Susan Kare</a>
             and <a href="https://en.wikipedia.org/wiki/Bill_Atkinson" target="_blank" rel="noopener">Bill Atkinson</a>.
+            most of the <button popovertarget="dialog-about-icons" class="button-link">icons</button> and
+            interface elements are pulled from classic Mac system software, apps, and fonts.
           </p>
           <h4>fonts</h4>
           <p>
@@ -156,7 +164,6 @@ title: about
 
   <footer>
     {%- include counter.html.liquid, align: "left" -%}
-
     <div class="badges">
       <!-- https://chrisburnell.com/note/eleventy-animated-88x31/ -->
       {% include accessible-gif, src: "/assets/88x31/built-with-eleventy.gif", src_still: "/assets/88x31/built-with-eleventy.png", alt: "built with Eleventy" %}
@@ -164,7 +171,6 @@ title: about
       <img src="/assets/88x31/1of2.png" alt="1 of 2" eleventy:ignore />
       {% include accessible-gif, src: "/assets/88x31/i-dream-in-html.gif", src_still: "/assets/88x31/i-dream-in-html.png", alt: "i dream in HTML" %}
     </div>
-
   </footer>
 </div>
 

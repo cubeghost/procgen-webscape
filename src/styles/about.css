@@ -41,61 +41,6 @@ body {
   }
 }
 
-/* desktop */
-
-.desktop-container {
-  display: grid;
-  grid-template-columns: 90px 1fr 1fr 90px;
-  container-name: desktop-container;
-  container-type: inline-size;
-}
-
-.desktop-container .desktop-icons:first-child {
-  grid-column: 1;
-}
-
-.desktop-container .desktop-icons:last-child {
-  grid-column: 4;
-}
-
-.desktop-container .window {
-  grid-column: 2 / 4;
-  max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
-  height: fit-content;
-}
-
-/* 500px (dialog) + 180px (2x finder icon item, 90px) */
-@container desktop-container (max-width: 680px) {
-  .desktop-container .desktop-icons:first-child {
-    grid-column: 1 / 3;
-    justify-content: flex-start;
-  }
-
-  .desktop-container .desktop-icons:last-child {
-    grid-column: 3 / 5;
-    justify-content: flex-end;
-  }
-
-  .desktop-container .window {
-    grid-column: 1 / 5;
-    grid-row: 2;
-    margin-bottom: 2rem;
-  }
-
-  .finder-icons.desktop-icons {
-    display: flex;
-    align-items: flex-start;
-    gap: 0;
-    padding-bottom: 1.5rem;
-  }
-
-  .finder-icons.desktop-icons .finder-item {
-    width: 70px;
-  }
-}
-
 #dialog-about {
   box-shadow: 0 0 0 calc(1px * var(--ui-scale)) black,
     0 0 0 calc(3px * var(--ui-scale)) white,
