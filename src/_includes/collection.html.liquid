@@ -9,15 +9,19 @@
       <div class="window-meta">
         {%- assign date = page.data.date | default: nil -%}
         {%- assign tags = page.data.tags | default: nil -%}
-        {%- liquid
-          if page.data.images and page.data.images.length > 0
+        {%- if page.data.images and page.data.images.length > 0 -%}
+          {%- liquid 
             assign suffix = page.data.images.length | pluralize: "image"
             assign extra = page.data.images.length | append: " " | append: suffix
             render post-meta.html.liquid, date: date, tags: tags, extra: extra
-          else
-            render post-meta.html.liquid, date: date, tags: tags
-          endif
-        -%}
+          -%}
+        {%- elsif page.data.permalink == false -%}
+          {%- assign hostname = page.data.url | hostname -%}
+          {% capture extra %}{% pagelink page %}{{ hostname }}{% endpagelink %}{% endcapture %}
+          {% render post-meta.html.liquid, date: date, tags: tags, extra: extra %}
+        {%- else -%}
+          {% render post-meta.html.liquid, date: date, tags: tags %}
+        {%- endif -%}
       </div>
       {%- liquid
         if page.data.preview
@@ -33,6 +37,10 @@
         {% image src: preview.src, alt: preview.alt, width: 500, play_gif: false %}
       {% endpagelink %}
       {% play_gif preview.src %}
+      {%- elsif page.data.permalink == false -%}
+      {% pagelink page %}
+        <div class="excerpt page-content">{% excerpt page %}</div>
+      {% endpagelink %} 
       {%- else -%}
       <div class="excerpt page-content">{% excerpt page %}</div>
       <div class="window-notepad-footer"><span></span></div>

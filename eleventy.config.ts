@@ -116,6 +116,10 @@ export default defineConfig((eleventyConfig) => {
       }
     },
   );
+  eleventyConfig.addFilter("hostname", function (url: string) {
+    const parsed = new URL(url);
+    return parsed.host;
+  });
 
   // eleventyConfig.addPlugin(consolePlus);
 

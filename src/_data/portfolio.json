@@ -35,7 +35,9 @@
       "children": [
         {
           "name": "deep web transmissions",
-          "url": "/code/deep-web-transmissions/"
+          "url": "/code/deep-web-transmissions/",
+          "meta": "2020",
+          "use_preview": true
         },
         {
           "name": "ephemeral web presence space",

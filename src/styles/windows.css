@@ -128,6 +128,11 @@ button.window-button {
   grid-column: 3;
 }
 
+.window .window-meta .meta-extra a {
+  text-decoration: none;
+  color: currentColor;
+}
+
 .window .window-notepad-footer {
   display: grid;
   grid-template-columns: calc(24px * var(--ui-scale)) 1fr calc(24px * var(--ui-scale));
