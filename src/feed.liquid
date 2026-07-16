@@ -44,7 +44,7 @@
     {%- if post.data.description -%}
     {%- capture content -%}
       {%- if post.data.preview -%}
-      <img src="{{ post.data.preview.src }}" alt="{{ post.data.preview.alt }}" />
+      <img src="{{ post.data.preview.src }}" alt="{{ post.data.preview.alt }}" width="500" />
       {%- endif -%}
       <p>{{ post.data.description }}</p>
     {%- endcapture -%}
@@ -63,7 +63,7 @@
     {% endcapture %}
     {%- elsif post.data.preview -%}
     {%- capture content -%}
-      <img src="{{ post.data.preview.src }}" alt="{{ post.data.preview.alt }}" />
+      <img src="{{ post.data.preview.src }}" alt="{{ post.data.preview.alt }}" width="500" />
     {%- endcapture -%}
     {%- else -%}
     {% assign content = nil %}
