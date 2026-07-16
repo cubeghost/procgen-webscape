@@ -31,8 +31,8 @@ title: cubegho.st
       endif
     -%}
     <div class="node" {% if preview and node.use_preview %}popovertarget="{{ id }}" popovertargetaction="toggle" {%endif %}>
-      <button class="node-button"></button>
-      <div class="node-content">
+    {% if preview and node.use_preview %}<button class="node-button" aria-labelledby="node-{{ id }}"></button>{% endif %}
+      <div class="node-content" id="node-{{ id }}">
         {% pagelink node %}<span>{{ node.name | default: node.data.title }}</span>{% endpagelink %}
         {%- if node.meta %}&nbsp;{{ node.meta }}{% endif -%}
       </div>
@@ -40,7 +40,6 @@ title: cubegho.st
     {%- else -%}
     {%- assign id = nil -%}
     <div class="node">
-      <button class="node-button"></button>
       <div class="node-content">
         {%- if directory.url -%}
         <a href="{{ directory.url }}">{{ directory.name }}</a>
@@ -129,7 +128,7 @@ title: cubegho.st
       node.addEventListener("mouseenter", (event) => {
         timeout = setTimeout(() => {
           target.showPopover({ source: node });
-        }, 200);
+        }, 400);
       });
       node.addEventListener("mouseleave", (event) => {
         if (timeout) clearTimeout(timeout);

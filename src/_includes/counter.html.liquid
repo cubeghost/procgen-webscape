@@ -1,4 +1,9 @@
-<iframe src="/.netlify/functions/counter{% if align %}?align={{ align }}{% endif %}" class="counter {% if align %}counter-{{ align }}{% endif %}" id="counter"></iframe>
+<iframe
+  src="/.netlify/functions/counter{% if align %}?align={{ align }}{% endif %}"
+  class="counter {% if align %}counter-{{ align }}{% endif %}"
+  id="counter"
+  title="counter"
+></iframe>
 <script type="text/javascript">
   document.getElementById("counter").addEventListener("load", (event) => {
     const counterWindow = document.getElementById("counter").contentWindow.document.querySelector(".visitors-container");
