@@ -7,7 +7,7 @@ title: plants.exe
 url: https://codepen.io/cubeghost/full/xEJVex
 preview:
   src: /code/plants.gif
-  alt: TODO
+  alt: variations on 6 potted plants on an off-white background. the pots have abstract patterns. the plants have different configurations of branches and sets of circular leaves
 ---
 
 # procedurally generated plants for [procjam 2016](https://itch.io/jam/procjam2016)
@@ -24,6 +24,20 @@ preview:
 inspired by some drawings by [rose wong](https://www.rosewongart.com/):
 
 <div style="display: flex">
-<a href="https://rosewong.tumblr.com/post/147164301591/drawings-and-studies-from-my-sketchbook" target="_blank"><img src="https://64.media.tumblr.com/9fdbea69334a77cd814ec389df7e4e13/tumblr_oa2qqi4c2V1qzi2f3o2_r1_1280.jpg" width="600" eleventy:ignore></a>
-<a href="https://rosewong.tumblr.com/post/149196349681/sushi-and-vases" target="_blank"><img src="https://64.media.tumblr.com/01c078d24acc84493c9cdaf8084c0a5e/tumblr_oc6k6mcecH1qzi2f3o1_1280.jpg" width="400" eleventy:ignore></a>
+  <a href="https://rosewong.tumblr.com/post/147164301591/drawings-and-studies-from-my-sketchbook" target="_blank">
+    <img 
+      src="https://64.media.tumblr.com/9fdbea69334a77cd814ec389df7e4e13/tumblr_oa2qqi4c2V1qzi2f3o2_r1_1280.jpg" 
+      alt="pen drawings of potted plants, the pots having an assortment of abstract shapes and patterns, and the plants spanning from bubbly succulents to huge heart-shaped leaves"
+      width="600" 
+      eleventy:ignore 
+    />
+  </a>
+  <a href="https://rosewong.tumblr.com/post/149196349681/sushi-and-vases" target="_blank">
+    <img 
+      src="https://64.media.tumblr.com/01c078d24acc84493c9cdaf8084c0a5e/tumblr_oc6k6mcecH1qzi2f3o1_1280.jpg" 
+      alt="pen drawings of plant pots (no plants) and vases in a variety of shapes, with both simple patterns and complex adornments"
+      width="400" 
+      eleventy:ignore
+    />
+  </a>
 </div>

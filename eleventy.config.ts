@@ -68,6 +68,7 @@ export default defineConfig((eleventyConfig) => {
     formats: ["auto"],
     sharpOptions: {
       animated: true,
+      limitInputPixels: false,
     },
     filenameFormat: function (id, src, width, format, options) {
       const extension = path.extname(src);
@@ -101,6 +102,18 @@ export default defineConfig((eleventyConfig) => {
   eleventyConfig.addFilter("reject_value", function (array, value) {
     return array.filter((v: any) => v !== value);
   });
+  eleventyConfig.addFilter(
+    "pluralize",
+    function (num, singular, plural = null) {
+      if (parseInt(num) === 1) {
+        return singular;
+      } else if (plural === null) {
+        return `${singular}s`;
+      } else {
+        return plural;
+      }
+    },
+  );
 
   // eleventyConfig.addPlugin(consolePlus);
 

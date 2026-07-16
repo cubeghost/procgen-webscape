@@ -9,7 +9,15 @@
       <div class="window-meta">
         {%- assign date = page.data.date | default: nil -%}
         {%- assign tags = page.data.tags | default: nil -%}
-        {%- render post-meta.html.liquid, date: date, tags: tags -%}
+        {%- liquid
+          if page.data.images and page.data.images.length > 0
+            assign suffix = page.data.images.length | pluralize: "image"
+            assign extra = page.data.images.length | append: " " | append: suffix
+            render post-meta.html.liquid, date: date, tags: tags, extra: extra
+          else
+            render post-meta.html.liquid, date: date, tags: tags
+          endif
+        -%}
       </div>
       {%- liquid
         if page.data.preview

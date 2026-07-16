@@ -15,6 +15,7 @@ footer:has(.page-footer) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 1rem;
 }
 
 .page-footer #footer-metadata {

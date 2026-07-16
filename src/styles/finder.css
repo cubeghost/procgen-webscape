@@ -59,12 +59,14 @@
   position: absolute;
   top: 0;
   width: 100%;
+  pointer-events: none;
 }
 
 .desktop-icons>.icon-group {
   display: flex;
   flex-wrap: wrap;
   align-items: start;
+  pointer-events: auto;
 }
 
 .desktop-icons>.icon-group:last-child {

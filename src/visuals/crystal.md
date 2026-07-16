@@ -6,5 +6,5 @@ date: 2013-12-13
 
 images:
   - src: /visuals/crystal.gif
-    alt: TODO
+    alt: giant purple crystalline shapes rise and fall, glitching, datamoshed against a pink background
 ---
