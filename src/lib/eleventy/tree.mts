@@ -1,6 +1,6 @@
-import type { EleventyScope } from "11ty.ts";
-import { sort } from "d3-array";
-import { stratify, type HierarchyNode } from "d3-hierarchy";
+import type { EleventyConfig } from "11ty.ts";
+import { hierarchy } from "d3-hierarchy";
+import type { HierarchyNode } from "d3-hierarchy";
 import { Value } from "liquidjs";
 import type {
   Liquid,
@@ -12,11 +12,60 @@ import type {
   Tag,
 } from "liquidjs";
 
-export function directoryTreeFilter(
-  this: EleventyScope,
-  collection: EleventyScope[],
-) {
-  return stratify<EleventyScope>().path((d) => d.page.url || "")(collection);
+import type { CustomEleventySuppliedData } from "./types";
+
+type PortfolioNode = {
+  name: string;
+  children?: PortfolioNode[];
+  [key: string]: any;
+};
+
+type TreeNode = {
+  name: string;
+  url?: string;
+  tag?: string;
+  children?: TreeNode[];
+  data?: CustomEleventySuppliedData;
+};
+
+/**
+ * create tree from portfolio data
+ */
+export const treeCollection = function treeCollection(collectionsApi) {
+  const all = collectionsApi.getAll() as CustomEleventySuppliedData[];
+  const postsByUrl = new Map(
+    all.map((p) => [p.url || p.filePathStem + "/", p]),
+  );
+  const portfolio = all[0].data.portfolio as PortfolioNode;
+
+  function addNodeContent(node: TreeNode): TreeNode {
+    const children = node.children?.map(addNodeContent);
+    if (node.url && postsByUrl.has(node.url)) {
+      return { ...node, children, data: postsByUrl.get(node.url)! };
+    } else if (node.tag) {
+      const url = `/tags/${node.tag}/`;
+      return { ...node, children, url };
+    } else {
+      return { ...node, children };
+    }
+  }
+  return hierarchy(addNodeContent(portfolio));
+} satisfies Parameters<EleventyConfig["addCollection"]>[1];
+
+/**
+ * filter: flatten tree
+ */
+export function flattenTree(tree: HierarchyNode<TreeNode>) {
+  return tree.descendants().map((node) => {
+    const {
+      data: { data, ...rest },
+    } = node;
+    // merge so we can access properties from the tree like use_preview
+    return {
+      ...rest,
+      ...data,
+    };
+  });
 }
 
 interface TreeTag extends Tag {
@@ -25,6 +74,10 @@ interface TreeTag extends Tag {
   value: Value;
 }
 
+/**
+ * custom liquid tag
+ * renders a tree
+ */
 export function treeTag(liquidEngine: Liquid) {
   return {
     parse(this: TreeTag, tagToken: TagToken, remainTokens: TopLevelToken[]) {
@@ -45,12 +98,14 @@ export function treeTag(liquidEngine: Liquid) {
         .start();
     },
     *render(this: TreeTag, context: Context, emitter: Emitter) {
-      const tree: HierarchyNode<EleventyScope> =
+      const tree: HierarchyNode<CustomEleventySuppliedData> =
         yield this.value.value(context);
       const liquid = this.liquid;
       const templates = this.templates;
 
-      function* renderNode(node: HierarchyNode<EleventyScope>): Generator<any> {
+      function* renderNode(
+        node: HierarchyNode<CustomEleventySuppliedData>,
+      ): Generator<any> {
         emitter.write(`<li>`);
         emitter.write(`<span class="tree-marker"></span>`);
         const { children, ...rest } = node;
@@ -73,7 +128,7 @@ export function treeTag(liquidEngine: Liquid) {
       }
 
       function* renderTree(
-        nodes: HierarchyNode<EleventyScope>[],
+        nodes: HierarchyNode<CustomEleventySuppliedData>[],
       ): Generator<any> {
         emitter.write("<ul>");
         for (const node of nodes) {

@@ -21,11 +21,8 @@ preview:
   <meta property="og:image" content="{% image_src "/maintenance/assets/og_image.jpg" %}">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="/styles/reset.css">
+  <link rel="stylesheet" href="/styles/fonts.css">
   <style type="text/css">
     :root { --milkyway: url({% image_src "/maintenance/assets/milkyway.jpg" %}) }
   </style>
@@ -223,9 +220,9 @@ preview:
         <div class="spacer" style="width: calc(700px - 401px); height: 8rem;"></div>
         <div class="group" style="width: 401px; margin-left: auto;">
           <div style="transform: translateX(18.5px);">
-            {% include retina-image, src: "/maintenance/assets/potluck.jpg", alt: "dark photo of a nighttime park potluck with some mutual aid organizer friends", width: 401, style: "border-radius: 48px;" %}
+            {% image src: "/maintenance/assets/potluck.jpg", alt: "dark photo of a nighttime park potluck with some mutual aid organizer friends", width: 401, style: "border-radius: 48px;" %}
             {% include accessible-gif, src: "https://media4.giphy.com/media/KmYV2zWKxa60OCck5p/giphy.webp", width: 159 , class: "block", style: "--x: 196; --y: -79.5", alt: "illustrated gif of hot pot" %}
-            {% include retina-image, src: "/maintenance/assets/fnb.webp", alt: "food not bombs logo", width: 91, class: "block", style: "--x: 286; --y: -113;" %}
+            {% image src: "/maintenance/assets/fnb.webp", alt: "food not bombs logo", width: 91, class: "block", style: "--x: 286; --y: -113;" %}
             <div style="line-height: 1.25;">
               <p class="block p-3" style="--x: 109.5; --y: 9;">potluck</p>
               <p class="block p-3" style="--x: 71.5; --y: 41;">family meal</p>
@@ -505,13 +502,13 @@ preview:
         <div class="grid-row" style="grid-template-columns: min(100%, 535.5px) 1fr;">
           <figure style="max-width: 535.5px; display: flex; align-items: flex-start; flex-wrap: wrap; --border-radius: 7px; margin: 0 calc(-1rem - var(--border-radius));">
             <div style="flex-basis: 55.5%;">
-              {% include retina-image, src: "/maintenance/assets/lan_party_1.jpg", alt: "photo of a lan party, a person is duct taped to the ceiling in the background, leaning down to use a raised desktop computer", width: 295, style: "width: 100%; border-radius: var(--border-radius);" %}
+              {% image src: "/maintenance/assets/lan_party_1.jpg", alt: "photo of a lan party, a person is duct taped to the ceiling in the background, leaning down to use a raised desktop computer", width: 295, style: "width: 100%; border-radius: var(--border-radius);" %}
               <figcaption class="p-3"
                 style="max-width: 190px; opacity: 0.6; font-size: 0.875rem; line-height: 1.4; margin: 0 auto;">nostalgia
                 is a trap but i’ll always love these iconic LAN party pics</figcaption>
             </div>
             <div style="flex-basis: 44.5%;">
-              {% include retina-image, src: "/maintenance/assets/lan_party_2.jpg", alt: "photo of a lan party, a person is duct taped to the ceiling, eating pizza from a tall computer desk", width: 280, style: "width: 116%; border-radius: var(--border-radius); margin-top: 61%; margin-left: -16%;" %}
+              {% image src: "/maintenance/assets/lan_party_2.jpg", alt: "photo of a lan party, a person is duct taped to the ceiling, eating pizza from a tall computer desk", width: 280, style: "width: 116%; border-radius: var(--border-radius); margin-top: 61%; margin-left: -16%;" %}
             </div>
           </figure>
         </div>
@@ -530,7 +527,7 @@ preview:
         <div class="flex-row" style="margin-top: 3rem; align-items: flex-end;">
           <h3 style="font-style: italic; font-size: 1rem; margin: min(6vw, 3rem);">places to hang out on the world wide web</h3>
           <div style="flex-basis: 216px;">
-            {% include retina-image, src: "/maintenance/assets/palacechat.jpg", alt: "screenshot of PalaceChat, full of colorful dollz-style avatars", width: 331, style: "width: 153.5%; margin-right: -34.5%" %}
+            {% image src: "/maintenance/assets/palacechat.jpg", alt: "screenshot of PalaceChat, full of colorful dollz-style avatars", width: 331, style: "width: 153.5%; margin-right: -34.5%" %}
           </div>
         </div>
         <div class="grid-row" style="grid-template-columns: 9fr fit-content(498px) 1fr; margin-top: 1.5rem; margin-bottom: 5rem;">

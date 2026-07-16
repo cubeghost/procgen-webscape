@@ -53,7 +53,7 @@ title: cubegho.st
         {%- if icon.sprite -%}
         {%- include icon-sprite, id: icon.sprite, size: icon.size, alt: icon.alt -%}
         {%- elsif icon.retina != false -%}
-        {%- include retina-image, src: icon.src, alt: icon.alt, width: icon.width, style: icon.style | default: "", class: icon.class | default: "" -%}
+        {%- image src: icon.src, alt: icon.alt, width: icon.width, style: icon.style | default: "", class: icon.class | default: "" -%}
         {%- else -%}
         <img src="{{ icon.src }}" alt="{{ icon.alt }}" width="{{ icon.width }}" style="{{ icon.style | default: "" }}" eleventy:ignore />
         {%- endif -%}
@@ -95,7 +95,7 @@ title: cubegho.st
         <span class="window-titlebar-title">{{ page.data.title }}</span>
       </div>
       <div class="window-contents">
-        {%- include retina-image, src: preview.src, alt: preview.alt, width: 500 -%}
+        {%- image src: preview.src, alt: preview.alt, width: 500 -%}
       </div>
     </div>
     {%- endif -%}
