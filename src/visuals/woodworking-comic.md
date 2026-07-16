@@ -1,5 +1,4 @@
 ---
-layout: layouts/webscape-image.html
 title: woodworking comic
 tags: [visuals, kid-pix]
 date: 2023-08-26

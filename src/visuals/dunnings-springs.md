@@ -1,5 +1,4 @@
 ---
-layout: layouts/webscape-image.html
 title: dunning’s springs
 tags: [visuals, kid-pix]
 date: 2021-08-08

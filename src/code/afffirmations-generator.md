@@ -1,6 +1,6 @@
 ---
 tags: code
-title: afffirmations generator
+title: "@afffirmations generator"
 date: 2021-07-24
 permalink: false
 

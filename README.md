@@ -1,5 +1,16 @@
-### Licenses
+# cubegho.st
 
-All code falls under the [MIT License](https://opensource.org/license/mit).
+- procedurally generated [webscape](https://observablehq.com/@cubeghost/procgen-dreamscape)
+- 11ty
+- Liquid
+- vanilla CSS and JS
+- JS-optional (🙏 popover API)
+- visitor counter
+  - Redis for idempotency
+- Aseprite loader
+- 1 billion hours spent in Macintosh emulators
 
-`/src/assets/cat.aseprite` is a derivative of [piixl's 1-Bit Icons Part-1](https://piiixl.itch.io/1-bit-16px-icons-part-1), which is [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/deed.en).
+### TODO
+
+- might still be some mixing of "page" and "post" taxonomy
+- optimize CSS?

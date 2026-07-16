@@ -1,5 +1,4 @@
 ---
-layout: layouts/webscape-image.html
 title: lumen + kid pix feedback loop experiment
 tags: [visuals, kid-pix]
 date: 2017-11-23

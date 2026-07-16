@@ -1,5 +1,4 @@
 ---
-layout: layouts/webscape-image.html
 title: crystal
 tags: [visuals, glitch]
 date: 2013-12-13

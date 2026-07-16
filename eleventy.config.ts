@@ -62,6 +62,8 @@ export default defineConfig((eleventyConfig) => {
   });
   eleventyConfig.setLiquidParameterParsing("builtin");
 
+  eleventyConfig.addGlobalData("layout", "layouts/webscape-page.html");
+
   const imageOptions: Image.PluginOptions = {
     outputDir: `${outputDir}/assets`,
     urlPath: "/assets/",

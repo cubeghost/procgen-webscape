@@ -32,6 +32,7 @@ export default class {
       },
       permalink: ({ baseName }: EntrypointData) => `/assets/${baseName}.png`,
       eleventyExcludeFromCollections: true,
+      layout: false,
     };
   }
 
