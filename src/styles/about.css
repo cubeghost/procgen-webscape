@@ -181,11 +181,9 @@ ul.combobox-list a:focus .sprite {
 
 #dialog-about-icons {
   position: fixed;
-  left: 32rem;
   bottom: 10vh;
   top: auto;
-  margin: 0;
-  margin-top: 44px;
+  margin-top: 44px auto 0 auto;
   padding: 0;
   max-width: 370px;
   border: 0;
@@ -200,11 +198,11 @@ ul.combobox-list a:focus .sprite {
 
   #dialog-about-icons[popover] {
     position-anchor: --dialog-about-notes;
-    bottom: max(0px, calc(anchor(bottom) - 4rem));
+    bottom: max(0px, anchor(bottom));
     left: max(1.5rem, calc(anchor(left) - 24rem));
     top: auto;
     right: auto;
-    margin-top: 0;
+    margin: 0;
   }
 }
 
@@ -337,7 +335,7 @@ tbody.scrollbox {
     position: absolute;
     outline: 1px dotted black;
     opacity: 0;
-    inset: 50%;
+    inset: 45%;
     pointer-events: none;
     will-change: opacity, inset;
     transition: opacity 0s steps(1, jump-start) var(--duration),
@@ -353,7 +351,7 @@ tbody.scrollbox {
   @starting-style {
     #dialog-about-icons:popover-open .window:after {
       opacity: 0;
-      inset: 50%;
+      inset: 45%;
     }
   }
 }

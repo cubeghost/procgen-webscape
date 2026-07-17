@@ -70,6 +70,12 @@ button.window-button {
   box-shadow: calc(-5px * var(--ui-scale)) 0 0 white;
 }
 
+.window:not(.window-utility, .window-note) .window-button.button-close:active {
+  background-image: url(/assets/ui.png);
+  background-size: var(--ui-sprite-size);
+  background-position: calc(-32px * var(--ui-scale)) calc(-16px * var(--ui-scale));
+}
+
 .window-button.button-minimize:before {
   content: "";
   display: block;
@@ -79,7 +85,6 @@ button.window-button {
   border-width: var(--border-width) 0 var(--border-width) 0;
   margin: calc(3px * var(--ui-scale)) 0 0 0;
 }
-
 
 .window-button.button-zoom:before {
   content: "";
@@ -230,40 +235,39 @@ button.window-button {
 }
 
 .window-utility-side .window-handle {
-  width: calc(12px * var(--ui-scale));
+  width: calc(13px * var(--ui-scale));
   flex-direction: column;
 }
 
 .window-utility .window-handle:before {
   content: '';
   position: absolute;
-  inset: calc(3px * var(--ui-scale)) calc(2px * var(--ui-scale));
+  inset: calc(2px * var(--ui-scale)) calc(3px * var(--ui-scale));
   display: block;
   image-rendering: pixelated;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Crect width='1' height='1' x='0' y='0' fill='black'%3E%3C/rect%3E%3C/svg%3E");
   background-size: calc(3px * var(--ui-scale));
-  /* background-position-x: calc(-2px * var(--ui-scale)); */
   background-position-y: calc(-2px * var(--ui-scale));
 }
 
 .window-utility.window-utility-side .window-handle:before {
-  inset: calc(2px * var(--ui-scale));
+  inset: calc(3px * var(--ui-scale)) calc(2px * var(--ui-scale));
   background-position-x: calc(-2px * var(--ui-scale));
 }
 
 .window-utility .window-handle .window-button {
   position: relative;
-  width: calc(8px * var(--ui-scale));
-  height: calc(8px * var(--ui-scale));
+  width: calc(9px * var(--ui-scale));
+  height: calc(9px * var(--ui-scale));
 }
 
 .window-utility .window-handle .window-button.button-top,
 .window-utility .window-handle .window-button.button-bottom {
-  margin: calc(2px * var(--ui-scale));
+  margin: calc(3px * var(--ui-scale)) calc(2px * var(--ui-scale));
 }
 
 .window-utility .window-handle .window-button.button-top {
-  box-shadow: 0 calc(4px * var(--ui-scale)) 0 white;
+  box-shadow: 0 calc(3px * var(--ui-scale)) 0 white;
 }
 
 .window-utility .window-handle .window-button.button-bottom {
@@ -272,17 +276,22 @@ button.window-button {
 
 .window-utility .window-handle .window-button.button-left,
 .window-utility .window-handle .window-button.button-right {
-  margin: calc(3px * var(--ui-scale)) calc(2px * var(--ui-scale));
+  margin: calc(2px * var(--ui-scale)) calc(3px * var(--ui-scale));
 }
 
 .window-utility .window-handle .window-button.button-left {
-  box-shadow: calc(4px * var(--ui-scale)) 0 0 white;
+  box-shadow: calc(3px * var(--ui-scale)) 0 0 white;
 }
 
 .window-utility .window-handle .window-button.button-right {
-  box-shadow: calc(-4px * var(--ui-scale)) 0 0 white;
+  box-shadow: calc(-2px * var(--ui-scale)) 0 0 white;
 }
 
+.window-utility .window-button.button-close:active {
+  background-image: url(/assets/ui.png);
+  background-size: var(--ui-sprite-size);
+  background-position: calc(-41px * var(--ui-scale)) calc(-16px * var(--ui-scale));
+}
 
 .window-utility .window-handle .window-button.button-minimize:before {
   margin: calc(1px * var(--ui-scale)) 0 0 0;
@@ -346,64 +355,6 @@ button.window-button {
 
 /* animation */
 
-@keyframes window-appear {
-  from {
-    border-color: transparent;
-    background-color: transparent;
-    box-shadow: none;
-  }
-
-  to {
-    border-color: black;
-    background-color: white;
-    box-shadow: var(--border-width) var(--border-width) 0 black;
-  }
-}
-
-@keyframes window-pseduo-appear {
-  0% {
-    opacity: 1;
-    inset: 48%;
-  }
-
-  90% {
-    opacity: 1;
-    inset: 3%;
-  }
-
-  100% {
-    opacity: 0;
-    inset: 0%;
-  }
-}
-
-@keyframes window-pseduo-disappear {
-  0% {
-    opacity: 1;
-    inset: 0%;
-  }
-
-  90% {
-    opacity: 1;
-    inset: 43%;
-  }
-
-  100% {
-    opacity: 0;
-    inset: 48%;
-  }
-}
-
-@keyframes window-children-appear {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .window-animated[popover] {
     --duration: 400ms;
@@ -455,7 +406,7 @@ button.window-button {
     position: absolute;
     outline: 1px dotted black;
     opacity: 0;
-    inset: 50%;
+    inset: 45%;
     pointer-events: none;
     will-change: opacity, inset;
     transition: opacity 0s steps(1, jump-start) var(--duration),
@@ -471,7 +422,7 @@ button.window-button {
   @starting-style {
     .window-animated:popover-open:after {
       opacity: 0;
-      inset: 50%;
+      inset: 45%;
     }
   }
 

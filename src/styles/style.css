@@ -11,7 +11,7 @@
 :root {
   --ui-scale: 1;
   --border-width: calc(1px * var(--ui-scale));
-  --ui-sprite-size: calc(128px * var(--ui-scale));
+  --ui-sprite-size: calc(96px * var(--ui-scale));
 
   --root-padding: clamp(1.5rem, 5vw, 4rem);
   --counter-height: 55px;

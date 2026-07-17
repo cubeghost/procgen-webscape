@@ -43,6 +43,18 @@
     "source": "SimpleText"
   },
   {
+    "sprite": "bomb",
+    "size": 32,
+    "alt": "bomb",
+    "source": "System 1"
+  },
+  {
+    "sprite": "alert",
+    "size": 32,
+    "alt": "alert",
+    "source": "System 1"
+  },
+  {
     "icon": "<img src=\"/assets/happy-mac.png\" class=\"sprite sprite-happy-mac\" alt=\"happy computer\" eleventy:ignore />",
     "size": 16,
     "source": "System 7",

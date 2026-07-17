@@ -2,7 +2,7 @@
   {%- for page in collection reversed -%}
   <li class="window">
     <div class="window-titlebar">
-      <button class="window-button button-left"></button>
+      <span class="window-button button-left"></span>
       {% pagelink page %}<span class="window-titlebar-title">{{ page.data.title }}</span>{% endpagelink %}
     </div>
     <div class="window-contents">

@@ -1,6 +1,6 @@
 ---
 title: fault
-tags: [visuals, kid-pix]
+tags: [visuals, kid-pix, glitch]
 date: 2018-11-25
 
 images:
