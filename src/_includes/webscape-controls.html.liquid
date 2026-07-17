@@ -71,7 +71,7 @@ globalThis.__DIMENSIONS__ = {{ webscapeDimensions | json }};
       canvasContainer.replaceChildren(canvas);
       const offscreen = canvas.transferControlToOffscreen();
 
-      const worker = new Worker("/replay.js", { type: "module" });
+      const worker = new Worker("/replay.worker.js", { type: "module" });
       replayController.signal.addEventListener("abort", () => worker.terminate());
 
       worker.addEventListener("message", (event) => {
