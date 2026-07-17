@@ -14,3 +14,6 @@
 
 - might still be some mixing of "page" and "post" taxonomy
 - optimize CSS?
+- more dynamic opengraph images
+- update kid pix tutorial
+- add preview/page content for tumblr items

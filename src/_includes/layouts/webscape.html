@@ -8,6 +8,12 @@
 		{% if description %}<meta name="description" content="{{ description }}">{% endif %}
 		<meta name="generator" content="{{ eleventy.generator }}">
 
+		{%- if og_image -%}
+		<meta property="og:image" content="{{ og_image }}">
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:image" content="{{ og_image }}">
+		{%- endif -%}
+
 		<noscript><style>.requires-js { display: none !important; }</style></noscript>
 		<link rel="stylesheet" href="/styles/style.css">
 		{%- block head %}{% endblock -%}
