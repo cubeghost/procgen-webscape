@@ -106,7 +106,7 @@ button.window-button {
   padding: 0 0.5rem;
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr auto 1fr;
 }
 
 .window .window-meta:after {
@@ -121,6 +121,7 @@ button.window-button {
 .window .window-meta .meta-date {
   text-align: left;
   grid-column: 1;
+  white-space: nowrap;
 }
 
 .window .window-meta .meta-tags {
@@ -128,9 +129,21 @@ button.window-button {
   grid-column: 3;
 }
 
+.window .window-meta .meta-extra {
+  padding: 0 1rem;
+  overflow: hidden;
+}
+
+.window .window-meta .meta-extra:has(a):before {
+  content: " ";
+  display: inline-block;
+}
+
 .window .window-meta .meta-extra a {
   text-decoration: none;
   color: currentColor;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .window .window-notepad-footer {

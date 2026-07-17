@@ -54,7 +54,7 @@ function counterTemplate(digits: string[], align: string | null) {
       <form class="window-contents" method="POST">
         <button type="submit">
           <img src="/assets/icons-16.png" alt="sheep" class="sprite-16" style="object-position: -48px 0">
-          <div class="visitors">
+          <div class="counter">
             <div class="counter-count" style="--num-digits: ${digits.length}">
               ${digits
                 .map(
