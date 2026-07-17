@@ -19,28 +19,10 @@ body {
 
 .root {
   padding-bottom: 0;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
 }
 
-@media (max-width: 980px) {
-  .root {
-    min-height: auto;
-  }
-}
-
-#dialog-about {
-  box-shadow: 0 0 0 calc(1px * var(--ui-scale)) black,
-    0 0 0 calc(3px * var(--ui-scale)) white,
-    0 0 0 calc(4px * var(--ui-scale)) black;
-  z-index: 1;
-}
-
-#dialog-about .window-contents {
-  margin: 0;
-  border: 0;
+.desktop-container {
+  flex: unset;
 }
 
 #dialog-about h2 {

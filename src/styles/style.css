@@ -39,6 +39,19 @@ body {
   padding-bottom: 1rem;
 }
 
+.root:has(.desktop-container) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+@media (max-width: 980px) {
+  .root:has(.desktop-container) {
+    min-height: auto;
+  }
+}
+
 .sticky-top {
   position: sticky;
   top: 0;
@@ -216,7 +229,7 @@ a.button {
   content: "";
   display: block;
   position: absolute;
-  inset: calc(-4px * var(--ui-scale));
+  inset: calc(-3px * var(--ui-scale));
   border-image: var(--pixel-border-r4)
 }
 

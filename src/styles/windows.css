@@ -331,6 +331,19 @@ button.window-button {
   margin: calc(1px * var(--ui-scale)) calc(4px * var(--ui-scale))
 }
 
+/* modal dialog */
+.window-dialog {
+  box-shadow: 0 0 0 calc(1px * var(--ui-scale)) black,
+    0 0 0 calc(3px * var(--ui-scale)) white,
+    0 0 0 calc(4px * var(--ui-scale)) black;
+  z-index: 1;
+}
+
+.window-dialog .window-contents {
+  margin: 0;
+  border: 0;
+}
+
 /* animation */
 
 @keyframes window-appear {
