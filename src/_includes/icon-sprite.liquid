@@ -1,8 +1,8 @@
 {%- liquid
   if size == 16
-    assign sprites = icons16
+    assign sprites = icons-16
   elsif size == 32
-    assign sprites = icons32
+    assign sprites = icons-32
   endif
 -%}
 {%- assign sprite_index = sprites | find_index_value: id -%}
