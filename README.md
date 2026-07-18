@@ -13,6 +13,7 @@
 ### TODO
 
 - trim unused icons from spritesheets
+- resource integrity / CSPs (esp for esm.sh modules)
 - might still be some mixing of "page" and "post" taxonomy
 - `updated_at` field
 - optimize CSS?

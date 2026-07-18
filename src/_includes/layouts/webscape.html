@@ -68,7 +68,7 @@
 							<button popovertarget="dialog-elsewhere" class="menu-item trigger-menu trigger-submenu">{% include icon-sprite, id: "globe", size: 16, role: "presentation" %} elsewhere</button>
 							<dialog id="dialog-elsewhere" class="popover-menu" popover>
 								{%- for link in elsewhere -%}
-								<a href="{{ link.url }}" target="_blank" class="menu-item">{% include icon-sprite, id: link.icon, size: 16, role: "presentation" %} {{ link.label }}</a>
+								<a href="{{ link.url }}" target="_blank" class="menu-item">{% include icon-sprite, id: link.sprite, size: 16, role: "presentation" %} {{ link.label }}</a>
 								{%- endfor -%}
 							</dialog>
 						</div>
@@ -78,7 +78,7 @@
 						<hr class="requires-js" />
 
 						<button popovertarget="dialog-appearance" class="menu-item requires-js">
-							{% include icon-sprite, id: "display-1", size: 16, alt: "appearance controls" %}
+							{% include icon-sprite, id: "display", size: 16, alt: "appearance controls" %}
 							appearance
 						</button>
 

@@ -15,7 +15,7 @@ portfolio_preview:
 
 {% image src: "/kidpix/kidpix_icon_alt.png", alt: "Kid Pix Studio Deluxe icon, but huge", width: 160, style: "image-rendering: pixelated" %}
 
-_**Kid Pix Studio Deluxe**_ 🎨, released in 1998, is something I grew up using on school computers and on my mom's Mac. At its core, it's a paint program, but packed with a surprise and delight that's missing from a lot of modern software design. Regardless, it's fucking fun and I want everyone to be able to experience it.
+_**Kid Pix Studio Deluxe**_ 🎨, released in 1998, is something I grew up using on school computers and on my mom's Mac. At its core, it's a paint program, but packed with a surprise and delight that's missing from a lot of modern software design. Regardless, it's really fun and I want everyone to be able to experience it.
 
 For more background, I highly recommend reading [Craig Hickman's personal history of Kid Pix](http://red-green-blue.com/kid-pix-the-early-years/) and watching Just Another System's [recent interview with Hickman](https://www.youtube.com/watch?v=csalhuSixQU) about the unexpected legacy of Kid Pix.
 
@@ -117,6 +117,6 @@ While this is the most complete copy of Kid Pix Studio Deluxe I've been able to 
 
 ---
 
-Did these instructions work? Show me what you made! Did they not work? Tell me what broke. I'm [@cubegho.st](https://bsky.app/profile/cubegho.st) on Bluesky, and the source of this article [is on Github](https://github.com/cubeghost/personal-static-site/blob/development/src/kidPix/assets/tutorial/tutorial.md).
+Did these instructions work? Show me what you made! Did they not work? Tell me what broke. I'm [@cubegho.st](https://bsky.app/profile/cubegho.st) on Bluesky, and the source of this article [is on Github](https://github.com/cubeghost/procgen-webscape/blob/main/src/kidpix/tutorial/index.md).
 
 {% image src: "/kidpix/tutorial/kitties.png", alt: "a picture of my cats I edited in Kid Pix", width: 1280 %}

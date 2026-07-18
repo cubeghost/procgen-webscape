@@ -1,32 +1,32 @@
 [
   {
     "label": "github",
-    "icon": "suitcase-git",
+    "sprite": "suitcase-git",
     "url": "https://github.com/cubeghost"
   },
   {
     "label": "observable",
-    "icon": "document-code",
+    "sprite": "document-code",
     "url": "https://observablehq.com/user/@cubeghost"
   },
   {
     "label": "codepen",
-    "icon": "scrapbook",
+    "sprite": "scrapbook",
     "url": "https://codepen.io/cubeghost"
   },
   {
     "label": "bluesky",
-    "icon": "users",
+    "sprite": "users",
     "url": "https://bsky.app/profile/cubegho.st"
   },
   {
     "label": "are.na",
-    "icon": "document-pinned",
+    "sprite": "document-pinned",
     "url": "https://www.are.na/cubeghost-archive/channels"
   },
   {
     "label": "e-mail",
-    "icon": "mail4",
+    "sprite": "mail4",
     "url": "mailto:mail@cubegho.st"
   }
 ]
