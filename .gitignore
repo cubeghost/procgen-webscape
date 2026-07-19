@@ -6,5 +6,5 @@ dist
 # Local Netlify folder
 .netlify
 
-
 tmp/
+./node-aseprite

@@ -53,7 +53,7 @@ function counterTemplate(digits: string[], align: string | null) {
       </div>
       <form class="window-contents" method="POST">
         <button type="submit">
-          <img src="/assets/icons-16.png" alt="sheep" class="sprite-16">
+          <img src="/assets/icons-16.png" alt="sheep" class="sprite-16" style="object-position: -192px 0">
           <div class="counter">
             <div class="counter-count" style="--num-digits: ${digits.length}">
               ${digits
