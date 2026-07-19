@@ -1,5 +1,5 @@
 [build]
-  command = pnpm run build:aseprite && pnpm run build
+  command = "pnpm run build:aseprite && pnpm run build"
 
 [functions]
   node_bundler = "esbuild"
