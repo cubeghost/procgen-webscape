@@ -95,6 +95,7 @@ strong {
 .background-gray {
   background-image: repeating-conic-gradient(from 0, white 0% 25%, black 0% 50%);
   background-size: calc(2px * var(--ui-scale)) calc(2px * var(--ui-scale));
+  background-attachment: fixed;
 }
 
 .background-white {
