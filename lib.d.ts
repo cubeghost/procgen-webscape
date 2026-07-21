@@ -76,7 +76,7 @@ declare module "aseprite" {
     RGBA = 32,
   }
 
-  enum ChunkType {
+  export enum ChunkType {
     PALETTE_OLD_1 = 4,
     PALETTE_OLD_2 = 17,
     LAYER = 8196,
@@ -89,6 +89,7 @@ declare module "aseprite" {
     PALETTE = 8217,
     USERDATA = 8224,
     SLICE = 8226,
+    TILESET = 8227,
   }
 
   interface FlagsBitset {
@@ -122,10 +123,11 @@ declare module "aseprite" {
     numChunks: number;
   } & KaitaiProperties<C, Frame<C, I>, Aseprite<C, I>>;
 
-  enum CelType {
+  export enum CelType {
     RAW = 0,
     LINKED = 1,
     COMPRESSED = 2,
+    COMPRESSED_TILEMAP = 3,
   }
   type CelChunkData<C, I> = {
     layerIndex: number;
@@ -150,8 +152,47 @@ declare module "aseprite" {
         pixelsCompressed: Uint8Array;
         pixels: I extends true ? Buffer : undefined;
       }
+    | {
+        type: CelType.COMPRESSED_TILEMAP;
+        tilesWidth: number;
+        tilesHeight: number;
+        bitsPerTile: number;
+        tileIdBitmask: number;
+        xFlipBitmask: number;
+        yFlipBitmask: number;
+        dFlipBitmask: number;
+        tilesCompressed: Uint8Array;
+        tiles: I extends true ? Buffer : undefined;
+      }
   ) &
     KaitaiProperties<C, Frame<C, I>, Aseprite<C, I>>;
+  type TilesetChunkData<C, I> = {
+    tilesetId: number;
+    numTiles: number;
+    tileWidth: number;
+    tileHeight: number;
+    baseIndex: number;
+    name: string;
+    pixelsCompressed: Uint8Array;
+    pixels: I extends true ? Buffer : undefined;
+  };
+  export enum LayerType {
+    IMAGE = 0,
+    GROUP = 1,
+    TILEMAP = 2,
+  }
+  type LayerChunkData = {
+    blendMode: number; // TODO enum
+    opacity: number;
+    name: string;
+  } & (
+    | { type: LayerType.IMAGE }
+    | { type: LayerType.GROUP }
+    | {
+        type: LayerType.TILEMAP;
+        tilesetIndex: number;
+      }
+  );
   type Color = { r: number; g: number; b: number };
   type Packet = { skip: number; numColors: number; colors: Color[] };
   type PaletteOldChunkData<C, I> = {
@@ -175,13 +216,17 @@ declare module "aseprite" {
   };
   type CelExtraChunk = { type: ChunkType.CEL_EXTRA };
   type UserdataChunk = { type: ChunkType.USERDATA };
-  type LayerChunk = { type: ChunkType.LAYER };
+  type LayerChunk = { type: ChunkType.LAYER; data: LayerChunkData };
   type TagsChunk = { type: ChunkType.TAGS };
   type PaletteChunk<C, I> = {
     type: ChunkType.PALETTE;
     data: PaletteChunkData<C, I>;
   };
   type MaskChunk = { type: ChunkType.MASK };
+  type TilesetChunk = {
+    type: ChunkType.TILESET;
+    data: TilesetChunkData<C, I>;
+  };
   type Chunk<C, I> = { size: number } & (
     | ColorProfileChunk
     | PaletteOld1Chunk<C, I>
@@ -193,6 +238,7 @@ declare module "aseprite" {
     | TagsChunk
     | PaletteChunk<C, I>
     | MaskChunk
+    | TilesetChunk
   ) &
     KaitaiProperties<C, Frame<C, I>, Aseprite<C, I>>;
 
@@ -201,7 +247,7 @@ declare module "aseprite" {
     chunks: Chunk<C, I>[];
   } & KaitaiProperties<C, Aseprite<C, I>, Aseprite<C, I>>;
 
-  type Aseprite<C, I> = {
+  export type Aseprite<C, I> = {
     header: Header<C>;
     frames: Frame<C, I>[];
   } & KaitaiProperties<C, null, null>;
@@ -217,6 +263,9 @@ declare module "aseprite" {
         ChunkTypeEnum: typeof ChunkType;
         CelChunk: {
           CelTypeEnum: typeof CelType;
+        };
+        LayerChunk: {
+          TypeEnum: typeof LayerType;
         };
       };
     };
