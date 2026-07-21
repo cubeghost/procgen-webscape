@@ -5,6 +5,8 @@ import Aseprite from "aseprite";
 import type {
   Aseprite as AsepriteDoc,
   CelChunk,
+  CelChunkData,
+  CelType,
   PaletteChunk,
   PaletteOld1Chunk,
 } from "aseprite";
@@ -101,8 +103,8 @@ export default class {
           return image.extend({
             top: cel.data.y,
             left: cel.data.x,
-            bottom: ase.header.height - info.height + cel.data.y,
-            right: ase.header.width - info.width + cel.data.x,
+            bottom: ase.header.height - info.height - cel.data.y,
+            right: ase.header.width - info.width - cel.data.x,
             background: { r: 0, g: 0, b: 0, alpha: 0 },
           });
         }),
@@ -170,20 +172,12 @@ async function readCompressedPixels<C, I>(
     }
   }
 
-  const image = await sharp(buffer, {
+  return await sharp(buffer, {
     raw: {
       width: cel.data.width,
       height: cel.data.height,
       channels: mode === ColorModeEnum.INDEXED ? 4 : mode,
     },
-  });
-  const { info } = await image.toBuffer({ resolveWithObject: true });
-  return image.extend({
-    top: cel.data.y,
-    left: cel.data.x,
-    bottom: ase.header.height - info.height - cel.data.y,
-    right: ase.header.width - info.width - cel.data.x,
-    background: { r: 0, g: 0, b: 0, alpha: 0 },
   });
 }
 
@@ -251,14 +245,27 @@ async function readCompressedTilemapPixels<C, I>(
   let i = 0;
   for (let y = 0; y < cel.data.tilesHeight; y++) {
     for (let x = 0; x < cel.data.tilesWidth; x++, i++) {
-      const tileIndex = tilesBuffer[i * 4];
-      if (tileIndex > 0) {
-        const tileImage = await tilesetImage.clone().extract({
+      const tile = parseTile(i, tilesBuffer, cel.data);
+      if (tile.index > 0) {
+        let tileImage = await tilesetImage.clone().extract({
           left: 0,
-          top: tileIndex * tileset.data.tileHeight,
+          top: tile.index * tileset.data.tileHeight,
           width: tileset.data.tileWidth,
           height: tileset.data.tileHeight,
         });
+
+        if (tile.dFlip) {
+          tileImage = await sharp(
+            await tileImage.rotate(90).flip().png().toBuffer(),
+          );
+        }
+        if (tile.xFlip) {
+          tileImage = tileImage.flop();
+        }
+        if (tile.yFlip) {
+          tileImage = tileImage.flip();
+        }
+
         tiles.push({
           image: tileImage,
           x,
@@ -287,4 +294,37 @@ async function readCompressedTilemapPixels<C, I>(
   base.composite(inputs);
 
   return base;
+}
+
+function parseTile<C, I>(
+  i: number,
+  tiles: Buffer,
+  data: Extract<CelChunkData<C, I>, { type: CelType.COMPRESSED_TILEMAP }>,
+) {
+  const tileBytes = data.bitsPerTile / 8;
+
+  const bufIndex = i * tileBytes;
+  const tile = tiles.readUInt32LE(bufIndex) | 0;
+  const tileIdShift = maskShift(data.tileIdBitmask | 0);
+  const xFlipBitmask = data.xFlipBitmask | 0;
+  const yFlipBitmask = data.yFlipBitmask | 0;
+  const dFlipBitmask = data.dFlipBitmask | 0;
+
+  return {
+    index: (tile & data.tileIdBitmask) >> tileIdShift,
+    xFlip: (tile & xFlipBitmask) === xFlipBitmask,
+    yFlip: (tile & yFlipBitmask) === yFlipBitmask,
+    dFlip: (tile & dFlipBitmask) === dFlipBitmask,
+  };
+}
+
+function maskShift(mask: number) {
+  let shift = 0;
+  let bit = 1;
+  const size = 4; // sizeof(mask)
+  while ((mask & bit) == 0 && shift < 8 * size) {
+    bit <<= 1;
+    ++shift;
+  }
+  return shift;
 }
