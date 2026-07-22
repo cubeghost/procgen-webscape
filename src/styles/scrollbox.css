@@ -1,53 +1,54 @@
-.scrollbox {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  overflow-y: auto;
-  border: var(--border-width) solid black;
+:root {
+  --scrollbox-background-images: url(/assets/scroll-up.png),
+    url(/assets/scroll-down.png),
+    linear-gradient(to left, white calc(15px * var(--ui-scale)), black calc(15px * var(--ui-scale)), black calc(16px * var(--ui-scale)), transparent calc(16px * var(--ui-scale)), transparent);
+  --scrollbox-background-positions: right calc(1px * var(--ui-scale)),
+    right calc(100% - calc(1px * var(--ui-scale))),
+    top right;
+  --scrollbox-background-repeats: no-repeat,
+    no-repeat, repeat-y;
 }
 
-.scrollbox:has(.scrollbox-contents) {
-  overflow-y: unset;
+.scrollbox {
+  position: relative;
+  justify-content: space-between;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: var(--border-width) solid black;
+  padding-right: calc(15px * var(--ui-scale));
+  background-image: var(--scrollbox-background-images);
+  background-position: var(--scrollbox-background-positions);
+  background-repeat: var(--scrollbox-background-repeats);
 }
 
 .window-contents>.scrollbox {
   border: 0;
 }
 
-.scrollbox-contents {
-  overflow-y: auto;
+.scrollbox:has(.window-notepad-footer) {
+  background-image: var(--scrollbox-background-images),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 1 6' width='1' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1v1H0V0z'%3E%3C/path%3E%3Cpath d='M0 2h1v1H0V2z'%3E%3C/path%3E%3Cpath d='M0 4h1v1H0V4z'%3E%3C/path%3E%3Cg fill='white'%3E%3Cpath d='M0 1h1v1H0V0z'%3E%3C/path%3E%3Cpath d='M0 3h1v1H0V2z'%3E%3C/path%3E%3Cpath d='M0 5h1v1H0V4z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  background-position: var(--scrollbox-background-positions), bottom right;
+  background-repeat: var(--scrollbox-background-repeats), repeat-x;
+}
+
+.scrollbox-static {
+  display: flex;
+  align-items: stretch;
+  border: var(--border-width) solid black;
+}
+
+.scrollbox-static .scrollbox-contents {
   flex: 1;
 }
 
-.scrollbox-scroll {
-  position: sticky;
-  top: 0;
-  right: 0;
-  flex: 0 0 calc(16px * var(--ui-scale));
-  border-left: var(--border-width) solid black;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.scrollbox-scroll:before,
-.scrollbox-scroll:after {
+.scrollbox-static:after {
   content: "";
-  height: calc(15px * var(--ui-scale));
-  image-rendering: pixelated;
-  background-image: url(/assets/ui.png);
-  background-size: var(--ui-sprite-size);
-}
-
-.scrollbox-scroll:before {
-  /* border causes antialiasing in safari */
-  box-shadow: 0 var(--border-width) 0 black;
-  background-position: calc(-64px * var(--ui-scale)) 0;
-}
-
-.scrollbox-scroll:after {
-  box-shadow: 0 calc(-1 * var(--border-width)) 0 black;
-  background-position: calc(-48px * var(--ui-scale)) 0;
+  min-height: 0;
+  width: calc(16px * var(--ui-scale));
+  background-image: var(--scrollbox-background-images);
+  background-position: var(--scrollbox-background-positions);
+  background-repeat: var(--scrollbox-background-repeats);
 }
 
 /* custom scrollbar */
@@ -55,23 +56,14 @@
   .scrollbox {
     display: block;
     overflow-y: scroll;
-  }
-
-  .scrollbox:has(.scrollbox-contents) {
-    overflow-y: scroll;
-  }
-
-  .scrollbox-contents {
-    overflow-y: unset;
-  }
-
-  .scrollbox-scroll {
-    display: none;
+    scrollbar-gutter: stable;
   }
 
   .scrollbox::-webkit-scrollbar {
     display: block;
     width: calc(16px * var(--ui-scale));
+    background-color: white;
+    margin-left: 15px;
   }
 
   .scrollbox::-webkit-scrollbar-thumb {

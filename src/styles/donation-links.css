@@ -101,7 +101,7 @@
   text-wrap: balance;
 }
 
-.donation-alert .scrollbox {
+.donation-alert .scrollbox-static {
   margin-top: 1rem;
   width: 273px;
 }

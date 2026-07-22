@@ -80,6 +80,10 @@ strong {
   font-weight: 600;
 }
 
+button {
+  color: currentColor;
+}
+
 /* backgrounds */
 
 .background-grid {
@@ -209,6 +213,7 @@ a.external:after {
   padding: 0.15rem 0.75rem;
   line-height: 1.4;
   height: fit-content;
+  color: currentColor;
 }
 
 button.button {
@@ -217,7 +222,6 @@ button.button {
 }
 
 a.button {
-  color: currentColor;
   text-decoration: none;
 }
 
@@ -284,6 +288,7 @@ label.select-word select {
   background-color: transparent;
   line-height: 1.1;
   padding: 0;
+  color: currentColor;
 }
 
 label.select-word {

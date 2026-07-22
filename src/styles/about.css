@@ -167,9 +167,10 @@ ul.combobox-list a:focus .sprite {
   flex-direction: column;
 }
 
-.scrollbox-contents .window-notepad-footer {
+.scrollbox .window-notepad-footer {
   position: sticky;
   bottom: calc(5px * var(--ui-scale));
+  /* width: calc(100% + (16px * var(--ui-scale))); */
 }
 
 .scrollbox {
@@ -201,7 +202,7 @@ ul.combobox-list a:focus .sprite {
     bottom: max(0px, anchor(bottom));
     left: max(1.5rem, calc(anchor(left) - 24rem));
     top: auto;
-    right: auto;
+    right: 3rem;
     margin: 0;
   }
 }
@@ -218,14 +219,7 @@ ul.combobox-list a:focus .sprite {
 }
 
 table.finder-list {
-  display: grid;
-  grid-template-columns: 1fr calc(16px * var(--ui-scale));
-}
-
-@supports selector(::-webkit-scrollbar-thumb) {
-  table.finder-list {
-    display: table;
-  }
+  display: table;
 }
 
 table.finder-list thead tr,
