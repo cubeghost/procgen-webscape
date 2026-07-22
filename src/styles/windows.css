@@ -50,6 +50,12 @@ button.window-button {
   display: flex;
 }
 
+button.window-button:after {
+  content: "";
+  position: absolute;
+  inset: -0.5rem;
+}
+
 .window .window-titlebar .window-button {
   position: relative;
   width: calc(11px * var(--ui-scale));
