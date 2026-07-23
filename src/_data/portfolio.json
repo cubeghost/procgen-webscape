@@ -69,12 +69,14 @@
             {
               "name": "pulsar",
               "url": "/tumblr/themes/pulsar/",
-              "meta": "2015"
+              "meta": "2015",
+              "use_preview": true
             },
             {
               "name": "chromosphere",
               "url": "/tumblr/themes/chromosphere/",
-              "meta": "2013"
+              "meta": "2013",
+              "use_preview": true
             }
           ]
         }
