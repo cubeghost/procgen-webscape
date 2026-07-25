@@ -1,5 +1,5 @@
 import path from "path";
-import { defineConfig } from "11ty.ts";
+import { defineConfig, type EleventyScope } from "11ty.ts";
 
 import Image, { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import pluginRss, {
@@ -48,6 +48,14 @@ export default defineConfig((eleventyConfig) => {
     getNewestCollectionItemDate,
   );
   eleventyConfig.addLiquidFilter("dateToRfc3339", dateToRfc3339);
+  eleventyConfig.addLiquidFilter(
+    "feedPosts",
+    function (collection: EleventyScope[]) {
+      return collection.filter(
+        (post) => post.data?.permalink !== false || post.data?.date,
+      );
+    },
+  );
 
   eleventyConfig.addTemplateFormats("11ty.ts");
   eleventyConfig.addPassthroughCopy("src/assets/**/*.(ttf|woff2)");

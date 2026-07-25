@@ -22,13 +22,13 @@
   <subtitle>{{ metadata.description }}</subtitle>
   <link href="{{ permalink | htmlBaseUrl: site.url }}" rel="self" />
   <link href="{{ site.url | addPathPrefixToFullUrl }}" />
-  <updated>{{ collections.all | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+  {%- assign feed_posts = collections.all | feedPosts -%}
+  <updated>{{ feed_posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
   <id>{{ site.url | addPathPrefixToFullUrl }}</id>
   <author>
     <name>{{ metadata.author.name }}</name>
   </author>
-  {%- for post in collections.all | reverse %}
-  {%- if post.data.permalink != false or post.data.date -%}
+  {%- for post in feed_posts | reverse %}
   {%- liquid
     if post.data.permalink == false
       assign absolutePostUrl = post.data.url
@@ -39,7 +39,7 @@
   <entry>
     <title>{{ post.data.title }}</title>
     <link href="{{ absolutePostUrl }}" />
-    <updated>{{ post.date | dateToRfc3339 }}</updated>
+    <updated>{{ post.date | default: post.data.date | dateToRfc3339 }}</updated>
     <id>{{ absolutePostUrl }}</id>
     {%- if post.data.description -%}
     {%- capture content -%}
@@ -77,6 +77,5 @@
     <content type="html" />
     {%- endif -%}
   </entry>
-  {%- endif -%}
   {%- endfor %}
 </feed>
