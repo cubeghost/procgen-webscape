@@ -6,7 +6,7 @@ date: 2016-10-13
 title: plants.exe
 url: https://codepen.io/cubeghost/full/xEJVex
 preview:
-  src: /code/plants.gif
+  src: /code/plants_500.gif
   alt: variations on 6 potted plants on an off-white background. the pots have abstract patterns. the plants have different configurations of branches and sets of circular leaves
 ---
 
