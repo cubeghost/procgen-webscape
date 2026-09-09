@@ -1,3 +1,6 @@
+[build]
+  command = "pnpm run build:aseprite && pnpm run build"
+
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["@cornerstonejs/codec-libjpeg-turbo-8bit"]
