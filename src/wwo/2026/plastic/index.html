@@ -2,6 +2,7 @@
 layout: false
 title: plastic - weird web october 2026
 date: 2026-10-05
+og_image: /wwo/2026/plastic/plastic.png
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -10,11 +11,16 @@ date: 2026-10-05
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
 
-  <title>plastic - weird web october 2026</title>
+  <title>{{ title }} | {{ site.title }}</title>
 
   <link rel="preload" as="fetch" href="https://octothorp.es/?uri=https://cubegho.st/wwo/2026/plastic/">
   <link rel="octo:octothorpes" href="weirdweboctober">
   <link rel="octo:octothorpes" href="Plastic">
+
+  <meta property="og:title" content="{{ title }} | {{ site.title }}">
+  <meta property="og:image" content="{% image_src "/wwo/2026/plastic/plastic.png" %}">
+  <meta name="twitter:title" content="{{ title }} | {{ site.title }}">
+  <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
