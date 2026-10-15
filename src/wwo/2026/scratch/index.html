@@ -1,0 +1,297 @@
+---
+layout: false
+title: scratch - weird web october 2026
+date: 2026-10-14
+---
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>{{ title }} | {{ site.title }}</title>
+
+  <link rel="preload" as="fetch" href="https://octothorp.es/?uri=https://cubegho.st/wwo/2026/scratch/">
+  <link rel="octo:octothorpes" href="weirdweboctober">
+  <link rel="octo:octothorpes" href="Scratch">
+
+  <meta property="og:title" content="{{ title }} | {{ site.title }}">
+  <meta property="og:image" content="{% image_src " /wwo/2026/scratch/scratch.png" %}">
+  <meta name="twitter:title" content="{{ title }} | {{ site.title }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --carpet: url({% image_src "/wwo/2026/scratch/carpet.jpg" %})
+    }
+  </style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100dvh;
+    }
+
+    body {
+      margin: 0;
+      background-image: var(--carpet);
+      background-size: 512px 512px;
+      font-family: sans-serif;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 40rem;
+      height: 100%;
+      max-height: 100%;
+      margin: 0 auto;
+      padding: 0.25rem 1rem;
+      padding-top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    header {
+      height: 3rem;
+      background-image: linear-gradient(#222 10%, #333 50%, #2a2a2a 90%);
+      border-bottom: 0.25rem solid #222;
+      margin-top: 1rem;
+    }
+
+    h1 {
+      font-size: 1.125rem;
+      color: #fff;
+      font-family: monospace;
+      letter-spacing: 2rem;
+      font-style: oblique;
+      text-align: center;
+      opacity: 0.75;
+      flex-wrap: wrap;
+    }
+
+    #canvas-container {
+      flex: 1
+    }
+
+    canvas {
+      display: block;
+      touch-action: none;
+    }
+
+    .controls {
+      margin-top: 2rem;
+      background: #92a6ba;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .info {
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>scratch</h1>
+    </header>
+    <div id="canvas-container">
+      <canvas id="scratch" width="600" height="600"></canvas>
+    </div>
+    <div class="controls">
+      <div style="display: flex; justify-content: space-between;">
+        <label>
+          <span>"Pen" size</span>
+          <input type="range" min="1" max="20" value="2" name="size" id="size" />
+        </label>
+        <div>
+          <button id="reset">New page</button>
+          <button id="save">Save</button>
+        </div>
+      </div>
+      <div>
+        <div class="info"><em>scratch</em> for <a href="https://weirdweboctober.website/" target="_blank"
+            rel="noopener">weird web october</a></div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import { getStroke } from "https://esm.sh/perfect-freehand";
+    import polygonClipping from "https://esm.sh/polygon-clipping";
+
+    const COLORS = [
+      "#6e40aa",
+      "#bf3caf",
+      "#fe4b83",
+      "#ff7847",
+      "#e2b72f",
+      "#aff05b",
+      "#52f667",
+      "#1ddfa3",
+      "#23abd8",
+      "#4c6edb"
+    ];
+    let hasDrawn = false;
+
+    const sizeInput = document.getElementById("size");
+    let scratchSize = sizeInput.value;
+    sizeInput.addEventListener("change", (event) => {
+      scratchSize = event.target.value;
+    });
+
+    const canvas = document.getElementById("scratch");
+    const ctx = canvas.getContext("2d");
+
+    function createRainbowGradient() {
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      const repeatCount = Math.ceil(canvas.height / 200);
+      for (let i = 0; i < (10 * repeatCount); i++) {
+        gradient.addColorStop(i / (10 * repeatCount), COLORS[i % 10]);
+      }
+      return gradient
+    }
+    let rainbowGradient = createRainbowGradient();
+
+    function init() {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = rainbowGradient;
+      strokeStar(canvas.width / 2, canvas.height / 2, 50, 5, 2.5);
+    }
+
+    ctx.lineCap = "round";
+
+    let offset;
+    const points = {};
+
+    function pointerDown({ pointerId, clientX, clientY, pageX, pageY, pressure }) {
+      offset = ctx.canvas.getBoundingClientRect();
+      points[pointerId] = [[clientX - offset.x, clientY - offset.y, pressure]];
+      ctx.canvas.setPointerCapture(pointerId);
+    }
+    function pointerMove({ pointerId, clientX, clientY, pressure, width }) {
+      if (!points[pointerId]) return;
+      hasDrawn = true;
+      points[pointerId].push([clientX - offset.x, clientY - offset.y, pressure]);
+      const stroke = getStroke(points[pointerId], {
+        size: scratchSize,
+        thinning: 0.5,
+        smoothing: 0,
+        streamline: 0.1,
+      });
+      const pathData = getFlatSvgPathFromStroke(stroke); // may be a more efficient way than converting to svg idk
+      ctx.fillStyle = rainbowGradient;
+      ctx.fill(new Path2D(pathData));
+    }
+    function pointerUp({ pointerId }) {
+      points[pointerId] = null;
+    }
+
+    const observer = new ResizeObserver(([entry]) => {
+      const image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const { width, height } = entry.contentRect;
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, width, height);
+      ctx.putImageData(image, 0, 0);
+
+      rainbowGradient = createRainbowGradient();
+      ctx.fillStyle = rainbowGradient;
+
+      if (!hasDrawn) {
+        init();
+      }
+    });
+    observer.observe(document.getElementById("canvas-container"));
+
+    canvas.addEventListener("pointerdown", pointerDown);
+    canvas.addEventListener("pointermove", pointerMove);
+    canvas.addEventListener("pointerup", pointerUp);
+
+    const resetButton = document.getElementById("reset");
+    resetButton.addEventListener("click", () => {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = rainbowGradient;
+    });
+    const saveButton = document.getElementById("save");
+    saveButton.addEventListener("click", () => {
+      downloadCanvas(canvas, "rainbow-scratch.png");
+    });
+
+    function downloadCanvas(canvas, filename) {
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL();
+      a.download = filename;
+      a.dispatchEvent(new MouseEvent("click"));
+    }
+
+    // https://stackoverflow.com/a/45140101
+    function strokeStar(x, y, r, n, inset) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.translate(x, y);
+      ctx.moveTo(0, 0 - r);
+      for (var i = 0; i < n; i++) {
+        ctx.rotate(Math.PI / n);
+        ctx.lineTo(0, 0 - (r * inset));
+        ctx.rotate(Math.PI / n);
+        ctx.lineTo(0, 0 - r);
+      }
+      ctx.closePath();
+      ctx.translate(-x, -y);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // https://github.com/steveruizok/perfect-freehand/pull/109/changes#top
+    function getSvgPathFromStroke(stroke, closed = true) {
+      if (stroke.length < 4) return ''
+
+      const avg = (a, b) => [
+        (a[0] + b[0]) / 2,
+        (a[1] + b[1]) / 2,
+      ]
+
+      let d = `M${stroke[0][0].toFixed(2)},${stroke[0][1].toFixed(2)}`
+      d += ` Q${stroke[1][0].toFixed(2)},${stroke[1][1].toFixed(2)}`
+      d += ` ${avg(stroke[1], stroke[2])
+        .map((n) => n.toFixed(2))
+        .join(',')}`
+      d += ' T'
+
+      for (let i = 2; i < stroke.length - 1; i++) {
+        d += `${avg(stroke[i], stroke[i + 1])
+          .map((n) => n.toFixed(2))
+          .join(',')} `
+      }
+
+      if (closed) d += 'Z'
+      return d
+    }
+    function getFlatSvgPathFromStroke(stroke) {
+      // polygon-clipping expects a 3D array: [polygon][ring][point]
+      const polygon = [stroke]
+
+      // Union with itself to remove self-intersections
+      const faces = polygonClipping.union([polygon])
+
+      return faces
+        .flatMap((face) => face.map((ring) => getSvgPathFromStroke(ring)))
+        .join(' ')
+    }
+  </script>
+</body>
+
+</html>
